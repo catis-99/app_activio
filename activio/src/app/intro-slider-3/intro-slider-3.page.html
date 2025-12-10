@@ -1,0 +1,39 @@
+<ion-content [fullscreen]="true">
+    <div class="intro-container">
+        <div class="intro-image-container">
+            <img src="assets/intro/slide3.svg" alt="Acompanhe o Progresso" />
+        </div>
+
+        <div class="intro-content">
+            <h1 class="intro-title">Acompanhe o Progresso</h1>
+            <p class="intro-description">
+                Monitorize a sua evolução e conquiste os seus objetivos! Veja estatísticas detalhadas do seu desempenho
+                e histórico de treinos.
+            </p>
+        </div>
+
+        <div class="intro-footer">
+            <div class="pagination">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot active"></span>
+            </div>
+
+            <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+                <ion-fab-button (click)="start()">
+                    <ion-icon name="chevron-forward"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+        </div>
+    </div>
+</ion-content>
+<span class="dot active"></span>
+</div>
+<div class="intro-actions">
+    <ion-button expand="block" size="large" (click)="start()">
+        Começar
+    </ion-button>
+</div>
+</div>
+</div>
+</ion-content>

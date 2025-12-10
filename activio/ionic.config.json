@@ -1,0 +1,7 @@
+{
+  "name": "activio",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

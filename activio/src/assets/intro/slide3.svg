@@ -1,0 +1,12 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="140" fill="#ffffff" opacity="0.1"/>
+  <circle cx="150" cy="150" r="100" fill="#ffffff" opacity="0.2"/>
+  <!-- Trophy icon -->
+  <path d="M100 100 L100 130 Q100 160 130 170 L130 190 Q130 200 140 200 L160 200 Q170 200 170 190 L170 170 Q200 160 200 130 L200 100 Z" fill="#ffffff"/>
+  <rect x="130" y="200" width="40" height="10" fill="#ffffff"/>
+  <rect x="120" y="210" width="60" height="20" rx="5" fill="#ffffff"/>
+  <path d="M80 100 Q70 120 80 140" stroke="#ffffff" stroke-width="4" fill="none"/>
+  <path d="M220 100 Q230 120 220 140" stroke="#ffffff" stroke-width="4" fill="none"/>
+  <!-- Stars -->
+  <path d="M150 60 L155 75 L170 75 L158 83 L163 98 L150 88 L137 98 L142 83 L130 75 L145 75 Z" fill="#ffffff"/>
+</svg>

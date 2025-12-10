@@ -1,0 +1,29 @@
+<ion-content [fullscreen]="true">
+    <div class="intro-container">
+        <div class="intro-image-container">
+            <img src="assets/intro/slide2.svg" alt="Treinos Personalizados" />
+        </div>
+
+        <div class="intro-content">
+            <h1 class="intro-title">Treinos Personalizados</h1>
+            <p class="intro-description">
+                Aceda a treinos adaptados ao seu nível e objetivos fitness. Escolha entre diversos tipos de exercícios e
+                planos personalizados.
+            </p>
+        </div>
+
+        <div class="intro-footer">
+            <div class="pagination">
+                <span class="dot"></span>
+                <span class="dot active"></span>
+                <span class="dot"></span>
+            </div>
+
+            <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+                <ion-fab-button (click)="next()">
+                    <ion-icon name="chevron-forward"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+        </div>
+    </div>
+</ion-content>

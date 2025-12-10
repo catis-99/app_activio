@@ -1,0 +1,11 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="140" fill="#ffffff" opacity="0.1"/>
+  <circle cx="150" cy="150" r="100" fill="#ffffff" opacity="0.2"/>
+  <!-- Dumbbell icon -->
+  <circle cx="100" cy="150" r="20" fill="#ffffff"/>
+  <circle cx="200" cy="150" r="20" fill="#ffffff"/>
+  <rect x="115" y="140" width="70" height="20" rx="5" fill="#ffffff"/>
+  <!-- Heart rate line -->
+  <path d="M50 100 L80 100 L90 80 L100 120 L110 100 L140 100" stroke="#ffffff" stroke-width="3" fill="none"/>
+  <path d="M160 200 L190 200 L200 180 L210 220 L220 200 L250 200" stroke="#ffffff" stroke-width="3" fill="none"/>
+</svg>
