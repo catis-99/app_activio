@@ -1,20 +1,141 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Activio</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="home-container">
+    <!-- Info Cards -->
+    <div class="info-cards">
+      <div class="info-card card-1">
+        <div class="card-content">
+          <h3>Total esta Semana</h3>
+          <p class="card-value">24.5 km</p>
+          <span class="card-subtitle">+12% vs semana passada</span>
+        </div>
+      </div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+      <div class="info-card card-2">
+        <div class="card-content">
+          <h3>Calorias Queimadas</h3>
+          <p class="card-value">1,850 kcal</p>
+          <span class="card-subtitle">Objetivo: 2,000 kcal</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="categories-section">
+      <div class="section-header">
+        <h2>Categorias</h2>
+        <a href="#" class="see-all">Ver tudo</a>
+      </div>
+
+      <div class="categories-list">
+        <div class="category-item">
+          <div class="category-icon running">
+            <ion-icon name="walk-outline"></ion-icon>
+          </div>
+          <span>Corrida</span>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon cycling">
+            <ion-icon name="bicycle-outline"></ion-icon>
+          </div>
+          <span>Ciclismo</span>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon swimming">
+            <ion-icon name="water-outline"></ion-icon>
+          </div>
+          <span>Natação</span>
+        </div>
+
+        <div class="category-item">
+          <div class="category-icon gym">
+            <ion-icon name="barbell-outline"></ion-icon>
+          </div>
+          <span>Ginásio</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Activities -->
+    <div class="activities-section">
+      <div class="section-header">
+        <h2>Minhas Atividades</h2>
+        <a href="#" class="see-all">Ver tudo</a>
+      </div>
+
+      <div class="activity-card">
+        <div class="activity-left">
+          <div class="activity-icon running">
+            <ion-icon name="walk-outline"></ion-icon>
+          </div>
+          <div class="activity-details">
+            <h3>Corrida Matinal</h3>
+            <p class="activity-time">Hoje, 7:30</p>
+            <div class="activity-stats">
+              <span><ion-icon name="time-outline"></ion-icon> 45 min</span>
+              <span><ion-icon name="fitness-outline"></ion-icon> 5.2 km</span>
+              <span><ion-icon name="flame-outline"></ion-icon> 320 kcal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity-card">
+        <div class="activity-left">
+          <div class="activity-icon cycling">
+            <ion-icon name="bicycle-outline"></ion-icon>
+          </div>
+          <div class="activity-details">
+            <h3>Ciclismo</h3>
+            <p class="activity-time">Ontem, 18:00</p>
+            <div class="activity-stats">
+              <span><ion-icon name="time-outline"></ion-icon> 1h 20min</span>
+              <span><ion-icon name="fitness-outline"></ion-icon> 18.5 km</span>
+              <span><ion-icon name="flame-outline"></ion-icon> 580 kcal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Início</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="activities">
+      <ion-icon name="list"></ion-icon>
+      <ion-label>Atividades</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="add">
+      <ion-icon name="add-circle"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button tab="stats">
+      <ion-icon name="stats-chart"></ion-icon>
+      <ion-label>Estatísticas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile">
+      <ion-icon name="person"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
