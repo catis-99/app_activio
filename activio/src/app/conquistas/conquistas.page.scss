@@ -1,0 +1,86 @@
+.badges-page {
+  --background: #000;
+  color: #fff;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.icon-btn {
+  background: #caff1f;
+  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+}
+
+.icon-btn ion-icon {
+  color: #000;
+  font-size: 20px;
+}
+
+/* Sections */
+.section {
+  padding: 0 20px 24px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.section-title h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.section-title .line {
+  flex: 1;
+  height: 2px;
+  background: #caff1f;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Badge */
+.badge {
+  border-radius: 20px;
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.badge img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 8px;
+}
+
+/* Estados */
+.achieved {
+  background: #caff1f;
+  color: #000;
+}
+
+.locked {
+  background: #2b2b2b;
+  color: #fff;
+  opacity: 0.7;
+}

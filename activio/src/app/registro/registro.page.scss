@@ -76,3 +76,37 @@ h2 {
     font-weight: 600;
   }
 }
+
+.toggle-password {
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
+  
+  &:hover {
+    color: #C6FF00;
+  }
+}
+
+.terms {
+  span {
+    color: #C6FF00;
+    cursor: pointer;
+    font-weight: 600;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.login-text {
+  span {
+    color: #C6FF00;
+    cursor: pointer;
+    font-weight: 700;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

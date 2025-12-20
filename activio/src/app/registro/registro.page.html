@@ -1,48 +1,76 @@
-<ion-content fullscreen class="register-content">
+<ion-content [fullscreen]="true" class="register-content">
   <div class="container">
-
     <h1>Olá!</h1>
     <h2>Cria uma conta</h2>
-
+    
+    <!-- Nome Completo -->
     <ion-item lines="none" class="input-item">
       <ion-icon name="person-outline" slot="start"></ion-icon>
-      <ion-input placeholder="Nome Completo"></ion-input>
+      <ion-input 
+        [(ngModel)]="fullName"
+        placeholder="Nome Completo"
+        type="text">
+      </ion-input>
     </ion-item>
-
+    
+    <!-- Telemóvel -->
     <ion-item lines="none" class="input-item">
       <ion-icon name="call-outline" slot="start"></ion-icon>
-      <ion-input type="tel" placeholder="Telemóvel"></ion-input>
+      <ion-input 
+        [(ngModel)]="phone"
+        type="tel" 
+        placeholder="Telemóvel">
+      </ion-input>
     </ion-item>
-
+    
+    <!-- Email -->
     <ion-item lines="none" class="input-item">
       <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <ion-input type="email" placeholder="Email"></ion-input>
+      <ion-input 
+        [(ngModel)]="email"
+        type="email" 
+        placeholder="Email">
+      </ion-input>
     </ion-item>
-
+    
+    <!-- Password -->
     <ion-item lines="none" class="input-item">
       <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-      <ion-input type="password" placeholder="Palavra Passe"></ion-input>
-      <ion-icon name="eye-off-outline" slot="end"></ion-icon>
+      <ion-input 
+        [(ngModel)]="password"
+        [type]="showPassword ? 'text' : 'password'" 
+        placeholder="Palavra Passe">
+      </ion-input>
+      <ion-icon 
+        [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" 
+        slot="end"
+        (click)="togglePasswordVisibility()"
+        class="toggle-password">
+      </ion-icon>
     </ion-item>
-
+    
+    <!-- Termos e Condições -->
     <div class="terms">
-      <ion-checkbox></ion-checkbox>
+      <ion-checkbox [(ngModel)]="acceptedTerms"></ion-checkbox>
       <p>
         Ao continuar, aceita a nossa
-        <span>Política de Privacidade</span> e os
-        <span>Termos de Utilização</span>.
+        <span (click)="openPrivacyPolicy()">Política de Privacidade</span> e os
+        <span (click)="openTerms()">Termos de Utilização</span>.
       </p>
     </div>
-
-    <ion-button expand="block" class="register-btn">
+    
+    <!-- Botão Registar -->
+    <ion-button 
+      expand="block" 
+      class="register-btn"
+      (click)="onRegister()">
       Registar
     </ion-button>
-
+    
+    <!-- Link para Login -->
     <p class="login-text">
       Já tens conta?
-      <span>Iniciar Sessão</span>
+      <span (click)="goToLogin()">Iniciar Sessão</span>
     </p>
-
   </div>
 </ion-content>
-

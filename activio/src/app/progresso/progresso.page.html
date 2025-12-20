@@ -1,0 +1,179 @@
+<ion-content [fullscreen]="true" class="progress-content">
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <button class="back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back"></ion-icon>
+      </button>
+      <h1 class="page-title">Progresso</h1>
+      <button class="menu-btn">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Atividades Favoritas Card -->
+    <div class="card favorites-card">
+      <h2 class="card-title">Atividades Favoritas</h2>
+      
+      <div class="favorites-content">
+        <div class="activities-list">
+          <div class="activity-item">
+            <span class="activity-name">Football</span>
+            <span class="activity-percent">25%</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-name">Caminhar</span>
+            <span class="activity-percent">25%</span>
+          </div>
+          <div class="activity-item">
+            <span class="activity-name">Saltar à corda</span>
+            <span class="activity-percent">50%</span>
+          </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="pie-chart">
+          <svg viewBox="0 0 200 200" class="chart-svg">
+            <!-- Saltar à corda - 50% (Rosa) -->
+            <circle
+              cx="100"
+              cy="100"
+              r="80"
+              fill="transparent"
+              stroke="#E91E63"
+              stroke-width="60"
+              stroke-dasharray="251.2 251.2"
+              transform="rotate(-90 100 100)"
+            />
+            <!-- Football - 25% (Azul) -->
+            <circle
+              cx="100"
+              cy="100"
+              r="80"
+              fill="transparent"
+              stroke="#64B5F6"
+              stroke-width="60"
+              stroke-dasharray="125.6 251.2"
+              stroke-dashoffset="-251.2"
+              transform="rotate(-90 100 100)"
+            />
+            <!-- Caminhar - 25% (Laranja) -->
+            <circle
+              cx="100"
+              cy="100"
+              r="80"
+              fill="transparent"
+              stroke="#FF9800"
+              stroke-width="60"
+              stroke-dasharray="125.6 251.2"
+              stroke-dashoffset="-376.8"
+              transform="rotate(-90 100 100)"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Atividades por mês Card -->
+    <div class="card chart-card">
+      <h2 class="card-title">Atividades por mês</h2>
+      
+      <div class="line-chart">
+        <svg viewBox="0 0 300 180" class="chart-svg">
+          <!-- Grid lines -->
+          <line x1="30" y1="20" x2="280" y2="20" stroke="#333" stroke-width="0.5"/>
+          <line x1="30" y1="50" x2="280" y2="50" stroke="#333" stroke-width="0.5"/>
+          <line x1="30" y1="80" x2="280" y2="80" stroke="#333" stroke-width="0.5"/>
+          <line x1="30" y1="110" x2="280" y2="110" stroke="#333" stroke-width="0.5"/>
+          <line x1="30" y1="140" x2="280" y2="140" stroke="#333" stroke-width="0.5"/>
+          
+          <!-- Y-axis labels -->
+          <text x="15" y="25" fill="#999" font-size="10">50</text>
+          <text x="15" y="55" fill="#999" font-size="10">40</text>
+          <text x="15" y="85" fill="#999" font-size="10">30</text>
+          <text x="15" y="115" fill="#999" font-size="10">20</text>
+          <text x="15" y="145" fill="#999" font-size="10">10</text>
+          
+          <!-- Y-axis label -->
+          <text x="10" y="90" fill="#999" font-size="10" transform="rotate(-90 10 90)">Horas</text>
+          
+          <!-- Linha Roxa -->
+          <polyline
+            points="40,60 75,40 110,70 145,30 180,50 215,70 250,90"
+            fill="none"
+            stroke="#9C27B0"
+            stroke-width="2"
+          />
+          
+          <!-- Linha Laranja -->
+          <polyline
+            points="40,100 75,80 110,110 145,70 180,90 215,100 250,130"
+            fill="none"
+            stroke="#FF9800"
+            stroke-width="2"
+          />
+          
+          <!-- Linha Azul -->
+          <polyline
+            points="40,90 75,110 110,95 145,100 180,85 215,95 250,105"
+            fill="none"
+            stroke="#64B5F6"
+            stroke-width="2"
+          />
+          
+          <!-- X-axis labels -->
+          <text x="35" y="165" fill="#999" font-size="9" text-anchor="middle">Semana 1</text>
+          <text x="90" y="165" fill="#999" font-size="9" text-anchor="middle">Semana 2</text>
+          <text x="145" y="165" fill="#999" font-size="9" text-anchor="middle">Semana 3</text>
+          <text x="200" y="165" fill="#999" font-size="9" text-anchor="middle">Semana 4</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Tempo Treinado Card -->
+    <div class="card">
+      <h2 class="card-title">Tempo Treinado</h2>
+      
+      <div class="bar-chart">
+        @for (day of trainingDays; track day.label) {
+          <div class="bar-item">
+            <div class="bar-wrapper">
+              @if (day.hours > 0) {
+                <span class="bar-value">{{day.hours}}h</span>
+              }
+              <div class="bar" [style.height.%]="(day.hours / 3.5) * 100">
+                <div class="bar-fill"></div>
+              </div>
+            </div>
+            <span class="bar-label">{{day.label}}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Peso Card -->
+    <div class="card weight-card">
+      <h2 class="card-title">Peso</h2>
+      
+      <div class="weight-progress">
+        <div class="weight-bar">
+          <div class="weight-fill"></div>
+          <div class="weight-markers">
+            <div class="marker start">
+              <span class="marker-label">Início</span>
+              <span class="marker-value">68Kg</span>
+            </div>
+            <div class="marker current">
+              <span class="marker-label">Atual</span>
+              <span class="marker-value">63Kg</span>
+            </div>
+            <div class="marker goal">
+              <span class="marker-label">Objetivo</span>
+              <span class="marker-value">58Kg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

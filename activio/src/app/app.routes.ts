@@ -25,9 +25,22 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'welcome',
     pathMatch: 'full',
-  },  {
+  },
+  {
     path: 'registro',
     loadComponent: () => import('./registro/registro.page').then( m => m.RegistroPage)
+  },
+  {
+    path: 'progresso',
+    loadComponent: () => import('./progresso/progresso.page').then( m => m.ProgressoPage)
+  },
+  {
+    path: 'conquistas',
+    loadComponent: () => import('./conquistas/conquistas.page').then( m => m.ConquistasPage)
+  },
+  {
+    path: 'completarperfil',
+    loadComponent: () => import('./completarperfil/completarperfil.page').then( m => m.CompletarperfilPage)
   },
 
 ];
