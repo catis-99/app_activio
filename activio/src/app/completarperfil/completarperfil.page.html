@@ -1,0 +1,55 @@
+<ion-content fullscreen class="profile-content">
+  <div class="container">
+
+    <!-- Ilustração -->
+    <div class="image-wrapper">
+      <img src="assets/img/cat.svg" alt="Cat Illustration" />
+    </div>
+
+    <!-- Títulos -->
+    <h2>Completa o teu perfil</h2>
+    <p class="subtitle">Ajuda-nos a saber mais sobre ti</p>
+
+    <!-- Género -->
+    <ion-item lines="none" class="input-item">
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-select placeholder="Escolhe o teu género">
+        <ion-select-option value="masculino">Masculino</ion-select-option>
+        <ion-select-option value="feminino">Feminino</ion-select-option>
+        <ion-select-option value="outro">Outro</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Data de nascimento -->
+    <ion-item lines="none" class="input-item">
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      <ion-input type="date" placeholder="Data de nascimento"></ion-input>
+    </ion-item>
+
+    <!-- Peso -->
+    <div class="row">
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input type="number" placeholder="Peso"></ion-input>
+      </ion-item>
+
+      <div class="unit">KG</div>
+    </div>
+
+    <!-- Altura -->
+    <div class="row">
+      <ion-item lines="none" class="input-item">
+        <ion-icon name="trending-up-outline" slot="start"></ion-icon>
+        <ion-input type="number" placeholder="Altura"></ion-input>
+      </ion-item>
+
+      <div class="unit">CM</div>
+    </div>
+
+    <!-- Botão -->
+    <ion-button expand="block" class="next-btn">
+      Próximo →
+    </ion-button>
+
+  </div>
+</ion-content>

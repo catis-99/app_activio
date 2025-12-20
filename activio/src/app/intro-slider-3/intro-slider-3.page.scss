@@ -1,90 +1,57 @@
-ion-content {
-    --background: #ffffff;
+.onboarding {
+  --background: #000;
+  color: #fff;
+  position: relative;
 }
 
-.intro-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+/* Área verde */
+.hero {
+  background: #caff1f;
+  height: 55%;
+  border-bottom-left-radius: 60% 20%;
+  border-bottom-right-radius: 60% 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.intro-image-container {
-    width: 100%;
-    min-height: 55vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-
-    /* Background image */
-    background-image: url('/assets/intro/slide3.svg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    /* Curva inferior */
-    border-radius: 0 0 40% 40% / 0 0 10% 10%;
-
-    /* Overlay opcional (ajuste a opacidade conforme necessário) */
-    &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.0);
-        pointer-events: none;
-    }
-
-    img {
-        position: relative;
-        z-index: 1;
-        max-width: 80%;
-        max-height: 80%;
-        object-fit: contain;
-    }
-
-    @media (max-width: 576px) {
-        min-height: 45vh;
-        border-radius: 0 0 35% 35% / 0 0 8% 8%;
-    }
+.hero img {
+  width: 70%;
+  max-width: 260px;
 }
 
-.intro-content {
-    padding: 20px;
-    text-align: center;
+/* Texto */
+.content {
+  padding: 32px 24px;
+  text-align: center;
 }
 
-.intro-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
+.content h1 {
+  color: #caff1f;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 
-.intro-description {
-    font-size: 16px;
-    color: #666;
+.content p {
+  color: #ccc;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
-.intro-footer {
-    padding: 20px;
+/* Botão circular */
+.next-btn {
+  position: absolute;
+  bottom: 40px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #caff1f;
+  box-shadow: 0 0 0 4px rgba(202, 255, 31, 0.3);
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 20px;
-
-    .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #ccc;
-
-        &.active {
-            background: #000;
-            width: 24px;
-            border-radius: 4px;
-        }
-    }
+.next-btn ion-icon {
+  font-size: 28px;
+  color: #000;
 }
