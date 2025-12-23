@@ -1,0 +1,99 @@
+<ion-content [fullscreen]="true" class="criar-atividade-content">
+  <div class="atividade-container">
+    <!-- Header -->
+    <div class="header">
+      <ion-button fill="clear" class="close-button" (click)="closeModal()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+      <h1 class="page-title">Adicionar atividade</h1>
+      <ion-button fill="clear" class="menu-button" (click)="openMenu()">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Data Selector -->
+    <div class="date-selector" (click)="abrirCalendario()">
+      <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
+      <span class="date-text">{{ atividade.data }}</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Horário Section -->
+    <div class="section">
+      <h3 class="section-title">Horário</h3>
+
+      <div class="time-picker">
+        <div class="time-display">
+          <span class="time-value">{{ atividade.hora }}</span>
+          <span class="time-separator">:</span>
+          <span class="time-value">{{ atividade.minuto < 10 ? '0' + atividade.minuto : atividade.minuto }}</span>
+              <span class="period-value">{{ atividade.periodo }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detalhes Section -->
+    <div class="section">
+      <h3 class="section-title">Detalhes</h3>
+
+      <!-- Escolher Atividade -->
+      <div class="detail-item clickable" (click)="escolherAtividade()">
+        <div class="detail-left">
+          <ion-icon name="barbell-outline" class="detail-icon"></ion-icon>
+          <span class="detail-label">Escolher atividade</span>
+        </div>
+        <div class="detail-right">
+          <span class="detail-value">{{ atividade.tipo }}</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Intensidade -->
+      <div class="detail-item clickable" (click)="alterarIntensidade()">
+        <div class="detail-left">
+          <ion-icon name="pulse-outline" class="detail-icon"></ion-icon>
+          <span class="detail-label">Intensidade</span>
+        </div>
+        <div class="detail-right">
+          <span class="detail-value">{{ atividade.intensidade }}</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+      </div>
+
+      <!-- Duração -->
+      <div class="detail-item clickable" (click)="abrirDuracao()">
+        <div class="detail-left">
+          <ion-icon name="timer-outline" class="detail-icon"></ion-icon>
+          <span class="detail-label">Duração</span>
+        </div>
+        <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+      </div>
+
+      <!-- Calorias -->
+      <div class="detail-item input-item">
+        <div class="detail-left">
+          <ion-icon name="flame-outline" class="detail-icon"></ion-icon>
+          <span class="detail-label">Calorias</span>
+        </div>
+        <ion-input [(ngModel)]="atividade.calorias" type="number" placeholder="0" class="detail-input">
+        </ion-input>
+      </div>
+
+      <!-- Local -->
+      <div class="detail-item input-item">
+        <div class="detail-left">
+          <ion-icon name="location-outline" class="detail-icon"></ion-icon>
+          <span class="detail-label">Local</span>
+        </div>
+        <ion-input [(ngModel)]="atividade.local" type="text" placeholder="" class="detail-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Botão Guardar -->
+    <ion-button expand="block" class="save-button" (click)="guardarAtividade()">
+      Guardar
+    </ion-button>
+  </div>
+</ion-content>

@@ -1,94 +1,146 @@
-ion-content {
-    --background: #00000;
-}
-
 .intro-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100vh;
+    width: 100vw;
     background: #000;
+    overflow: hidden;
+    position: relative;
 }
 
 .intro-image-container {
-    width: 100%;
-    min-height: 55vh;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     position: relative;
-    overflow: hidden;
-
-    /* Background image */
-    background-image: url('/assets/intro/lince_sentado_lado.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    /* Curva inferior */
-    border-radius: 0 0 40% 40% / 0 0 10% 10%;
-
-    /* Overlay opcional (ajuste a opacidade conforme necessário) */
-    &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.0);
-        pointer-events: none;
-    }
-
-    img {
-        position: relative;
-        z-index: 1;
-        max-width: 80%;
-        max-height: 80%;
-        object-fit: contain;
-    }
-
-    @media (max-width: 576px) {
-        min-height: 45vh;
-        border-radius: 0 0 35% 35% / 0 0 8% 8%;
-    }
+    margin-bottom: 2vh;
 }
 
+.intro-shape {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.intro-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+/* Overlay PNG */
+.intro-overlay {
+    position: absolute;
+    top: 1vh;
+    left: 2vw;
+    width: clamp(120px, 30vw, 300px);
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+}
+
+
 .intro-content {
-    padding: 24px;
-    text-align: left;
+    padding: 3vh 6vw;
+    width: 100%;
+    box-sizing: border-box;
     color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 2vh;
 }
 
 .intro-title {
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 12px;
-    color: #ffffff;
+    color: #D5FF5F;
+    font-size: clamp(28px, 8vw, 48px);
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
 }
 
 .intro-description {
-    font-size: 16px;
-    color: #666;
+    font-size: clamp(16px, 4.5vw, 24px);
+    opacity: 0.9;
     line-height: 1.5;
 }
 
 .intro-footer {
-    padding: 20px;
+    padding: 24px 8vw;
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
 }
 
 .pagination {
     display: flex;
+    width: 100%;
     justify-content: center;
     gap: 8px;
-    margin-bottom: 20px;
+}
 
-    .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #555;
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s;
 
-        &.active {
-            background: #caff00;
-            width: 24px;
-            border-radius: 4px;
-        }
+    &.active {
+        background: var(--ion-color-lime);
+        width: 24px;
+        border-radius: 4px;
+    }
+}
+
+.custom-next-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+
+    img {
+        width: 64px;
+        height: 64px;
+        display: block;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+// Responsive para tablets e desktops
+@media (min-width: 768px) {
+    .intro-content {
+        padding: 5vh 15vw;
+    }
+
+    .intro-footer {
+        padding: 24px 15vw;
+    }
+}
+
+// Responsive para ecrãs muito pequenos
+@media (max-height: 600px) {
+    .intro-image-container {
+        height: 40vh;
+    }
+
+    .intro-content {
+        padding: 3vh 8vw;
     }
 }

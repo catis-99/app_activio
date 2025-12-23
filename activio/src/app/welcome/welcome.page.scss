@@ -1,12 +1,12 @@
 .welcome-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
     width: 100vw;
     background: #000;
-    padding: 10vh 8vw;
+    padding: 4vh 8vw 5vh;
     box-sizing: border-box;
 }
 
@@ -14,18 +14,23 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
+    max-width: 600px;
+    padding-top: 1vh;
 }
 
 .logo-container {
-    margin-bottom: 32px;
+    margin-bottom: 0px;
+    align-self: flex-start;
+    margin-left: -100px;
+    margin-top: -50px;
 }
 
 .logo {
-    width: 120px;
-    height: 120px;
+    width: 650px;
+    height: 488px;
     object-fit: contain;
 }
 
@@ -50,11 +55,6 @@
     display: flex;
     justify-content: center;
     animation: fadeInUp 1s ease-out 0.6s both;
-}
-
-.logo {
-    width: auto;
-    height: 60%;
 }
 
 .start-button {
@@ -107,7 +107,7 @@
 // Responsive
 @media (min-width: 768px) {
     .welcome-container {
-        padding: 10vh 20vw;
+        padding: 6vh 20vw;
     }
 
     .start-button {

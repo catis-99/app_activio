@@ -1,10 +1,11 @@
 .profile-content {
-  --background: #000000;
+  --background: rgba(0, 0, 0, 0);
+  ;
   --padding-bottom: 80px;
 }
 
 .profile-container {
-  max-width: 480px; 
+  max-width: 480px;
   margin: 0 auto;
 }
 
@@ -16,11 +17,12 @@
   padding: 20px 0;
   margin-bottom: 20px;
 
-  .back-button, .menu-button {
+  .back-button,
+  .menu-button {
     --color: #ffffff;
     width: 40px;
     height: 40px;
-    
+
     ion-icon {
       font-size: 24px;
     }
@@ -54,7 +56,7 @@
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    
+
     img {
       width: 100%;
       height: 100%;
@@ -148,13 +150,13 @@
 
     .menu-label {
       flex: 1;
-      color: #ffffff;
+      color: #ffffff !important;
       font-size: 16px;
       font-weight: 500;
     }
 
     .chevron-icon {
-      color: #666666;
+      color: #666666 !important;
       font-size: 20px;
     }
   }

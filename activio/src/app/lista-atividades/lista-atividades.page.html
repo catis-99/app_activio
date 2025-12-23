@@ -1,0 +1,45 @@
+<ion-content fullscreen class="lista-atividades">
+
+  <!-- Header -->
+  <div class="header">
+    <ion-button fill="clear" class="icon-btn white">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+
+    <h1>Histórico</h1>
+
+    <ion-button fill="clear" class="icon-btn green">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters">
+    <button class="filter">
+      Todas as atividades
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </button>
+
+    <button class="filter">
+      Intensidade
+      <ion-icon name="chevron-down-outline"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Lista -->
+  <div class="list">
+    <div class="activity-card" *ngFor="let activity of activities">
+      <img [src]="activity.icon" />
+
+      <div class="info">
+        <h2>{{ activity.name }}</h2>
+        <p>{{ activity.date }} | {{ activity.time }}</p>
+        <span>{{ activity.intensity }}</span>
+      </div>
+
+      <ion-icon [name]="activity.favorite ? 'heart' : 'heart-outline'" [class.fav]="activity.favorite">
+      </ion-icon>
+    </div>
+  </div>
+
+</ion-content>

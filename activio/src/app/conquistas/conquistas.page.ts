@@ -49,37 +49,37 @@ export class ConquistasPage implements OnInit {
     {
       id: 1,
       label: 'Primeira Vitória',
-      icon: 'assets/badges/trophy.svg',
+      icon: '/assets/conquistas/primeiro_passo.svg',
       description: 'Completou o primeiro treino'
     },
     {
       id: 2,
       label: 'Sequência de 7 dias',
-      icon: 'assets/badges/flame.svg',
+      icon: '/assets/conquistas/7_dias_seguidos.svg',
       description: 'Treinou 7 dias seguidos'
     },
     {
       id: 3,
       label: 'Maratonista',
-      icon: 'assets/badges/ribbon.svg',
+      icon: '/assets/conquistas/666_KM.svg',
       description: 'Completou 5km de corrida'
     },
     {
       id: 4,
       label: 'Estrela em Ascensão',
-      icon: 'assets/badges/star.svg',
+      icon: '/assets/conquistas/mais_rapido.svg',
       description: 'Alcançou nível 5'
     },
     {
       id: 5,
       label: 'Campeão do Mês',
-      icon: 'assets/badges/medal.svg',
+      icon: '/assets/conquistas/persistencia.svg',
       description: 'Melhor desempenho mensal'
     },
     {
       id: 6,
       label: 'Super Rápido',
-      icon: 'assets/badges/rocket.svg',
+      icon: '/assets/conquistas/madrugador.svg',
       description: 'Bateu recorde pessoal'
     }
   ];
@@ -89,37 +89,37 @@ export class ConquistasPage implements OnInit {
     {
       id: 7,
       label: 'Raio de Energia',
-      icon: 'assets/badges/flash-locked.svg',
+      icon: '/assets/conquistas/equilibrio.svg',
       description: 'Complete 10 treinos intensos'
     },
     {
       id: 8,
       label: 'Coração de Ferro',
-      icon: 'assets/badges/heart-locked.svg',
+      icon: '/assets/conquistas/30_dias_seguidos.svg',
       description: 'Treine por 30 dias consecutivos'
     },
     {
       id: 9,
       label: 'Fitness Master',
-      icon: 'assets/badges/fitness-locked.svg',
+      icon: '/assets/conquistas/100_horas_atividade.svg',
       description: 'Alcance todos os objetivos mensais'
     },
     {
       id: 10,
       label: 'Força Total',
-      icon: 'assets/badges/barbell-locked.svg',
+      icon: '/assets/conquistas/10_horas_atividade.svg',
       description: 'Levante 1000kg acumulados'
     },
     {
       id: 11,
       label: 'Velocista',
-      icon: 'assets/badges/stopwatch-locked.svg',
+      icon: '/assets/conquistas/notivago.svg',
       description: 'Corra 5km em menos de 25 minutos'
     },
     {
       id: 12,
       label: 'Pódio de Ouro',
-      icon: 'assets/badges/podium-locked.svg',
+      icon: '/assets/conquistas/sem_falhar.svg',
       description: 'Fique em 1º lugar no ranking'
     }
   ];

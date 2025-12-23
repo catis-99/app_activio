@@ -43,12 +43,24 @@
     <div class="section">
       <h3 class="section-title">Conta</h3>
       <div class="menu-list">
-        <div 
-          class="menu-item" 
-          *ngFor="let option of accountOptions"
-          (click)="navigateTo(option.route)">
-          <ion-icon [name]="option.icon" class="menu-icon"></ion-icon>
-          <span class="menu-label">{{ option.label }}</span>
+        <div class="menu-item" (click)="navigateTo('/personal-info')">
+          <ion-icon name="person-outline" class="menu-icon"></ion-icon>
+          <span class="menu-label">Informação Pessoal</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+        <div class="menu-item" (click)="navigateTo('/conquistas')">
+          <ion-icon name="trophy-outline" class="menu-icon"></ion-icon>
+          <span class="menu-label">Conquistas</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+        <div class="menu-item" (click)="navigateTo('/history')">
+          <ion-icon name="time-outline" class="menu-icon"></ion-icon>
+          <span class="menu-label">Histórico</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+        <div class="menu-item" (click)="navigateTo('/progresso')">
+          <ion-icon name="stats-chart-outline" class="menu-icon"></ion-icon>
+          <span class="menu-label">Progresso</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
       </div>
@@ -58,12 +70,19 @@
     <div class="section">
       <h3 class="section-title">Outros</h3>
       <div class="menu-list">
-        <div 
-          class="menu-item" 
-          *ngFor="let option of otherOptions"
-          (click)="navigateTo(option.route)">
-          <ion-icon [name]="option.icon" class="menu-icon"></ion-icon>
-          <span class="menu-label">{{ option.label }}</span>
+        <div class="menu-item" (click)="navigateTo('/contacts')">
+          <ion-icon name="call-outline" class="menu-icon"></ion-icon>
+          <span class="menu-label">Contactos</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+        <div class="menu-item" (click)="navigateTo('/privacy')">
+          <ion-icon name="shield-checkmark-outline" class="menu-icon"></ion-icon>
+          <span class="menu-label">Política de privacidade</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+        <div class="menu-item" (click)="navigateTo('/settings')">
+          <ion-icon name="settings-outline" class="menu-icon"></ion-icon>
+          <span class="menu-label">Configurações</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
       </div>

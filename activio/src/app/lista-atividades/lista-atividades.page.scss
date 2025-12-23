@@ -1,0 +1,106 @@
+.historico-page {
+    --background: #000;
+    color: #fff;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #caff1f;
+}
+
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+}
+
+.icon-btn.white {
+    background: #fff;
+}
+
+.icon-btn.green {
+    background: #caff1f;
+}
+
+.icon-btn ion-icon {
+    font-size: 22px;
+    color: #000;
+}
+
+/* Filtros */
+.filters {
+    display: flex;
+    gap: 16px;
+    padding: 0 20px 20px;
+}
+
+.filter {
+    flex: 1;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 20px;
+    padding: 10px 14px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+/* Lista */
+.list {
+    padding: 0 20px 40px;
+}
+
+.activity-card {
+    background: #2b2b2b;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.activity-card img {
+    width: 48px;
+    height: 48px;
+}
+
+.info {
+    flex: 1;
+}
+
+.info h2 {
+    font-size: 18px;
+    margin: 0 0 4px;
+}
+
+.info p {
+    font-size: 14px;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.info span {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.activity-card ion-icon {
+    font-size: 26px;
+    color: #fff;
+}
+
+.activity-card ion-icon.fav {
+    color: #ff4d4d;
+}
