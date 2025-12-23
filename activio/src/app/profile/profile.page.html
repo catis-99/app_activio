@@ -1,0 +1,91 @@
+<ion-content [fullscreen]="true" class="profile-content">
+  <div class="profile-container">
+    <!-- Header -->
+    <div class="header">
+      <ion-button fill="clear" class="back-button" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <h1 class="page-title">Perfil</h1>
+      <ion-button fill="clear" class="menu-button" (click)="openMenu()">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-photo">
+          <img [src]="userProfile.photo" alt="Profile Photo">
+        </div>
+        <h2 class="profile-name">{{ userProfile.name }}</h2>
+        <ion-button class="edit-button" (click)="editProfile()">
+          Editar
+        </ion-button>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-item">
+          <div class="stat-value">{{ userProfile.height }}</div>
+          <div class="stat-label">Altura</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ userProfile.weight }}</div>
+          <div class="stat-label">Peso</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">{{ userProfile.age }}</div>
+          <div class="stat-label">Idade</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conta Section -->
+    <div class="section">
+      <h3 class="section-title">Conta</h3>
+      <div class="menu-list">
+        <div 
+          class="menu-item" 
+          *ngFor="let option of accountOptions"
+          (click)="navigateTo(option.route)">
+          <ion-icon [name]="option.icon" class="menu-icon"></ion-icon>
+          <span class="menu-label">{{ option.label }}</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Outros Section -->
+    <div class="section">
+      <h3 class="section-title">Outros</h3>
+      <div class="menu-list">
+        <div 
+          class="menu-item" 
+          *ngFor="let option of otherOptions"
+          (click)="navigateTo(option.route)">
+          <ion-icon [name]="option.icon" class="menu-icon"></ion-icon>
+          <span class="menu-label">{{ option.label }}</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <ion-button fill="clear" class="nav-button">
+      <ion-icon name="home-outline"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" class="nav-button">
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-button>
+    <ion-fab-button class="fab-center">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-button fill="clear" class="nav-button">
+      <ion-icon name="pie-chart-outline"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" class="nav-button active">
+      <ion-icon name="person"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>

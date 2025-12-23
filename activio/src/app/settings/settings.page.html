@@ -1,0 +1,117 @@
+<ion-content [fullscreen]="true" class="settings-content">
+  <div class="settings-container">
+    <!-- Header -->
+    <div class="header">
+      <ion-button fill="clear" class="back-button" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+      <h1 class="page-title">Configurações</h1>
+      <ion-button fill="clear" class="menu-button" (click)="openMenu()">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Tema Section -->
+    <div class="section">
+      <h3 class="section-title">Tema</h3>
+      <div class="setting-item">
+        <div class="setting-info">
+          <ion-icon name="moon-outline" class="setting-icon"></ion-icon>
+          <span class="setting-label">Modo escuro/claro</span>
+        </div>
+        <ion-toggle 
+          [(ngModel)]="settings.darkMode"
+          (ionChange)="toggleDarkMode()"
+          class="custom-toggle">
+        </ion-toggle>
+      </div>
+    </div>
+
+    <!-- Notificações Section -->
+    <div class="section">
+      <h3 class="section-title">Notificações</h3>
+      
+      <div class="setting-item">
+        <div class="setting-info">
+          <ion-icon name="notifications-outline" class="setting-icon"></ion-icon>
+          <span class="setting-label">Pop-ups</span>
+        </div>
+        <ion-toggle 
+          [(ngModel)]="settings.popups"
+          (ionChange)="togglePopups()"
+          class="custom-toggle">
+        </ion-toggle>
+      </div>
+
+      <div class="setting-item checkbox-item">
+        <ion-checkbox 
+          [(ngModel)]="settings.dailySummary"
+          (ionChange)="toggleDailySummary()"
+          class="custom-checkbox">
+        </ion-checkbox>
+        <span class="setting-label">Resumo diário</span>
+      </div>
+
+      <div class="setting-item checkbox-item">
+        <ion-checkbox 
+          [(ngModel)]="settings.weeklySummary"
+          (ionChange)="toggleWeeklySummary()"
+          class="custom-checkbox">
+        </ion-checkbox>
+        <span class="setting-label">Resumo semanal</span>
+      </div>
+    </div>
+
+    <!-- Idioma Section -->
+    <div class="section">
+      <h3 class="section-title">Idioma</h3>
+      <div class="language-buttons">
+        <ion-button 
+          [class.active]="settings.language === 'pt'"
+          (click)="selectLanguage('pt')"
+          class="language-button">
+          Português
+        </ion-button>
+        <ion-button 
+          [class.active]="settings.language === 'en'"
+          (click)="selectLanguage('en')"
+          class="language-button">
+          Inglês
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Informações Section -->
+    <div class="section">
+      <h3 class="section-title">Informações</h3>
+      <div class="info-card">
+        <div class="info-icon">
+          <ion-icon name="information-circle-outline"></ion-icon>
+        </div>
+        <div class="info-text">
+          <p>Desenvolvida por alunos</p>
+          <p>para a disciplina de SMINT</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <ion-button fill="clear" class="nav-button">
+      <ion-icon name="home-outline"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" class="nav-button">
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-button>
+    <ion-fab-button class="fab-center">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-button fill="clear" class="nav-button">
+      <ion-icon name="pie-chart-outline"></ion-icon>
+    </ion-button>
+    <ion-button fill="clear" class="nav-button">
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-button>
+  </div>
+</ion-content>

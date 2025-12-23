@@ -42,5 +42,18 @@ export const routes: Routes = [
     path: 'completarperfil',
     loadComponent: () => import('./completarperfil/completarperfil.page').then( m => m.CompletarperfilPage)
   },
+  {
+    path: 'settings',
+    loadComponent: () => import('./settings/settings.page').then( m => m.SettingsPage)
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./profile/profile.page').then( m => m.ProfilePage)
+  },
+  {
+    path: 'settings',
+    loadComponent: () => import('./settings/settings.page').then( m => m.SettingsPage)
+  },
+
 
 ];
