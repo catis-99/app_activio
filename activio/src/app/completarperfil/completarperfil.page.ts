@@ -18,6 +18,7 @@ import {
   mailOutline,
   trendingUpOutline
 } from 'ionicons/icons';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'app-completarperfil',
@@ -48,14 +49,12 @@ export class CompletarperfilPage implements OnInit {
   // Data mínima (18 anos atrás)
   minDate: string;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private i18nService: I18nService
+  ) {
     // Registrar os ícones necessários
-    addIcons({
-      'person-outline': personOutline,
-      'calendar-outline': calendarOutline,
-      'mail-outline': mailOutline,
-      'trending-up-outline': trendingUpOutline
-    });
+    addIcons({ personOutline, calendarOutline, mailOutline, trendingUpOutline });
 
     // Configurar datas
     const today = new Date();
@@ -65,6 +64,11 @@ export class CompletarperfilPage implements OnInit {
     const minDate = new Date();
     minDate.setFullYear(today.getFullYear() - 100);
     this.minDate = this.formatDate(minDate);
+  }
+
+  // Função para traduzir
+  t(key: string): string {
+    return this.i18nService.t(key);
   }
 
   ngOnInit() {
@@ -113,7 +117,7 @@ export class CompletarperfilPage implements OnInit {
     const today = new Date();
     let calculatedAge = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       calculatedAge--;
     }
@@ -156,7 +160,7 @@ export class CompletarperfilPage implements OnInit {
    */
   calculateBMI(): number | null {
     if (!this.weight || !this.height) return null;
-    
+
     const heightInMeters = this.height / 100;
     const bmi = this.weight / (heightInMeters * heightInMeters);
     return Math.round(bmi * 10) / 10;
@@ -172,7 +176,7 @@ export class CompletarperfilPage implements OnInit {
     const today = new Date();
     let calculatedAge = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       calculatedAge--;
     }

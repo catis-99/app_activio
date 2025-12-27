@@ -18,15 +18,23 @@
     padding: 20px 0;
     margin-bottom: 20px;
 
-    .close-button,
-    .menu-button {
-        --color: #ffffff;
-        width: 40px;
-        height: 40px;
+    .icon-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+    }
 
-        ion-icon {
-            font-size: 24px;
-        }
+    .icon-btn.white {
+        background: #ffffff;
+    }
+
+    .icon-btn.green {
+        background: #caff1f;
+    }
+
+    .icon-btn ion-icon {
+        font-size: 22px;
+        color: #000000;
     }
 
     .page-title {
@@ -37,23 +45,48 @@
     }
 }
 
-// Date Selector
+// Data Selector
 .date-selector {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 16px 0;
     cursor: pointer;
+    background: #2a2a2a;
+    border-radius: 12px;
+    margin: 20px 0;
 
     .calendar-icon {
         color: #ffffff;
         font-size: 24px;
+        margin-left: 16px;
     }
 
     .date-text {
         color: #ffffff;
         font-size: 16px;
         font-weight: 500;
+        flex: 1;
+    }
+
+    .dropdown-icon {
+        color: #d4ff00;
+        font-size: 18px;
+        margin-right: 16px;
+    }
+}
+
+// Calendário Inline
+.calendar-section {
+    margin: 20px 0;
+    padding: 16px;
+    background: #2a2a2a;
+    border-radius: 12px;
+
+    .inline-calendar {
+        --background: transparent;
+        --color: #ffffff;
+        color: #ffffff;
     }
 }
 
@@ -75,63 +108,32 @@
     }
 }
 
-// Time Picker
-.time-picker {
-    background: #4a5c3a;
-    border-radius: 12px;
-    padding: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    min-height: 80px;
+// Time Selector
+.time-selector {
+    margin-bottom: 16px;
 
-    .time-column {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    ion-button[fill="outline"] {
+        --border-color: #d4ff00;
+        --color: #d4ff00;
+        --background: transparent;
+        --border-width: 1px;
+        --border-radius: 12px;
+        height: 48px;
+        font-size: 16px;
+        font-weight: 600;
 
-        ion-picker-column-option {
-            color: #ffffff;
-            font-size: 32px;
-            font-weight: 600;
-            padding: 8px 16px;
+        ion-icon {
+            color: #d4ff00;
+            font-size: 20px;
         }
-    }
 
-    // Simulação do picker (já que ion-picker-column pode não funcionar assim)
-    // Vou criar uma versão alternativa
-}
+        &:hover {
+            --background: rgba(212, 255, 0, 0.1);
+        }
 
-// Alternativa para o Time Picker (mais simples e funcional)
-.time-picker {
-    background: #4a5c3a;
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-
-    .time-value {
-        color: #ffffff;
-        font-size: 48px;
-        font-weight: 700;
-        min-width: 60px;
-        text-align: center;
-    }
-
-    .time-separator {
-        color: #ffffff;
-        font-size: 48px;
-        font-weight: 700;
-    }
-
-    .period-value {
-        color: #ffffff;
-        font-size: 32px;
-        font-weight: 700;
-        margin-left: 8px;
+        &:active {
+            --background: rgba(212, 255, 0, 0.2);
+        }
     }
 }
 
@@ -140,39 +142,40 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #2a2a2a;
-    border-radius: 12px;
-    padding: 16px;
+    background: #3a3a3a;
+    border-radius: 16px;
+    padding: 18px 20px;
     margin-bottom: 12px;
+    min-height: 60px;
 
     &.clickable {
         cursor: pointer;
         transition: background 0.2s;
 
         &:active {
-            background: #333333;
+            background: #444444;
         }
     }
 
     &.input-item {
-        background: #4a4a4a;
+        background: #3a3a3a;
     }
 
     .detail-left {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 14px;
         flex: 1;
 
         .detail-icon {
             color: #ffffff;
-            font-size: 20px;
+            font-size: 22px;
         }
 
         .detail-label {
             color: #ffffff;
-            font-size: 15px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 400;
         }
     }
 
@@ -183,7 +186,7 @@
 
         .detail-value {
             color: #d4ff00;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
         }
 
@@ -198,8 +201,8 @@
         --placeholder-color: #666666;
         --background: transparent;
         text-align: right;
-        font-size: 15px;
-        max-width: 150px;
+        font-size: 16px;
+        max-width: 200px;
     }
 }
 
@@ -213,4 +216,75 @@
     font-weight: 700;
     text-transform: none;
     margin-top: 32px;
+}
+
+// Modal do Calendário
+ion-modal {
+    --width: 90%;
+    --max-width: 400px;
+    --height: auto;
+    --border-radius: 20px;
+
+    &::part(backdrop) {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-wrapper {
+        background: #1a1a1a;
+        border-radius: 20px;
+        padding: 0;
+        max-height: 70vh;
+        overflow: hidden;
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            background: #1a1a1a;
+
+            h2 {
+                color: #d4ff00;
+                font-size: 18px;
+                font-weight: 700;
+                margin: 0;
+            }
+
+            ion-button {
+                --color: #ffffff;
+                --padding-start: 0;
+                --padding-end: 0;
+                margin: 0;
+
+                ion-icon {
+                    font-size: 28px;
+                }
+            }
+        }
+
+        ion-datetime {
+            --background: #1a1a1a;
+            color: #ffffff;
+            padding: 20px;
+
+            &::part(month-year-button) {
+                color: #d4ff00;
+            }
+
+            &::part(calendar-day) {
+                color: #ffffff;
+            }
+
+            &::part(calendar-day-active) {
+                background: #d4ff00 !important;
+                color: #000000 !important;
+            }
+
+            &::part(calendar-day-today) {
+                color: #d4ff00;
+            }
+        }
+    }
 }

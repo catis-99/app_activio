@@ -4,19 +4,24 @@
     <!-- Header -->
     <div class="header">
       <div class="greeting">
-        <span class="greeting-text">Bem vinda,</span>
+        <span class="greeting-text">{{ t('home.welcome') }}</span>
         <h1 class="user-name">Luna</h1>
       </div>
-      <ion-button fill="clear" class="notification-btn">
-        <ion-icon name="notifications-outline"></ion-icon>
-      </ion-button>
+      <div class="header-buttons">
+        <ion-button fill="clear" class="notification-btn" (click)="navigateToSettings()">
+          <ion-icon name="settings-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" class="notification-btn">
+          <ion-icon name="notifications-outline"></ion-icon>
+        </ion-button>
+      </div>
     </div>
 
     <!-- Stats Cards -->
     <div class="stats-cards">
       <div class="stat-card">
         <div class="stat-header">
-          <span>Workouts Days</span>
+          <span>{{ t('home.workoutDays') }}</span>
           <ion-icon name="barbell-outline"></ion-icon>
         </div>
         <div class="stat-value">2/7</div>
@@ -24,7 +29,7 @@
 
       <div class="stat-card">
         <div class="stat-header">
-          <span>Calorias Queimadas</span>
+          <span>{{ t('home.burnedCalories') }}</span>
           <ion-icon name="flame-outline"></ion-icon>
         </div>
         <div class="stat-value">350</div>
@@ -32,8 +37,8 @@
     </div>
 
     <!-- Criar Atividade Button -->
-    <button class="create-activity-btn">
-      <span>Criar atividade</span>
+    <button class="create-activity-btn" (click)="navigateToCriarAtividade()">
+      <span>{{ t('home.createActivity') }}</span>
       <div class="add-icon">
         <ion-icon name="add-outline"></ion-icon>
       </div>
@@ -41,61 +46,49 @@
 
     <!-- Resumo de Atividade -->
     <div class="activity-summary">
-      <h2>Resumo de Atividade</h2>
-      <button class="month-selector">
-        <span>Mês</span>
+      <h2>{{ t('home.activitySummary') }}</h2>
+      <button class="month-selector" (click)="togglePeriodDropdown()">
+        <span>{{ getPeriodLabel() }}</span>
         <ion-icon name="chevron-down-outline"></ion-icon>
       </button>
+
+      <!-- Dropdown de Seleção de Período -->
+      <div class="period-dropdown" *ngIf="isPeriodDropdownOpen">
+        <button class="dropdown-item" (click)="selectPeriod('week')">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ t('home.week') }}</span>
+        </button>
+        <button class="dropdown-item" (click)="selectPeriod('month')">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ t('home.month') }}</span>
+        </button>
+      </div>
     </div>
 
-    <!-- Calendar -->
-    <div class="calendar">
-      <h3>Dezembro</h3>
-      <div class="calendar-grid">
-        <div class="day-header">Sun</div>
-        <div class="day-header">Mon</div>
-        <div class="day-header">Tue</div>
-        <div class="day-header">Wed</div>
-        <div class="day-header">Thu</div>
-        <div class="day-header">Fri</div>
-        <div class="day-header">Sat</div>
-
-        <div class="day">1<span class="dot"></span></div>
-        <div class="day">2</div>
-        <div class="day">3<span class="dot"></span></div>
-        <div class="day">4<span class="dot"></span></div>
-        <div class="day">5<span class="dot"></span></div>
-        <div class="day">6<span class="dot"></span></div>
-        <div class="day">7</div>
-
-        <div class="day">8<span class="dot"></span></div>
-        <div class="day">9</div>
-        <div class="day">10<span class="dot"></span></div>
-        <div class="day">11</div>
-        <div class="day">12<span class="dot"></span></div>
-        <div class="day">13</div>
-        <div class="day">14</div>
-
-        <div class="day">15<span class="dot"></span></div>
-        <div class="day">16</div>
-        <div class="day">17</div>
-        <div class="day">18</div>
-        <div class="day">19</div>
-        <div class="day">20</div>
-        <div class="day">21<span class="dot"></span></div>
-
-        <div class="day">22<span class="dot"></span></div>
-        <div class="day">23</div>
-        <div class="day">24</div>
-        <div class="day">25<span class="dot"></span></div>
-        <div class="day">26</div>
-        <div class="day">27</div>
-        <div class="day">28</div>
-
-        <div class="day">29</div>
-        <div class="day">30</div>
-        <div class="day">31<span class="dot"></span></div>
+    <!-- Visualização de Dados -->
+    <div class="data-view">
+      <!-- Gráfico Semanal -->
+      <div class="weekly-chart" *ngIf="selectedPeriod === 'week'">
+        <h3>{{ t('home.thisWeek') }}</h3>
+        <div class="chart-container">
+          <div class="chart-bars">
+            <div class="bar-container" *ngFor="let minutes of weeklyData; let i = index">
+              <div class="bar" [style.height.px]="minutes * 2">
+                <span class="bar-value">{{ minutes }}min</span>
+              </div>
+              <div class="bar-label">{{ getDayName(i) }}</div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- Calendário Nativo Ionic -->
+      <div class="calendar-section" *ngIf="selectedPeriod === 'month'">
+        <ion-datetime presentation="date" [value]="selectedDate.toISOString()" (ionChange)="onDateChange($event)"
+          locale="pt-PT" class="calendar-datetime">
+        </ion-datetime>
+      </div>
+
     </div>
 
   </div>
@@ -103,20 +96,20 @@
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <button class="nav-btn active">
-      <ion-icon name="home"></ion-icon>
+      <img src="assets/icons_nav/Home.svg" alt="Home" class="nav-icon">
       <span class="nav-dot"></span>
     </button>
-    <button class="nav-btn">
-      <ion-icon name="stats-chart-outline"></ion-icon>
+    <button class="nav-btn" (click)="navigateToProgresso()">
+      <img src="assets/icons_nav/Activity.svg" alt="Progresso" class="nav-icon">
     </button>
-    <button class="nav-btn-fab">
-      <ion-icon name="add-outline"></ion-icon>
+    <button class="nav-btn-fab" (click)="navigateToCriarAtividade()">
+      <img src="assets/icons_nav/plus.svg" alt="Adicionar" class="nav-icon-plus">
     </button>
-    <button class="nav-btn">
-      <ion-icon name="pie-chart-outline"></ion-icon>
+    <button class="nav-btn" (click)="navigateToListaAtividades()">
+      <img src="assets/icons_nav/Icon-Activity.svg" alt="Lista de Atividades Realizadas" class="nav-icon">
     </button>
-    <button class="nav-btn">
-      <ion-icon name="person-outline"></ion-icon>
+    <button class="nav-btn" (click)="navigateToProfile()">
+      <img src="assets/icons_nav/Profile.svg" alt="Profile" class="nav-icon">
     </button>
   </div>
 

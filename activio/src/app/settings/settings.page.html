@@ -5,7 +5,7 @@
       <ion-button fill="clear" class="back-button" (click)="goBack()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
-      <h1 class="page-title">Configurações</h1>
+      <h1 class="page-title">{{ t('settings.title') }}</h1>
       <ion-button fill="clear" class="menu-button" (click)="openMenu()">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
       </ion-button>
@@ -13,84 +13,66 @@
 
     <!-- Tema Section -->
     <div class="section">
-      <h3 class="section-title">Tema</h3>
+      <h3 class="section-title">{{ t('settings.theme') }}</h3>
       <div class="setting-item">
         <div class="setting-info">
           <ion-icon name="moon-outline" class="setting-icon"></ion-icon>
-          <span class="setting-label">Modo escuro/claro</span>
+          <span class="setting-label">{{ t('settings.darkLightMode') }}</span>
         </div>
-        <ion-toggle 
-          [(ngModel)]="settings.darkMode"
-          (ionChange)="toggleDarkMode()"
-          class="custom-toggle">
+        <ion-toggle [(ngModel)]="settings.darkMode" (ionChange)="toggleDarkMode()" class="custom-toggle">
         </ion-toggle>
       </div>
     </div>
 
     <!-- Notificações Section -->
     <div class="section">
-      <h3 class="section-title">Notificações</h3>
-      
+      <h3 class="section-title">{{ t('settings.notifications') }}</h3>
+
       <div class="setting-item">
         <div class="setting-info">
           <ion-icon name="notifications-outline" class="setting-icon"></ion-icon>
-          <span class="setting-label">Pop-ups</span>
+          <span class="setting-label">{{ t('settings.popups') }}</span>
         </div>
-        <ion-toggle 
-          [(ngModel)]="settings.popups"
-          (ionChange)="togglePopups()"
-          class="custom-toggle">
+        <ion-toggle [(ngModel)]="settings.popups" (ionChange)="togglePopups()" class="custom-toggle">
         </ion-toggle>
       </div>
 
       <div class="setting-item checkbox-item">
-        <ion-checkbox 
-          [(ngModel)]="settings.dailySummary"
-          (ionChange)="toggleDailySummary()"
-          class="custom-checkbox">
+        <ion-checkbox [(ngModel)]="settings.dailySummary" (ionChange)="toggleDailySummary()" class="custom-checkbox">
         </ion-checkbox>
-        <span class="setting-label">Resumo diário</span>
+        <span class="setting-label">{{ t('settings.dailySummary') }}</span>
       </div>
 
       <div class="setting-item checkbox-item">
-        <ion-checkbox 
-          [(ngModel)]="settings.weeklySummary"
-          (ionChange)="toggleWeeklySummary()"
-          class="custom-checkbox">
+        <ion-checkbox [(ngModel)]="settings.weeklySummary" (ionChange)="toggleWeeklySummary()" class="custom-checkbox">
         </ion-checkbox>
-        <span class="setting-label">Resumo semanal</span>
+        <span class="setting-label">{{ t('settings.weeklySummary') }}</span>
       </div>
     </div>
 
     <!-- Idioma Section -->
     <div class="section">
-      <h3 class="section-title">Idioma</h3>
+      <h3 class="section-title">{{ t('settings.language') }}</h3>
       <div class="language-buttons">
-        <ion-button 
-          [class.active]="settings.language === 'pt'"
-          (click)="selectLanguage('pt')"
-          class="language-button">
-          Português
+        <ion-button [class.active]="settings.language === 'pt'" (click)="selectLanguage('pt')" class="language-button">
+          {{ t('settings.portuguese') }}
         </ion-button>
-        <ion-button 
-          [class.active]="settings.language === 'en'"
-          (click)="selectLanguage('en')"
-          class="language-button">
-          Inglês
+        <ion-button [class.active]="settings.language === 'en'" (click)="selectLanguage('en')" class="language-button">
+          {{ t('settings.english') }}
         </ion-button>
       </div>
     </div>
 
     <!-- Informações Section -->
     <div class="section">
-      <h3 class="section-title">Informações</h3>
+      <h3 class="section-title">{{ t('settings.information') }}</h3>
       <div class="info-card">
         <div class="info-icon">
           <ion-icon name="information-circle-outline"></ion-icon>
         </div>
         <div class="info-text">
-          <p>Desenvolvida por alunos</p>
-          <p>para a disciplina de SMINT</p>
+          <p>{{ t('settings.developedBy') }}</p>
+          <p>{{ t('settings.forDiscipline') }}</p>
         </div>
       </div>
     </div>
@@ -98,20 +80,21 @@
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
-    <ion-button fill="clear" class="nav-button">
-      <ion-icon name="home-outline"></ion-icon>
-    </ion-button>
-    <ion-button fill="clear" class="nav-button">
-      <ion-icon name="calendar-outline"></ion-icon>
-    </ion-button>
-    <ion-fab-button class="fab-center">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-button fill="clear" class="nav-button">
-      <ion-icon name="pie-chart-outline"></ion-icon>
-    </ion-button>
-    <ion-button fill="clear" class="nav-button">
-      <ion-icon name="person-outline"></ion-icon>
-    </ion-button>
+    <button class="nav-btn" (click)="navigateToHome()">
+      <img src="assets/icons_nav/Home.svg" alt="Home" class="nav-icon">
+    </button>
+    <button class="nav-btn" (click)="navigateToProgresso()">
+      <img src="assets/icons_nav/Activity.svg" alt="Progresso" class="nav-icon">
+    </button>
+    <button class="nav-btn-fab" (click)="navigateToCriarAtividade()">
+      <img src="assets/icons_nav/plus.svg" alt="Adicionar" class="nav-icon-plus">
+    </button>
+    <button class="nav-btn" (click)="navigateToListaAtividades()">
+      <img src="assets/icons_nav/Icon-Activity.svg" alt="Lista de Atividades Realizadas" class="nav-icon">
+    </button>
+    <button class="nav-btn active">
+      <img src="assets/icons_nav/Profile.svg" alt="Profile" class="nav-icon">
+      <span class="nav-dot"></span>
+    </button>
   </div>
 </ion-content>

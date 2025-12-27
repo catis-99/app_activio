@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +20,7 @@ export class ProfilePage {
     age: '22'
   };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private i18nService: I18nService) { }
 
   navigateTo(route: string) {
     this.router.navigate([route]);
@@ -35,5 +36,9 @@ export class ProfilePage {
 
   openMenu() {
     console.log('Menu aberto');
+  }
+
+  t(key: string): string {
+    return this.i18nService.t(key);
   }
 }

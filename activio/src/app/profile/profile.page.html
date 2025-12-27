@@ -5,7 +5,7 @@
       <ion-button fill="clear" class="back-button" (click)="goBack()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
-      <h1 class="page-title">Perfil</h1>
+      <h1 class="page-title">{{ t('profile.title') }}</h1>
       <ion-button fill="clear" class="menu-button" (click)="openMenu()">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
       </ion-button>
@@ -19,48 +19,48 @@
         </div>
         <h2 class="profile-name">{{ userProfile.name }}</h2>
         <ion-button class="edit-button" (click)="editProfile()">
-          Editar
+          {{ t('profile.editProfile') }}
         </ion-button>
       </div>
 
       <div class="profile-stats">
         <div class="stat-item">
           <div class="stat-value">{{ userProfile.height }}</div>
-          <div class="stat-label">Altura</div>
+          <div class="stat-label">{{ t('profile.height') }}</div>
         </div>
         <div class="stat-item">
           <div class="stat-value">{{ userProfile.weight }}</div>
-          <div class="stat-label">Peso</div>
+          <div class="stat-label">{{ t('profile.weight') }}</div>
         </div>
         <div class="stat-item">
           <div class="stat-value">{{ userProfile.age }}</div>
-          <div class="stat-label">Idade</div>
+          <div class="stat-label">{{ t('profile.age') }}</div>
         </div>
       </div>
     </div>
 
     <!-- Conta Section -->
     <div class="section">
-      <h3 class="section-title">Conta</h3>
+      <h3 class="section-title">{{ t('profile.account') }}</h3>
       <div class="menu-list">
         <div class="menu-item" (click)="navigateTo('/personal-info')">
-          <ion-icon name="person-outline" class="menu-icon"></ion-icon>
-          <span class="menu-label">Informação Pessoal</span>
+          <img src="assets/icons_nav/Profile.svg" alt="Informação Pessoal" class="menu-icon-svg">
+          <span class="menu-label">{{ t('profile.personalInfo') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/conquistas')">
-          <ion-icon name="trophy-outline" class="menu-icon"></ion-icon>
-          <span class="menu-label">Conquistas</span>
+          <img src="assets/icons_nav/Icon-Activity.svg" alt="Conquistas" class="menu-icon-svg">
+          <span class="menu-label">{{ t('profile.achievements') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/history')">
-          <ion-icon name="time-outline" class="menu-icon"></ion-icon>
-          <span class="menu-label">Histórico</span>
+          <img src="assets/icons_nav/Activity.svg" alt="Histórico" class="menu-icon-svg">
+          <span class="menu-label">{{ t('profile.history') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/progresso')">
-          <ion-icon name="stats-chart-outline" class="menu-icon"></ion-icon>
-          <span class="menu-label">Progresso</span>
+          <img src="assets/icons_nav/Activity.svg" alt="Progresso" class="menu-icon-svg">
+          <span class="menu-label">{{ t('profile.progress') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
       </div>
@@ -68,21 +68,21 @@
 
     <!-- Outros Section -->
     <div class="section">
-      <h3 class="section-title">Outros</h3>
+      <h3 class="section-title">{{ t('profile.others') }}</h3>
       <div class="menu-list">
         <div class="menu-item" (click)="navigateTo('/contacts')">
-          <ion-icon name="call-outline" class="menu-icon"></ion-icon>
-          <span class="menu-label">Contactos</span>
+          <img src="assets/icons_nav/Activity.svg" alt="Contactos" class="menu-icon-svg">
+          <span class="menu-label">{{ t('profile.contacts') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/privacy')">
-          <ion-icon name="shield-checkmark-outline" class="menu-icon"></ion-icon>
-          <span class="menu-label">Política de privacidade</span>
+          <img src="assets/icons_nav/Icon-Activity.svg" alt="Política de privacidade" class="menu-icon-svg">
+          <span class="menu-label">{{ t('profile.privacyPolicy') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/settings')">
-          <ion-icon name="settings-outline" class="menu-icon"></ion-icon>
-          <span class="menu-label">Configurações</span>
+          <img src="assets/icons_nav/Profile.svg" alt="Configurações" class="menu-icon-svg">
+          <span class="menu-label">{{ t('profile.settings') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
       </div>
@@ -91,20 +91,20 @@
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
-    <ion-button fill="clear" class="nav-button">
-      <ion-icon name="home-outline"></ion-icon>
-    </ion-button>
-    <ion-button fill="clear" class="nav-button">
-      <ion-icon name="calendar-outline"></ion-icon>
-    </ion-button>
-    <ion-fab-button class="fab-center">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-button fill="clear" class="nav-button">
-      <ion-icon name="pie-chart-outline"></ion-icon>
-    </ion-button>
-    <ion-button fill="clear" class="nav-button active">
-      <ion-icon name="person"></ion-icon>
-    </ion-button>
+    <button class="nav-btn" (click)="navigateTo('/home')">
+      <img src="assets/icons_nav/Home.svg" alt="Home" class="nav-icon">
+    </button>
+    <button class="nav-btn" (click)="navigateTo('/progresso')">
+      <img src="assets/icons_nav/Activity.svg" alt="Progresso" class="nav-icon">
+    </button>
+    <button class="nav-btn-fab" (click)="navigateTo('/criar-atividade')">
+      <img src="assets/icons_nav/plus.svg" alt="Adicionar" class="nav-icon-plus">
+    </button>
+    <button class="nav-btn" (click)="navigateTo('/lista-atividades')">
+      <img src="assets/icons_nav/Icon-Activity.svg" alt="Conquistas" class="nav-icon">
+    </button>
+    <button class="nav-btn active" (click)="navigateTo('/profile')">
+      <img src="assets/icons_nav/Profile.svg" alt="Profile" class="nav-icon">
+    </button>
   </div>
 </ion-content>

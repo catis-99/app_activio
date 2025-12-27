@@ -15,6 +15,11 @@
   margin-bottom: 30px
 }
 
+.header-buttons {
+  display: flex;
+  gap: 8px
+}
+
 .greeting-text {
   color: #fff;
   font-size: 18px;
@@ -120,10 +125,798 @@
 }
 
 .activity-summary {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px
+}
+
+.period-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 8px;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.2s ease;
+  z-index: 100;
+}
+
+.dropdown-item {
+  background: transparent;
+  border: none;
+  width: 100%;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  color: #fff;
+}
+
+.dropdown-item:hover {
+  background: rgba(198, 255, 0, 0.1);
+}
+
+.dropdown-item ion-icon {
+  font-size: 18px;
+  color: #C6FF00;
+}
+
+.dropdown-item span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Estilos para visualização de dados
+.data-view {
+  margin-bottom: 32px;
+}
+
+// Calendário Nativo Ionic com Indicadores
+.calendar-section h3 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+// Calendário Nativo
+.calendar-section {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.calendar-datetime {
+  --background: transparent;
+  --border-radius: 12px;
+  --color: #fff;
+  --placeholder-color: #666;
+  --wheel-highlight-background: rgba(198, 255, 0, 0.2);
+  --wheel-highlight-border-color: #C6FF00;
+
+  width: 100%;
+  border: none;
+  background: transparent;
+}
+
+// Melhorar seletor de ano e mês
+.calendar-datetime::part(header) {
+  background: #2a2a2a;
+  border-radius: 12px 12px 0 0;
+  padding: 16px;
+  color: #fff;
+}
+
+.calendar-datetime::part(title) {
+  color: #C6FF00;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.calendar-datetime::part(buttons) {
+  background: #2a2a2a;
+  border-radius: 0 0 12px 12px;
+  padding: 12px 16px;
+  gap: 8px;
+}
+
+.calendar-datetime::part(button-header) {
+  background: #C6FF00;
+  color: #000;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(button-header):hover {
+  background: #b8ff00;
+  transform: translateY(-1px);
+}
+
+// Estilizar dias do calendário
+.calendar-datetime::part(calendar-day) {
+  color: #fff;
+  background: transparent;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(calendar-day today) {
+  background: #C6FF00;
+  color: #000;
+  font-weight: 600;
+}
+
+.calendar-datetime::part(calendar-day selected) {
+  background: #C6FF00;
+  color: #000;
+  font-weight: 600;
+}
+
+.calendar-datetime::part(calendar-day disabled) {
+  color: #555;
+  opacity: 0.5;
+}
+
+// Melhorar grid do calendário
+.calendar-datetime::part(calendar-body) {
+  background: #1a1a1a;
+  padding: 16px;
+}
+
+.calendar-datetime::part(calendar-header) {
+  color: #888;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Melhorar picker de mês e ano
+.calendar-datetime::part(years) {
+  background: #2a2a2a;
+  color: #fff;
+  border-radius: 12px;
+}
+
+.calendar-datetime::part(year-column) {
+  background: transparent;
+}
+
+.calendar-datetime::part(year-button) {
+  color: #fff;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(year-button:hover) {
+  background: #333;
+}
+
+.calendar-datetime::part(year-button active) {
+  background: #C6FF00;
+  color: #000;
+  font-weight: 600;
+}
+
+.calendar-datetime::part(months) {
+  background: #2a2a2a;
+  color: #fff;
+  border-radius: 12px;
+}
+
+.calendar-datetime::part(month-button) {
+  color: #fff;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(month-button:hover) {
+  background: #333;
+}
+
+.calendar-datetime::part(month-button active) {
+  background: #C6FF00;
+  color: #000;
+  font-weight: 600;
+}
+
+// Melhorar botões de ação
+.calendar-datetime::part(button-confirm) {
+  background: #C6FF00;
+  color: #000;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(button-confirm):hover {
+  background: #b8ff00;
+  transform: translateY(-1px);
+}
+
+.calendar-datetime::part(button-cancel) {
+  background: transparent;
+  color: #888;
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(button-cancel):hover {
+  background: #333;
+  color: #fff;
+}
+
+// Responsividade para o calendário melhorado
+@media (min-width: 768px) {
+  .calendar-section {
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .calendar-datetime::part(header) {
+    padding: 20px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .calendar-datetime::part(title) {
+    font-size: 20px;
+  }
+
+  .calendar-datetime::part(buttons) {
+    padding: 16px 20px;
+    border-radius: 0 0 16px 16px;
+  }
+
+  .calendar-datetime::part(button-header) {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .calendar-datetime::part(calendar-body) {
+    padding: 20px;
+  }
+
+  .calendar-datetime::part(calendar-day) {
+    border-radius: 10px;
+    font-size: 16px;
+  }
+
+  .calendar-datetime::part(calendar-header) {
+    font-size: 14px;
+  }
+
+  .calendar-datetime::part(year-button),
+  .calendar-datetime::part(month-button) {
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+
+  .calendar-datetime::part(button-confirm) {
+    font-size: 16px;
+    padding: 14px 28px;
+  }
+
+  .calendar-datetime::part(button-cancel) {
+    font-size: 16px;
+    padding: 14px 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .calendar-section {
+    padding: 32px;
+    border-radius: 24px;
+  }
+
+  .calendar-datetime::part(header) {
+    padding: 24px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .calendar-datetime::part(title) {
+    font-size: 22px;
+  }
+
+  .calendar-datetime::part(buttons) {
+    padding: 20px 24px;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .calendar-datetime::part(button-header) {
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+
+  .calendar-datetime::part(calendar-body) {
+    padding: 24px;
+  }
+
+  .calendar-datetime::part(calendar-day) {
+    border-radius: 12px;
+    font-size: 18px;
+    padding: 12px;
+  }
+
+  .calendar-datetime::part(calendar-header) {
+    font-size: 16px;
+  }
+
+  .calendar-datetime::part(year-button),
+  .calendar-datetime::part(month-button) {
+    border-radius: 12px;
+    font-size: 18px;
+    padding: 16px 20px;
+  }
+
+  .calendar-datetime::part(button-confirm) {
+    font-size: 18px;
+    padding: 16px 32px;
+  }
+
+  .calendar-datetime::part(button-cancel) {
+    font-size: 18px;
+    padding: 16px 32px;
+  }
+}
+
+// Indicadores de Atividades
+.activity-indicators {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.activity-indicators h4 {
+  color: #C6FF00;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.indicators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  gap: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.day-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.day-indicator:hover {
+  background: rgba(198, 255, 0, 0.1);
+}
+
+.day-number {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.activity-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+}
+
+.no-activity {
+  display: flex;
+  justify-content: center;
+}
+
+.empty-dot {
+  width: 4px;
+  height: 4px;
+  background: #333;
+  border-radius: 50%;
+}
+
+// Pontos de Atividade com Cores por Intensidade
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.dot:hover {
+  transform: scale(1.2);
+}
+
+.activity-high {
+  background: #ff4757;
+  box-shadow: 0 0 4px rgba(255, 71, 87, 0.5);
+}
+
+.activity-medium {
+  background: #ffa502;
+  box-shadow: 0 0 4px rgba(255, 165, 2, 0.5);
+}
+
+.activity-low {
+  background: #C6FF00;
+  box-shadow: 0 0 4px rgba(198, 255, 0, 0.5);
+}
+
+// Legenda dos Indicadores
+.activity-legend {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.legend-item .dot {
+  width: 8px;
+  height: 8px;
+}
+
+// Responsividade para calendário
+@media (min-width: 768px) {
+  .calendar-section h3 {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+
+  .native-calendar {
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+
+  .activity-indicators {
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .activity-indicators h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .indicators-grid {
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    gap: 16px;
+    max-height: 240px;
+  }
+
+  .day-indicator {
+    padding: 12px;
+  }
+
+  .day-number {
+    font-size: 14px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .activity-legend {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .legend-item {
+    font-size: 14px;
+  }
+
+  .legend-item .dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .calendar-section h3 {
+    font-size: 24px;
+    margin-bottom: 28px;
+  }
+
+  .native-calendar {
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+
+  .activity-indicators {
+    padding: 32px;
+    margin-bottom: 28px;
+  }
+
+  .activity-indicators h4 {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+
+  .indicators-grid {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 20px;
+    max-height: 280px;
+  }
+
+  .day-indicator {
+    padding: 16px;
+  }
+
+  .day-number {
+    font-size: 16px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .activity-legend {
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .legend-item {
+    font-size: 16px;
+  }
+
+  .legend-item .dot {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+// Gráfico Semanal
+.weekly-chart h3 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+.chart-container {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.chart-bars {
+  display: flex;
+  justify-content: space-around;
+  align-items: end;
+  gap: 12px;
+  height: 200px;
+  padding: 20px 0;
+}
+
+.bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 60px;
+}
+
+.bar {
+  background: linear-gradient(180deg, #C6FF00 0%, #8BC34A 100%);
+  border-radius: 8px 8px 0 0;
+  width: 100%;
+  min-height: 20px;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  padding-top: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.bar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(198, 255, 0, 0.3);
+}
+
+.bar-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
+  position: absolute;
+  top: -24px;
+}
+
+.bar-label {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 8px;
+  text-align: center;
+}
+
+// Intensidades de atividade no calendário
+.activity-low {
+  background: rgba(198, 255, 0, 0.4);
+}
+
+.activity-medium {
+  background: rgba(198, 255, 0, 0.7);
+}
+
+.activity-high {
+  background: #C6FF00;
+}
+
+// Estilos responsivos para gráficos
+@media (min-width:768px) {
+  .activity-controls {
+    margin-bottom: 20px;
+  }
+
+  .list-btn {
+    padding: 10px 20px;
+    height: 40px;
+  }
+
+  .list-btn ion-icon {
+    font-size: 20px;
+  }
+
+  .period-dropdown {
+    padding: 12px;
+  }
+
+  .dropdown-item {
+    padding: 14px 20px;
+  }
+
+  .dropdown-item span {
+    font-size: 16px;
+  }
+
+  .dropdown-item ion-icon {
+    font-size: 20px;
+  }
+
+  .chart-container,
+  .year-chart-container {
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+
+  .chart-bars,
+  .year-bars {
+    height: 240px;
+    gap: 16px;
+    padding: 24px 0;
+  }
+
+  .bar-container,
+  .year-bar-container {
+    max-width: 70px;
+  }
+
+  .bar-value,
+  .year-bar-value {
+    font-size: 14px;
+    top: -28px;
+  }
+
+  .bar-label,
+  .year-bar-label {
+    font-size: 14px;
+    margin-top: 12px;
+  }
+}
+
+@media (min-width:1024px) {
+  .activity-controls {
+    margin-bottom: 24px;
+  }
+
+  .list-btn {
+    padding: 12px 24px;
+    height: 44px;
+  }
+
+  .list-btn ion-icon {
+    font-size: 22px;
+  }
+
+  .period-dropdown {
+    padding: 16px;
+  }
+
+  .dropdown-item {
+    padding: 16px 24px;
+  }
+
+  .dropdown-item span {
+    font-size: 18px;
+  }
+
+  .dropdown-item ion-icon {
+    font-size: 22px;
+  }
+
+  .chart-container,
+  .year-chart-container {
+    padding: 40px;
+    margin-bottom: 28px;
+  }
+
+  .chart-bars,
+  .year-bars {
+    height: 280px;
+    gap: 20px;
+    padding: 28px 0;
+  }
+
+  .bar-container,
+  .year-bar-container {
+    max-width: 80px;
+  }
+
+  .bar-value,
+  .year-bar-value {
+    font-size: 16px;
+    top: -32px;
+  }
+
+  .bar-label,
+  .year-bar-label {
+    font-size: 16px;
+    margin-top: 16px;
+  }
 }
 
 .activity-summary h2 {
@@ -134,6 +927,7 @@
 }
 
 .month-selector {
+  position: relative;
   background: #C6FF00;
   border: none;
   border-radius: 20px;
@@ -257,7 +1051,7 @@
 }
 
 .nav-btn-fab {
-  background: #000;
+  background: #2a2a2a;
   border: none;
   width: 56px;
   height: 56px;
@@ -267,7 +1061,8 @@
   justify-content: center;
   cursor: pointer;
   margin-top: -40px;
-  transition: transform 0.2s ease
+  transition: transform 0.2s ease;
+  box-shadow: 0 8px 12px -6px rgba(0, 0, 0, 0.3);
 }
 
 .nav-btn-fab ion-icon {
@@ -277,6 +1072,37 @@
 
 .nav-btn-fab:active {
   transform: scale(0.95)
+}
+
+// Estilos para ícones personalizados
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0.5);
+  transition: filter 0.2s ease;
+}
+
+.nav-icon-plus {
+  width: 22px;
+  height: 22px;
+  filter: brightness(20);
+  transition: filter 0.2s ease;
+}
+
+.nav-btn:hover .nav-icon {
+  filter: brightness(1.2);
+}
+
+.nav-btn-fab:hover .nav-icon-plus {
+  filter: brightness(0.8);
+}
+
+.nav-btn.active .nav-icon {
+  filter: none;
+}
+
+.nav-btn.active .nav-icon-plus {
+  filter: brightness(0);
 }
 
 @media (min-width:768px) {

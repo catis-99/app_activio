@@ -4,73 +4,53 @@
     <div class="image-wrapper">
       <img src="assets/intro/lince_sentado.png" alt="Cat Illustration" />
     </div>
-    
+
     <!-- Títulos -->
-    <h2>Completa o teu perfil</h2>
-    <p class="subtitle">Ajuda-nos a saber mais sobre ti</p>
-    
+    <h2>{{ t('completarperfil.title') }}</h2>
+    <p class="subtitle">{{ t('completarperfil.subtitle') }}</p>
+
     <!-- Género -->
     <ion-item lines="none" class="input-item">
       <ion-icon name="person-outline" slot="start"></ion-icon>
-      <ion-select 
-        [(ngModel)]="gender"
-        placeholder="Escolhe o teu género"
-        interface="action-sheet">
-        <ion-select-option value="masculino">Masculino</ion-select-option>
-        <ion-select-option value="feminino">Feminino</ion-select-option>
-        <ion-select-option value="outro">Outro</ion-select-option>
-        <ion-select-option value="nao-informar">Prefiro não dizer</ion-select-option>
+      <ion-select [(ngModel)]="gender" [placeholder]="t('completarperfil.chooseGender')" interface="action-sheet">
+        <ion-select-option value="masculino">{{ t('completarperfil.male') }}</ion-select-option>
+        <ion-select-option value="feminino">{{ t('completarperfil.female') }}</ion-select-option>
+        <ion-select-option value="outro">{{ t('completarperfil.other') }}</ion-select-option>
+        <ion-select-option value="nao-informar">{{ t('completarperfil.preferNotToSay') }}</ion-select-option>
       </ion-select>
     </ion-item>
-    
+
     <!-- Data de nascimento -->
     <ion-item lines="none" class="input-item">
       <ion-icon name="calendar-outline" slot="start"></ion-icon>
-      <ion-input 
-        [(ngModel)]="birthdate"
-        type="date" 
-        placeholder="Data de nascimento"
-        [max]="maxDate"
+      <ion-input [(ngModel)]="birthdate" type="date" [placeholder]="t('completarperfil.birthdate')" [max]="maxDate"
         [min]="minDate">
       </ion-input>
     </ion-item>
-    
+
     <!-- Peso -->
     <div class="row">
       <ion-item lines="none" class="input-item">
         <ion-icon name="mail-outline" slot="start"></ion-icon>
-        <ion-input 
-          [(ngModel)]="weight"
-          type="number" 
-          placeholder="Peso"
-          min="1"
-          max="500">
+        <ion-input [(ngModel)]="weight" type="number" [placeholder]="t('completarperfil.weight')" min="1" max="500">
         </ion-input>
       </ion-item>
       <div class="unit">KG</div>
     </div>
-    
+
     <!-- Altura -->
     <div class="row">
       <ion-item lines="none" class="input-item">
         <ion-icon name="trending-up-outline" slot="start"></ion-icon>
-        <ion-input 
-          [(ngModel)]="height"
-          type="number" 
-          placeholder="Altura"
-          min="1"
-          max="300">
+        <ion-input [(ngModel)]="height" type="number" [placeholder]="t('completarperfil.height')" min="1" max="300">
         </ion-input>
       </ion-item>
       <div class="unit">CM</div>
     </div>
-    
+
     <!-- Botão -->
-    <ion-button 
-      expand="block" 
-      class="next-btn"
-      (click)="onNext()">
-      Próximo →
+    <ion-button expand="block" class="next-btn" (click)="onNext()">
+      {{ t('completarperfil.next') }}
     </ion-button>
   </div>
 </ion-content>

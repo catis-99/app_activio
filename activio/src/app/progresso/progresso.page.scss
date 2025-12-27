@@ -47,6 +47,10 @@
   margin-bottom: 20px;
 }
 
+.chart-card {
+  padding: 24px 16px 20px 16px;
+}
+
 .card-title {
   color: #ffffff;
   font-size: 18px;
@@ -99,11 +103,14 @@
 .chart-card {
   .line-chart {
     margin-top: 10px;
+    overflow: visible;
+    width: 100%;
   }
 
   .chart-svg {
     width: 100%;
     height: 180px;
+    overflow: visible;
   }
 }
 
@@ -240,4 +247,4 @@
     width: 120px;
     height: 120px;
   }
-} 
+}

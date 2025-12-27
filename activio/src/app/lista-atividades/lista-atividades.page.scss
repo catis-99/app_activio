@@ -41,10 +41,16 @@
     display: flex;
     gap: 16px;
     padding: 0 20px 20px;
+    position: relative;
+}
+
+.filter-container {
+    position: relative;
+    flex: 1;
 }
 
 .filter {
-    flex: 1;
+    width: 100%;
     background: transparent;
     border: 2px solid #fff;
     border-radius: 20px;
@@ -54,6 +60,47 @@
     align-items: center;
     justify-content: space-between;
     font-size: 14px;
+    cursor: pointer;
+}
+
+.filter-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #2b2b2b;
+    border: 2px solid #caff1f;
+    border-radius: 12px;
+    margin-top: 8px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.filter-section {
+    padding: 8px;
+}
+
+.filter-option {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.filter-option:hover {
+    background: rgba(202, 255, 31, 0.1);
+}
+
+.filter-option.active {
+    background: #caff1f;
+    color: #000;
+    font-weight: 600;
 }
 
 /* Lista */
@@ -64,10 +111,10 @@
 .activity-card {
     background: #2b2b2b;
     border-radius: 20px;
-    padding: 16px;
+    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     margin-bottom: 16px;
 }
 
@@ -113,4 +160,32 @@
 
 .activity-card ion-icon.fav {
     color: #ff4d4d;
+}
+
+/* Ações dos Cards */
+.activity-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.activity-actions .icon-btn {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+}
+
+.activity-actions ion-icon {
+    font-size: 24px !important;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.activity-actions ion-icon:active {
+    transform: scale(1.3);
 }

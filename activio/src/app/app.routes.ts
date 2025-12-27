@@ -28,39 +28,47 @@ export const routes: Routes = [
   },
   {
     path: 'registro',
-    loadComponent: () => import('./registro/registro.page').then( m => m.RegistroPage)
+    loadComponent: () => import('./registro/registro.page').then(m => m.RegistroPage)
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then(m => m.LoginPage)
   },
   {
     path: 'progresso',
-    loadComponent: () => import('./progresso/progresso.page').then( m => m.ProgressoPage)
+    loadComponent: () => import('./progresso/progresso.page').then(m => m.ProgressoPage)
   },
   {
     path: 'conquistas',
-    loadComponent: () => import('./conquistas/conquistas.page').then( m => m.ConquistasPage)
+    loadComponent: () => import('./conquistas/conquistas.page').then(m => m.ConquistasPage)
   },
   {
     path: 'completarperfil',
-    loadComponent: () => import('./completarperfil/completarperfil.page').then( m => m.CompletarperfilPage)
+    loadComponent: () => import('./completarperfil/completarperfil.page').then(m => m.CompletarperfilPage)
   },
   {
     path: 'settings',
-    loadComponent: () => import('./settings/settings.page').then( m => m.SettingsPage)
+    loadComponent: () => import('./settings/settings.page').then(m => m.SettingsPage)
   },
   {
     path: 'profile',
-    loadComponent: () => import('./profile/profile.page').then( m => m.ProfilePage)
+    loadComponent: () => import('./profile/profile.page').then(m => m.ProfilePage)
   },
   {
     path: 'settings',
-    loadComponent: () => import('./settings/settings.page').then( m => m.SettingsPage)
+    loadComponent: () => import('./settings/settings.page').then(m => m.SettingsPage)
   },
   {
     path: 'criar-atividade',
-    loadComponent: () => import('./criar-atividade/criar-atividade.page').then( m => m.CriarAtividadePage)
+    loadComponent: () => import('./criar-atividade/criar-atividade.page').then(m => m.CriarAtividadePage)
+  },
+  {
+    path: 'editar-atividade/:id',
+    loadComponent: () => import('./criar-atividade/criar-atividade.page').then(m => m.CriarAtividadePage)
   },
   {
     path: 'lista-atividades',
-    loadComponent: () => import('./lista-atividades/lista-atividades.page').then( m => m.ListaAtividadesPage)
+    loadComponent: () => import('./lista-atividades/lista-atividades.page').then(m => m.ListaAtividadesPage)
   },
 
 

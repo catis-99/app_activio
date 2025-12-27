@@ -1,4 +1,3 @@
-// conquista.page.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import {
@@ -6,6 +5,7 @@ import {
   IonButton,
   IonIcon
 } from '@ionic/angular/standalone';
+import { I18nService } from '../services/i18n.service';
 import { addIcons } from 'ionicons';
 import {
   chevronBackOutline,
@@ -124,24 +124,9 @@ export class ConquistasPage implements OnInit {
     }
   ];
 
-  constructor(private location: Location) {
+  constructor(private location: Location, private i18nService: I18nService) {
     // Registrar os ícones necessários
-    addIcons({
-      'chevron-back-outline': chevronBackOutline,
-      'ellipsis-horizontal': ellipsisHorizontal,
-      'trophy-outline': trophyOutline,
-      'flame-outline': flameOutline,
-      'ribbon-outline': ribbonOutline,
-      'star-outline': starOutline,
-      'medal-outline': medalOutline,
-      'rocket-outline': rocketOutline,
-      'flash-outline': flashOutline,
-      'heart-outline': heartOutline,
-      'fitness-outline': fitnessOutline,
-      'barbell-outline': barbellOutline,
-      'stopwatch-outline': stopwatchOutline,
-      'podium-outline': podiumOutline
-    });
+    addIcons({ chevronBackOutline, ellipsisHorizontal, trophyOutline, flameOutline, ribbonOutline, starOutline, medalOutline, rocketOutline, flashOutline, heartOutline, fitnessOutline, barbellOutline, stopwatchOutline, podiumOutline });
   }
 
   ngOnInit() {
@@ -214,5 +199,12 @@ export class ConquistasPage implements OnInit {
     //     url: window.location.href
     //   });
     // }
+  }
+
+  /**
+   * Função de tradução
+   */
+  t(key: string): string {
+    return this.i18nService.t(key);
   }
 }

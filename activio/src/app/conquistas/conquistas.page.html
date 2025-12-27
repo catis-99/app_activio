@@ -2,13 +2,13 @@
 
   <!-- Header -->
   <div class="header">
-    <ion-button fill="clear" class="icon-btn">
+    <ion-button fill="clear" class="icon-btn" (click)="goBack()">
       <ion-icon name="chevron-back-outline"></ion-icon>
     </ion-button>
 
-    <h1>Badges</h1>
+    <h1>{{ t('conquistas.title') }}</h1>
 
-    <ion-button fill="clear" class="icon-btn">
+    <ion-button fill="clear" class="icon-btn" (click)="openMenu()">
       <ion-icon name="ellipsis-horizontal"></ion-icon>
     </ion-button>
   </div>
@@ -16,12 +16,12 @@
   <!-- Conquistados -->
   <div class="section">
     <div class="section-title">
-      <h2>Conquistados</h2>
+      <h2>{{ t('conquistas.achieved') }}</h2>
       <div class="line"></div>
     </div>
 
     <div class="grid">
-      <div class="badge achieved" *ngFor="let badge of achievedBadges">
+      <div class="badge achieved" *ngFor="let badge of achievedBadges" (click)="viewBadgeDetails(badge)">
         <img [src]="badge.icon" />
         <p>{{ badge.label }}</p>
       </div>
@@ -31,12 +31,12 @@
   <!-- Por conquistar -->
   <div class="section">
     <div class="section-title">
-      <h2>Por conquistar</h2>
+      <h2>{{ t('conquistas.toUnlock') }}</h2>
       <div class="line"></div>
     </div>
 
     <div class="grid">
-      <div class="badge locked" *ngFor="let badge of lockedBadges">
+      <div class="badge locked" *ngFor="let badge of lockedBadges" (click)="viewBadgeDetails(badge)">
         <img [src]="badge.icon" />
         <p>{{ badge.label }}</p>
       </div>

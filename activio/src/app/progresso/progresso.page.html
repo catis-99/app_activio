@@ -1,11 +1,11 @@
-<ion-content [fullscreen]="true" class="progress-content">
+padding<ion-content [fullscreen]="true" class="progress-content">
   <div class="container">
     <!-- Header -->
     <div class="header">
       <button class="back-btn" (click)="goBack()">
         <ion-icon name="chevron-back"></ion-icon>
       </button>
-      <h1 class="page-title">Progresso</h1>
+      <h1 class="page-title">{{ t('progresso.title') }}</h1>
       <button class="menu-btn">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
       </button>
@@ -13,62 +13,36 @@
 
     <!-- Atividades Favoritas Card -->
     <div class="card favorites-card">
-      <h2 class="card-title">Atividades Favoritas</h2>
-      
+      <h2 class="card-title">{{ t('progresso.favoriteActivities') }}</h2>
+
       <div class="favorites-content">
         <div class="activities-list">
           <div class="activity-item">
-            <span class="activity-name">Football</span>
+            <span class="activity-name">{{ t('atividades.football') }}</span>
             <span class="activity-percent">25%</span>
           </div>
           <div class="activity-item">
-            <span class="activity-name">Caminhar</span>
+            <span class="activity-name">{{ t('atividades.caminhar') }}</span>
             <span class="activity-percent">25%</span>
           </div>
           <div class="activity-item">
-            <span class="activity-name">Saltar à corda</span>
+            <span class="activity-name">{{ t('atividades.saltarCord') }}</span>
             <span class="activity-percent">50%</span>
           </div>
         </div>
 
         <!-- Pie Chart -->
         <div class="pie-chart">
-          <svg viewBox="0 0 200 200" class="chart-svg">
+          <svg viewBox="0 0 140 140" class="chart-svg">
             <!-- Saltar à corda - 50% (Rosa) -->
-            <circle
-              cx="100"
-              cy="100"
-              r="80"
-              fill="transparent"
-              stroke="#E91E63"
-              stroke-width="60"
-              stroke-dasharray="251.2 251.2"
-              transform="rotate(-90 100 100)"
-            />
+            <circle cx="70" cy="70" r="50" fill="transparent" stroke="#E91E63" stroke-width="35"
+              stroke-dasharray="157.08 157.08" transform="rotate(-90 70 70)" />
             <!-- Football - 25% (Azul) -->
-            <circle
-              cx="100"
-              cy="100"
-              r="80"
-              fill="transparent"
-              stroke="#64B5F6"
-              stroke-width="60"
-              stroke-dasharray="125.6 251.2"
-              stroke-dashoffset="-251.2"
-              transform="rotate(-90 100 100)"
-            />
+            <circle cx="70" cy="70" r="50" fill="transparent" stroke="#64B5F6" stroke-width="35"
+              stroke-dasharray="78.54 157.08" stroke-dashoffset="-157.08" transform="rotate(-90 70 70)" />
             <!-- Caminhar - 25% (Laranja) -->
-            <circle
-              cx="100"
-              cy="100"
-              r="80"
-              fill="transparent"
-              stroke="#FF9800"
-              stroke-width="60"
-              stroke-dasharray="125.6 251.2"
-              stroke-dashoffset="-376.8"
-              transform="rotate(-90 100 100)"
-            />
+            <circle cx="70" cy="70" r="50" fill="transparent" stroke="#FF9800" stroke-width="35"
+              stroke-dasharray="78.54 157.08" stroke-dashoffset="-235.62" transform="rotate(-90 70 70)" />
           </svg>
         </div>
       </div>
@@ -76,99 +50,87 @@
 
     <!-- Atividades por mês Card -->
     <div class="card chart-card">
-      <h2 class="card-title">Atividades por mês</h2>
-      
+      <h2 class="card-title">{{ t('progresso.activitiesByMonth') }}</h2>
+
       <div class="line-chart">
-        <svg viewBox="0 0 300 180" class="chart-svg">
+        <svg viewBox="0 0 350 180" class="chart-svg">
           <!-- Grid lines -->
-          <line x1="30" y1="20" x2="280" y2="20" stroke="#333" stroke-width="0.5"/>
-          <line x1="30" y1="50" x2="280" y2="50" stroke="#333" stroke-width="0.5"/>
-          <line x1="30" y1="80" x2="280" y2="80" stroke="#333" stroke-width="0.5"/>
-          <line x1="30" y1="110" x2="280" y2="110" stroke="#333" stroke-width="0.5"/>
-          <line x1="30" y1="140" x2="280" y2="140" stroke="#333" stroke-width="0.5"/>
-          
+          <line x1="35" y1="20" x2="320" y2="20" stroke="#333" stroke-width="0.5" />
+          <line x1="35" y1="50" x2="320" y2="50" stroke="#333" stroke-width="0.5" />
+          <line x1="35" y1="80" x2="320" y2="80" stroke="#333" stroke-width="0.5" />
+          <line x1="35" y1="110" x2="320" y2="110" stroke="#333" stroke-width="0.5" />
+          <line x1="35" y1="140" x2="320" y2="140" stroke="#333" stroke-width="0.5" />
+
           <!-- Y-axis labels -->
-          <text x="15" y="25" fill="#999" font-size="10">50</text>
-          <text x="15" y="55" fill="#999" font-size="10">40</text>
-          <text x="15" y="85" fill="#999" font-size="10">30</text>
-          <text x="15" y="115" fill="#999" font-size="10">20</text>
-          <text x="15" y="145" fill="#999" font-size="10">10</text>
-          
+          <text x="20" y="25" fill="#999" font-size="10">50</text>
+          <text x="20" y="55" fill="#999" font-size="10">40</text>
+          <text x="20" y="85" fill="#999" font-size="10">30</text>
+          <text x="20" y="115" fill="#999" font-size="10">20</text>
+          <text x="20" y="145" fill="#999" font-size="10">10</text>
+
           <!-- Y-axis label -->
-          <text x="10" y="90" fill="#999" font-size="10" transform="rotate(-90 10 90)">Horas</text>
-          
+          <text x="15" y="90" fill="#999" font-size="10" transform="rotate(-90 15 90)">{{ t('progresso.hours') }}</text>
+
           <!-- Linha Roxa -->
-          <polyline
-            points="40,60 75,40 110,70 145,30 180,50 215,70 250,90"
-            fill="none"
-            stroke="#9C27B0"
-            stroke-width="2"
-          />
-          
+          <polyline points="45,65 80,45 115,75 150,35 185,55 220,75 255,95" fill="none" stroke="#9C27B0"
+            stroke-width="2" />
+
           <!-- Linha Laranja -->
-          <polyline
-            points="40,100 75,80 110,110 145,70 180,90 215,100 250,130"
-            fill="none"
-            stroke="#FF9800"
-            stroke-width="2"
-          />
-          
+          <polyline points="45,105 80,85 115,115 150,75 185,95 220,105 255,135" fill="none" stroke="#FF9800"
+            stroke-width="2" />
+
           <!-- Linha Azul -->
-          <polyline
-            points="40,90 75,110 110,95 145,100 180,85 215,95 250,105"
-            fill="none"
-            stroke="#64B5F6"
-            stroke-width="2"
-          />
-          
+          <polyline points="45,95 80,115 115,100 150,105 185,90 220,100 255,110" fill="none" stroke="#64B5F6"
+            stroke-width="2" />
+
           <!-- X-axis labels -->
-          <text x="35" y="165" fill="#999" font-size="9" text-anchor="middle">Semana 1</text>
-          <text x="90" y="165" fill="#999" font-size="9" text-anchor="middle">Semana 2</text>
-          <text x="145" y="165" fill="#999" font-size="9" text-anchor="middle">Semana 3</text>
-          <text x="200" y="165" fill="#999" font-size="9" text-anchor="middle">Semana 4</text>
+          <text x="45" y="165" fill="#999" font-size="9" text-anchor="middle">{{ t('progresso.semana1') }}</text>
+          <text x="115" y="165" fill="#999" font-size="9" text-anchor="middle">{{ t('progresso.semana2') }}</text>
+          <text x="185" y="165" fill="#999" font-size="9" text-anchor="middle">{{ t('progresso.semana3') }}</text>
+          <text x="255" y="165" fill="#999" font-size="9" text-anchor="middle">{{ t('progresso.semana4') }}</text>
         </svg>
       </div>
     </div>
 
     <!-- Tempo Treinado Card -->
     <div class="card">
-      <h2 class="card-title">Tempo Treinado</h2>
-      
+      <h2 class="card-title">{{ t('progresso.trainedTime') }}</h2>
+
       <div class="bar-chart">
         @for (day of trainingDays; track day.label) {
-          <div class="bar-item">
-            <div class="bar-wrapper">
-              @if (day.hours > 0) {
-                <span class="bar-value">{{day.hours}}h</span>
-              }
-              <div class="bar" [style.height.%]="(day.hours / 3.5) * 100">
-                <div class="bar-fill"></div>
-              </div>
+        <div class="bar-item">
+          <div class="bar-wrapper">
+            @if (day.hours > 0) {
+            <span class="bar-value">{{day.hours}}h</span>
+            }
+            <div class="bar" [style.height.%]="(day.hours / 3.5) * 100">
+              <div class="bar-fill"></div>
             </div>
-            <span class="bar-label">{{day.label}}</span>
           </div>
+          <span class="bar-label">{{day.label}}</span>
+        </div>
         }
       </div>
     </div>
 
     <!-- Peso Card -->
     <div class="card weight-card">
-      <h2 class="card-title">Peso</h2>
-      
+      <h2 class="card-title">{{ t('peso.title') }}</h2>
+
       <div class="weight-progress">
         <div class="weight-bar">
           <div class="weight-fill"></div>
           <div class="weight-markers">
             <div class="marker start">
-              <span class="marker-label">Início</span>
+              <span class="marker-label">{{ t('peso.inicio') }}</span>
               <span class="marker-value">68Kg</span>
             </div>
             <div class="marker current">
-              <span class="marker-label">Atual</span>
+              <span class="marker-label">{{ t('peso.atual') }}</span>
               <span class="marker-value">63Kg</span>
             </div>
             <div class="marker goal">
-              <span class="marker-label">Objetivo</span>
+              <span class="marker-label">{{ t('peso.objetivo') }}</span>
               <span class="marker-value">58Kg</span>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
+import { I18nService } from '../services/i18n.service';
 import { addIcons } from 'ionicons';
 import { chevronBack, ellipsisHorizontal } from 'ionicons/icons';
 
@@ -27,15 +28,17 @@ export class ProgressoPage implements OnInit {
     { label: 'Dom', hours: 1.5 }
   ];
 
-  constructor(private location: Location) {
+  constructor(private location: Location, private i18nService: I18nService) {
     // Registrar os ícones
-    addIcons({
-      'chevron-back': chevronBack,
-      'ellipsis-horizontal': ellipsisHorizontal
-    });
+    addIcons({ chevronBack, ellipsisHorizontal });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  // Função para traduzir
+  t(key: string): string {
+    return this.i18nService.t(key);
+  }
 
   goBack() {
     this.location.back();

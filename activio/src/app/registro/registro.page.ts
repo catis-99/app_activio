@@ -1,8 +1,8 @@
-// registro.page.ts - STANDALONE COMPONENT
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // ⚠️ ESSENCIAL para [(ngModel)]
 import { Router } from '@angular/router';
+import { I18nService } from '../services/i18n.service';
 import {
   IonContent,
   IonItem,
@@ -46,19 +46,12 @@ export class RegistroPage implements OnInit {
   acceptedTerms: boolean = false;
   showPassword: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private i18nService: I18nService) {
     // Registrar os ícones necessários
-    addIcons({
-      'person-outline': personOutline,
-      'call-outline': callOutline,
-      'mail-outline': mailOutline,
-      'lock-closed-outline': lockClosedOutline,
-      'eye-off-outline': eyeOffOutline,
-      'eye-outline': eyeOutline
-    });
+    addIcons({ personOutline, callOutline, mailOutline, lockClosedOutline, eyeOffOutline, eyeOutline });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   /**
    * Toggle para mostrar/esconder password
@@ -121,6 +114,10 @@ export class RegistroPage implements OnInit {
     // toast.present();
   }
 
+  t(key: string): string {
+    return this.i18nService.t(key);
+  }
+
   /**
    * Método chamado ao clicar no botão Registar
    */
@@ -152,7 +149,7 @@ export class RegistroPage implements OnInit {
     // });
 
     // Por enquanto, apenas navega para a próxima página
-    // this.router.navigate(['/complete-profile']);
+    this.router.navigate(['/login']);
   }
 
   /**

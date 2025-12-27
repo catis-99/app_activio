@@ -2,37 +2,37 @@
   <div class="container">
 
     <!-- Títulos -->
-    <h1>Olá,</h1>
-    <h2>Bem-vindo de novo</h2>
+    <h1>{{ t('login.title') }}</h1>
+    <h2>{{ t('login.subtitle') }}</h2>
 
     <!-- Email -->
     <ion-item lines="none" class="input-item">
       <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <ion-input type="email" placeholder="Email"></ion-input>
+      <ion-input type="email" [placeholder]="t('login.email')"></ion-input>
     </ion-item>
 
     <!-- Palavra-passe -->
     <ion-item lines="none" class="input-item">
       <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-      <ion-input type="password" placeholder="Palavra Passe"></ion-input>
+      <ion-input type="password" [placeholder]="t('login.password')"></ion-input>
       <ion-icon name="eye-off-outline" slot="end"></ion-icon>
     </ion-item>
 
     <!-- Esqueceu password -->
     <p class="forgot-password">
-      Esqueceste a tua palavra passe?
+      {{ t('login.forgotPassword') }}
     </p>
 
     <!-- Botão login -->
-    <ion-button expand="block" class="login-btn">
+    <ion-button expand="block" class="login-btn" (click)="onLogin()">
       <ion-icon name="log-in-outline" slot="start"></ion-icon>
-      Iniciar Sessão
+      {{ t('login.login') }}
     </ion-button>
 
     <!-- Registo -->
     <p class="register-text">
-      Ainda não tens conta?
-      <span>Registar</span>
+      {{ t('login.noAccount') }}
+      <span (click)="goToRegister()">{{ t('login.register') }}</span>
     </p>
 
   </div>

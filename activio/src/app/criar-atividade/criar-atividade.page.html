@@ -2,12 +2,12 @@
   <div class="atividade-container">
     <!-- Header -->
     <div class="header">
-      <ion-button fill="clear" class="close-button" (click)="closeModal()">
-        <ion-icon name="close-outline"></ion-icon>
+      <ion-button fill="clear" class="icon-btn white" (click)="goHome()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
-      <h1 class="page-title">Adicionar atividade</h1>
-      <ion-button fill="clear" class="menu-button" (click)="openMenu()">
-        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      <h1 class="page-title">{{ t('criarAtividade.title') }}</h1>
+      <ion-button fill="clear" class="icon-btn green" (click)="openMenu()">
+        <ion-icon name="add-outline"></ion-icon>
       </ion-button>
     </div>
 
@@ -15,33 +15,49 @@
     <div class="date-selector" (click)="abrirCalendario()">
       <ion-icon name="calendar-outline" class="calendar-icon"></ion-icon>
       <span class="date-text">{{ atividade.data }}</span>
+      <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
     </div>
+
+    <!-- Calendário Modal -->
+    <ion-modal [isOpen]="showCalendar" (didDismiss)="fecharCalendario()">
+      <ng-template>
+        <div class="modal-wrapper">
+          <div class="modal-header">
+            <h2>Selecionar Data</h2>
+            <ion-button fill="clear" (click)="fecharCalendario()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </div>
+          <ion-datetime presentation="date" [(ngModel)]="dataSelecionada" (ionChange)="onDataChange($event)"
+            locale="pt-PT" [preferWheel]="false">
+          </ion-datetime>
+        </div>
+      </ng-template>
+    </ion-modal>
 
     <div class="divider"></div>
 
     <!-- Horário Section -->
     <div class="section">
-      <h3 class="section-title">Horário</h3>
+      <h3 class="section-title">{{ t('criarAtividade.time') }}</h3>
 
-      <div class="time-picker">
-        <div class="time-display">
-          <span class="time-value">{{ atividade.hora }}</span>
-          <span class="time-separator">:</span>
-          <span class="time-value">{{ atividade.minuto < 10 ? '0' + atividade.minuto : atividade.minuto }}</span>
-              <span class="period-value">{{ atividade.periodo }}</span>
-        </div>
+      <div class="time-selector">
+        <ion-button expand="block" fill="outline" (click)="abrirTimePicker()">
+          <ion-icon slot="start" name="time-outline"></ion-icon>
+          {{ atividade.hora }}:{{ (atividade.minuto || 0) < 10 ? '0' + (atividade.minuto || 0) : (atividade.minuto || 0)
+            }} {{ atividade.periodo }} </ion-button>
       </div>
     </div>
 
     <!-- Detalhes Section -->
     <div class="section">
-      <h3 class="section-title">Detalhes</h3>
+      <h3 class="section-title">{{ t('criarAtividade.details') }}</h3>
 
       <!-- Escolher Atividade -->
       <div class="detail-item clickable" (click)="escolherAtividade()">
         <div class="detail-left">
           <ion-icon name="barbell-outline" class="detail-icon"></ion-icon>
-          <span class="detail-label">Escolher atividade</span>
+          <span class="detail-label">{{ t('criarAtividade.chooseActivity') }}</span>
         </div>
         <div class="detail-right">
           <span class="detail-value">{{ atividade.tipo }}</span>
@@ -53,7 +69,7 @@
       <div class="detail-item clickable" (click)="alterarIntensidade()">
         <div class="detail-left">
           <ion-icon name="pulse-outline" class="detail-icon"></ion-icon>
-          <span class="detail-label">Intensidade</span>
+          <span class="detail-label">{{ t('criarAtividade.intensity') }}</span>
         </div>
         <div class="detail-right">
           <span class="detail-value">{{ atividade.intensidade }}</span>
@@ -65,7 +81,7 @@
       <div class="detail-item clickable" (click)="abrirDuracao()">
         <div class="detail-left">
           <ion-icon name="timer-outline" class="detail-icon"></ion-icon>
-          <span class="detail-label">Duração</span>
+          <span class="detail-label">{{ t('criarAtividade.duration') }}</span>
         </div>
         <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
       </div>
@@ -74,7 +90,7 @@
       <div class="detail-item input-item">
         <div class="detail-left">
           <ion-icon name="flame-outline" class="detail-icon"></ion-icon>
-          <span class="detail-label">Calorias</span>
+          <span class="detail-label">{{ t('criarAtividade.calories') }}</span>
         </div>
         <ion-input [(ngModel)]="atividade.calorias" type="number" placeholder="0" class="detail-input">
         </ion-input>
@@ -84,7 +100,7 @@
       <div class="detail-item input-item">
         <div class="detail-left">
           <ion-icon name="location-outline" class="detail-icon"></ion-icon>
-          <span class="detail-label">Local</span>
+          <span class="detail-label">{{ t('criarAtividade.location') }}</span>
         </div>
         <ion-input [(ngModel)]="atividade.local" type="text" placeholder="" class="detail-input">
         </ion-input>
@@ -93,7 +109,7 @@
 
     <!-- Botão Guardar -->
     <ion-button expand="block" class="save-button" (click)="guardarAtividade()">
-      Guardar
+      {{ editMode ? t('criarAtividade.update') : t('criarAtividade.save') }}
     </ion-button>
   </div>
 </ion-content>
