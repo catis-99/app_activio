@@ -1,13 +1,51 @@
-.onboarding {
-  --background: #000;
-  color: #fff;
+.intro-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: #000;
+  overflow: hidden;
   position: relative;
 }
 
-/* Área verde */
+.intro-image-container {
+  width: 100vw;
+  height: 55vh;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.intro-shape {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.intro-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.intro-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
+  z-index: 2;
+}
+
 .hero {
   background: #caff1f;
-  height: 55%;
+  width: 100%;
+  height: 100%;
   border-bottom-left-radius: 60% 20%;
   border-bottom-right-radius: 60% 20%;
   display: flex;
@@ -20,38 +58,116 @@
   max-width: 260px;
 }
 
-/* Texto */
-.content {
-  padding: 32px 24px;
-  text-align: center;
+.intro-content {
+  flex: 1;
+  padding: 5vh 8vw;
+  width: 100%;
+  box-sizing: border-box;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.content h1 {
-  color: #caff1f;
-  font-size: 26px;
+.intro-title {
+  color: #D5FF5F;
+  font-size: clamp(28px, 8vw, 48px);
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  line-height: 1.2;
 }
 
-.content p {
-  color: #ccc;
-  font-size: 16px;
-  line-height: 1.4;
+.intro-description {
+  font-size: clamp(16px, 4.5vw, 24px);
+  opacity: 0.9;
+  line-height: 1.5;
 }
 
-/* Botão circular */
-.next-btn {
-  position: absolute;
-  bottom: 40px;
-  right: 24px;
-  width: 64px;
-  height: 64px;
+.intro-footer {
+  padding: 24px 8vw;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.pagination {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: #caff1f;
-  box-shadow: 0 0 0 4px rgba(202, 255, 31, 0.3);
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s;
+
+  &.active {
+    background: #D5FF5F;
+    width: 24px;
+    border-radius: 4px;
+  }
 }
 
-.next-btn ion-icon {
-  font-size: 28px;
-  color: #000;
+.custom-next-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+
+  img {
+    width: 64px;
+    height: 64px;
+    display: block;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+// Responsive para tablets e desktops
+@media (min-width: 768px) {
+  .intro-content {
+    padding: 5vh 15vw;
+  }
+
+  .intro-footer {
+    padding: 24px 15vw;
+  }
+}
+
+// Responsive para ecrãs muito pequenos
+@media (max-height: 600px) {
+  .intro-image-container {
+    height: 40vh;
+  }
+
+  .intro-content {
+    padding: 3vh 8vw;
+  }
+}
+
+@media (max-width: 576px) {
+  .intro-image-container {
+    height: 45vh;
+  }
+
+  .intro-content {
+    padding: 3vh 6vw;
+  }
+
+  .custom-next-button img {
+    width: 56px;
+    height: 56px;
+  }
 }

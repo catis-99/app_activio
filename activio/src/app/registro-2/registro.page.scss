@@ -5,7 +5,7 @@
 .container {
   padding: 40px 24px;
   text-align: center;
-  max-width: 480px;
+  max-width: 480px; 
   margin: 0 auto;
 }
 
@@ -83,7 +83,7 @@ h2 {
   cursor: pointer;
   font-size: 20px;
   color: #666;
-
+  
   &:hover {
     color: #C6FF00;
   }
@@ -94,7 +94,7 @@ h2 {
     color: #C6FF00;
     cursor: pointer;
     font-weight: 600;
-
+    
     &:hover {
       text-decoration: underline;
     }
@@ -106,7 +106,7 @@ h2 {
     color: #C6FF00;
     cursor: pointer;
     font-weight: 700;
-
+    
     &:hover {
       text-decoration: underline;
     }

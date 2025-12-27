@@ -1,18 +1,21 @@
 <ion-content [fullscreen]="true">
     <div class="intro-container">
+
+        <!-- SVG SHAPE -->
         <div class="intro-image-container">
             <img src="assets/intro/intro2.svg" alt="Intro" class="intro-shape intro-bg" />
             <img src="assets/intro/lince_sentado_lado.png" alt="Sobreposta" class="intro-overlay" />
         </div>
 
+        <!-- CONTENT -->
         <div class="intro-content">
-            <h1 class="intro-title">Treinos Personalizados</h1>
+            <h1 class="intro-title">Acompanhe o seu progresso</h1>
             <p class="intro-description">
-                Aceda a treinos adaptados ao seu nível e objetivos fitness. Escolha entre diversos tipos de exercícios e
-                planos personalizados.
+                Transforme os seus dados em estatísticas claras e fáceis de entender.
             </p>
         </div>
 
+        <!-- FOOTER -->
         <div class="intro-footer">
             <div class="pagination">
                 <span class="dot"></span>
@@ -20,11 +23,10 @@
                 <span class="dot"></span>
             </div>
 
-            <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-                <ion-fab-button (click)="next()">
-                    <ion-icon name="chevron-forward"></ion-icon>
-                </ion-fab-button>
-            </ion-fab>
+            <button class="custom-next-button" (click)="next()">
+                <img src="assets/intro/next_button.svg" alt="Próximo" />
+            </button>
         </div>
+
     </div>
 </ion-content>

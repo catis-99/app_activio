@@ -1,4 +1,33 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonContent, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { chevronBackOutline, addOutline, chevronDownOutline, heart, heartOutline } from 'ionicons/icons';
+
+@Component({
+  selector: 'app-lista-atividades',
+  templateUrl: './lista-atividades.page.html',
+  styleUrls: ['./lista-atividades.page.scss'],
+  standalone: true,
+  imports: [IonContent, IonButton, IonIcon, CommonModule, FormsModule]
+})
 export class ListaAtividadesPage {
+
+  toggleFav(activity: any) {
+    activity.favorite = !activity.favorite;
+  }
+
+
+  constructor() {
+    addIcons({
+      'chevron-back-outline': chevronBackOutline,
+      'add-outline': addOutline,
+      'chevron-down-outline': chevronDownOutline,
+      'heart': heart,
+      'heart-outline': heartOutline
+    });
+  }
 
   activities = [
     {

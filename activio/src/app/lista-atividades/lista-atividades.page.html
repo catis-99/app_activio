@@ -38,6 +38,7 @@
       </div>
 
       <ion-icon [name]="activity.favorite ? 'heart' : 'heart-outline'" [class.fav]="activity.favorite">
+        (click)="toggleFav(activity)">
       </ion-icon>
     </div>
   </div>

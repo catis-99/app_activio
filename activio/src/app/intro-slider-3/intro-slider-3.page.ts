@@ -17,7 +17,7 @@ export class IntroSlider3Page implements OnInit {
     ngOnInit() {
     }
 
-    start() {
+    next() {
         localStorage.setItem('introSeen', 'true');
         this.router.navigateByUrl('/home');
     }

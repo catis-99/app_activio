@@ -76,6 +76,16 @@
     height: 48px;
 }
 
+.activity-card ion-icon {
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.activity-card ion-icon:active {
+    transform: scale(1.2);
+}
+
+
 .info {
     flex: 1;
 }
