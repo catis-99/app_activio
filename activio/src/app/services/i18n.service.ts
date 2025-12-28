@@ -169,14 +169,21 @@ export class I18nService {
             // Completar Perfil
             completarperfil: {
                 title: 'Completar Perfil',
+                subtitle: 'Adicione suas informações para personalizar sua experiência',
                 gender: 'Gênero',
+                chooseGender: 'Escolher gênero',
                 male: 'Masculino',
                 female: 'Feminino',
+                other: 'Outro',
+                preferNotToSay: 'Prefiro não informar',
                 age: 'Idade',
+                birthdate: 'Data de nascimento',
                 height: 'Altura',
                 weight: 'Peso',
                 goalWeight: 'Peso objetivo',
-                save: 'Salvar'
+                save: 'Salvar',
+                next: 'Próximo',
+                back: 'Voltar'
             },
 
             // Bem-vindo
@@ -387,14 +394,21 @@ export class I18nService {
             // Complete Profile
             completarperfil: {
                 title: 'Complete Profile',
+                subtitle: 'Add your information to personalize your experience',
                 gender: 'Gender',
+                chooseGender: 'Choose gender',
                 male: 'Male',
                 female: 'Female',
+                other: 'Other',
+                preferNotToSay: 'Prefer not to say',
                 age: 'Age',
+                birthdate: 'Birthdate',
                 height: 'Height',
                 weight: 'Weight',
                 goalWeight: 'Goal weight',
-                save: 'Save'
+                save: 'Save',
+                next: 'Next',
+                back: 'Back'
             },
 
             // Welcome
@@ -458,6 +472,8 @@ export class I18nService {
     };
 
     constructor() {
+        console.log('I18nService constructor chamado');
+        console.log('Traduções disponíveis:', Object.keys(this.translations));
         this.loadLanguage();
     }
 
@@ -475,6 +491,7 @@ export class I18nService {
         }
 
         console.log('Idioma atual definido:', this.currentLanguage);
+        console.log('Exemplo de tradução home.welcome:', this.translations[this.currentLanguage]['home']);
     }
 
     private saveLanguage() {
@@ -489,8 +506,12 @@ export class I18nService {
         if (this.translations[language]) {
             this.currentLanguage = language;
             this.saveLanguage();
-            this.notifyLanguageChange();
             console.log('Idioma alterado para:', language);
+
+            // Recarregar a página para aplicar as traduções
+            setTimeout(() => {
+                window.location.reload();
+            }, 50);
         }
     }
 
@@ -502,16 +523,23 @@ export class I18nService {
             if (translation && typeof translation === 'object' && k in translation) {
                 translation = translation[k];
             } else {
+                console.warn(`Translation not found for key: ${key}`);
                 return key; // Retorna a chave se não encontrar a tradução
             }
         }
 
         // Permitir string, array ou objeto
-        return translation;
+        if (typeof translation === 'string' || Array.isArray(translation)) {
+            return translation;
+        }
+
+        console.warn(`Translation for key "${key}" is not a string or array:`, translation);
+        return key;
     }
 
     t(key: string): any {
-        return this.translate(key);
+        const result = this.translate(key);
+        return result;
     }
 
     private notifyLanguageChange() {

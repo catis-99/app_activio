@@ -21,12 +21,17 @@
 
   .back-button,
   .menu-button {
-    --color: var(--ion-text-color);
+    --background: #F7F8F8;
+    background: #F7F8F8;
+    --color: #2a2a2a;
     width: 40px;
     height: 40px;
+    border-radius: 12px;
+    border: none;
 
     ion-icon {
       font-size: 24px;
+      color: #2a2a2a;
     }
   }
 

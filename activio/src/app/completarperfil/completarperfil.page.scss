@@ -4,7 +4,7 @@
 
 .container {
   padding: 32px 24px;
-  max-width: 480px; 
+  max-width: 480px;
   margin: 0 auto;
   text-align: center;
 }
@@ -15,7 +15,7 @@
   margin: 0 auto 24px auto;
 
   background-image: url('/assets/intro/slimecp.png');
-  background-size: contain;      // o contain, según tu imagen
+  background-size: contain; // o contain, según tu imagen
   background-position: center;
   background-repeat: no-repeat;
 
@@ -54,6 +54,8 @@ h2 {
   ion-input,
   ion-select {
     font-size: 15px;
+    --color: #2a2a2a;
+    color: #2a2a2a;
   }
 }
 

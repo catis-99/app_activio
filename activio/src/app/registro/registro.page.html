@@ -1,5 +1,21 @@
 <ion-content [fullscreen]="true" class="register-content">
   <div class="container">
+    <!-- Toggle de Idioma -->
+    <div class="language-toggle">
+      <button 
+        [class.active]="currentLanguage === 'pt'" 
+        (click)="changeLanguage('pt')"
+        class="lang-btn">
+        PT
+      </button>
+      <button 
+        [class.active]="currentLanguage === 'en'" 
+        (click)="changeLanguage('en')"
+        class="lang-btn">
+        EN
+      </button>
+    </div>
+
     <h1>{{ t('registro.title') }}</h1>
     <h2>{{ t('registro.createAccount') }}</h2>
 

@@ -9,6 +9,34 @@
   margin: 0 auto;
 }
 
+.language-toggle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 20px;
+
+  .lang-btn {
+    background: transparent;
+    border: 2px solid #b7ff00;
+    color: #b7ff00;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active {
+      background: #b7ff00;
+      color: #000;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
 h1 {
   color: #fff;
   font-size: 26px;
@@ -34,6 +62,8 @@ h2 {
 
   ion-input {
     font-size: 15px;
+    --color: #2a2a2a;
+    color: #2a2a2a;
   }
 }
 

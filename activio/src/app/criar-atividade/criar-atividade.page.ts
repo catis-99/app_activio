@@ -106,6 +106,10 @@ export class CriarAtividadePage {
     }
   }
 
+  goMyActivities() {
+    this.router.navigate(['/lista-atividades']);
+  }
+
   get pageTitle() {
     return this.editMode ? 'Editar Atividade' : 'Criar Atividade';
   }

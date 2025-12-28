@@ -45,10 +45,12 @@ export class RegistroPage implements OnInit {
   password: string = '';
   acceptedTerms: boolean = false;
   showPassword: boolean = false;
+  currentLanguage: string = 'pt';
 
   constructor(private router: Router, private i18nService: I18nService) {
     // Registrar os ícones necessários
     addIcons({ personOutline, callOutline, mailOutline, lockClosedOutline, eyeOffOutline, eyeOutline });
+    this.currentLanguage = this.i18nService.getCurrentLanguage();
   }
 
   ngOnInit() { }
@@ -64,6 +66,10 @@ export class RegistroPage implements OnInit {
    * Validação do formulário
    */
   validateForm(): boolean {
+    // Temporariamente desativada para permitir registro sem dados
+    return true;
+
+    /*
     if (!this.fullName.trim()) {
       this.showError('Nome completo é obrigatório');
       return false;
@@ -97,6 +103,7 @@ export class RegistroPage implements OnInit {
     }
 
     return true;
+    */
   }
 
   /**
@@ -114,8 +121,17 @@ export class RegistroPage implements OnInit {
     // toast.present();
   }
 
-  t(key: string): string {
-    return this.i18nService.t(key);
+  t(key: string): any {
+    const result = this.i18nService.t(key);
+    return result;
+  }
+
+  /**
+   * Mudar idioma
+   */
+  changeLanguage(lang: string) {
+    this.currentLanguage = lang;
+    this.i18nService.setLanguage(lang);
   }
 
   /**
@@ -140,7 +156,7 @@ export class RegistroPage implements OnInit {
     // this.authService.register(registrationData).subscribe({
     //   next: (response) => {
     //     console.log('Conta criada com sucesso');
-    //     this.router.navigate(['/complete-profile']);
+    //     this.router.navigate(['/completarperfil']);
     //   },
     //   error: (error) => {
     //     console.error('Erro ao criar conta', error);
@@ -148,8 +164,8 @@ export class RegistroPage implements OnInit {
     //   }
     // });
 
-    // Por enquanto, apenas navega para a próxima página
-    this.router.navigate(['/login']);
+    // Por enquanto, apenas navega para completar perfil
+    this.router.navigate(['/completarperfil']);
   }
 
   /**

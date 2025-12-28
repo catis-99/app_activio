@@ -1,38 +1,43 @@
 .criar-atividade-content {
-    --background: #000000;
+    background: var(--ion-background-color);
+    color: var(--ion-text-color);
     --padding-bottom: 20px;
 }
 
 .atividade-container {
-    padding: 0 16px 20px 16px;
+    padding: 20px 16px 20px 16px;
     min-height: 100%;
     max-width: 480px;
     margin: 0 auto;
+    background: var(--ion-background-color);
+    color: var(--ion-text-color);
 }
 
 // Header
 .header {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     padding: 20px 0;
     margin-bottom: 20px;
 
-    .icon-btn {
+    .icon-btn,
+    .back-button {
+        position: absolute;
+        left: 0;
         width: 44px;
         height: 44px;
         border-radius: 12px;
     }
 
-    .icon-btn.white {
-        background: #ffffff;
+    .icon-btn.white,
+    .back-button {
+        background: #F7F8F8;
     }
 
-    .icon-btn.green {
-        background: #caff1f;
-    }
-
-    .icon-btn ion-icon {
+    .icon-btn ion-icon,
+    .back-button ion-icon {
         font-size: 22px;
         color: #000000;
     }
@@ -197,7 +202,8 @@
     }
 
     .detail-input {
-        --color: #ffffff;
+        --color: #2a2a2a;
+        color: #2a2a2a;
         --placeholder-color: #666666;
         --background: transparent;
         text-align: right;

@@ -41,7 +41,9 @@
 
     <!-- Conta Section -->
     <div class="section">
-      <h3 class="section-title">{{ t('profile.account') }}</h3>
+      <div class="section-header">
+        <h3 class="section-title">{{ t('profile.account') }}</h3>
+      </div>
       <div class="menu-list">
         <div class="menu-item" (click)="navigateTo('/personal-info')">
           <img src="assets/icons_nav/Profile.svg" alt="Informação Pessoal" class="menu-icon-svg">
@@ -49,12 +51,12 @@
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/conquistas')">
-          <img src="assets/icons_nav/Icon-Activity.svg" alt="Conquistas" class="menu-icon-svg">
+          <img src="assets/perfil/Document.svg" alt="Conquistas" class="menu-icon-svg">
           <span class="menu-label">{{ t('profile.achievements') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/history')">
-          <img src="assets/icons_nav/Activity.svg" alt="Histórico" class="menu-icon-svg">
+          <img src="assets/icons_nav/Icon-Activity.svg " alt="Histórico" class="menu-icon-svg">
           <span class="menu-label">{{ t('profile.history') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
@@ -68,20 +70,22 @@
 
     <!-- Outros Section -->
     <div class="section">
-      <h3 class="section-title">{{ t('profile.others') }}</h3>
+      <div class="section-header">
+        <h3 class="section-title">{{ t('profile.others') }}</h3>
+      </div>
       <div class="menu-list">
         <div class="menu-item" (click)="navigateTo('/contacts')">
-          <img src="assets/icons_nav/Activity.svg" alt="Contactos" class="menu-icon-svg">
+          <img src="assets/perfil/Message.svg" alt="Contactos" class="menu-icon-svg">
           <span class="menu-label">{{ t('profile.contacts') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/privacy')">
-          <img src="assets/icons_nav/Icon-Activity.svg" alt="Política de privacidade" class="menu-icon-svg">
+          <img src="assets/perfil/Shield Done.svg" alt="Política de privacidade" class="menu-icon-svg">
           <span class="menu-label">{{ t('profile.privacyPolicy') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
         <div class="menu-item" (click)="navigateTo('/settings')">
-          <img src="assets/icons_nav/Profile.svg" alt="Configurações" class="menu-icon-svg">
+          <img src="assets/perfil/Setting.svg" alt="Configurações" class="menu-icon-svg">
           <span class="menu-label">{{ t('profile.settings') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>

@@ -1,94 +1,97 @@
 <ion-content fullscreen class="lista-atividades">
+  <div class="lista-atividades-container">
 
-  <!-- Header -->
-  <div class="header">
-    <ion-button fill="clear" class="icon-btn white" (click)="goHome()">
-      <ion-icon name="chevron-back-outline"></ion-icon>
-    </ion-button>
+    <!-- Header -->
+    <div class="header">
+      <ion-button fill="clear" class="icon-btn white" (click)="goHome()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
 
-    <h1>{{ t('listaAtividades.title') }}</h1>
+      <h1>{{ t('listaAtividades.title') }}</h1>
 
-    <ion-button fill="clear" class="icon-btn green" (click)="navigateToCriarAtividade()">
-      <ion-icon name="add-outline"></ion-icon>
-    </ion-button>
-  </div>
+      <ion-button fill="clear" class="icon-btn green" (click)="navigateToCriarAtividade()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </div>
 
-  <!-- Filtros -->
-  <div class="filters">
-    <!-- Filtro de Atividade -->
-    <div class="filter-container">
-      <button class="filter" (click)="toggleAtividadeFilter()">
-        {{ filtroAtividade === 'todas' ? t('listaAtividades.allActivities') : translateActivityName(filtroAtividade) }}
-        <ion-icon name="chevron-down-outline"></ion-icon>
-      </button>
+    <!-- Filtros -->
+    <div class="filters">
+      <!-- Filtro de Atividade -->
+      <div class="filter-container">
+        <button class="filter" (click)="toggleAtividadeFilter()">
+          {{ filtroAtividade === 'todas' ? t('listaAtividades.allActivities') : translateActivityName(filtroAtividade)
+          }}
+          <ion-icon name="chevron-down-outline"></ion-icon>
+        </button>
 
-      <div class="filter-dropdown" *ngIf="showAtividadeFilter">
-        <div class="filter-section">
-          <button class="filter-option" (click)="setFiltroAtividade('todas')"
-            [class.active]="filtroAtividade === 'todas'">{{ t('intensidade.todas') }}</button>
-          <button class="filter-option" (click)="setFiltroAtividade('Ciclismo')"
-            [class.active]="filtroAtividade === 'Ciclismo'">{{ t('atividades.ciclismo') }}</button>
-          <button class="filter-option" (click)="setFiltroAtividade('Atletismo')"
-            [class.active]="filtroAtividade === 'Atletismo'">{{ t('atividades.atletismo') }}</button>
-          <button class="filter-option" (click)="setFiltroAtividade('Ginásio')"
-            [class.active]="filtroAtividade === 'Ginásio'">{{ t('atividades.ginasio') }}</button>
-          <button class="filter-option" (click)="setFiltroAtividade('Futebol')"
-            [class.active]="filtroAtividade === 'Futebol'">{{ t('atividades.football') }}</button>
-          <button class="filter-option" (click)="setFiltroAtividade('Natação')"
-            [class.active]="filtroAtividade === 'Natação'">{{ t('atividades.natacao') }}</button>
-          <button class="filter-option" (click)="setFiltroAtividade('Yoga')"
-            [class.active]="filtroAtividade === 'Yoga'">{{ t('atividades.yoga') }}</button>
+        <div class="filter-dropdown" *ngIf="showAtividadeFilter">
+          <div class="filter-section">
+            <button class="filter-option" (click)="setFiltroAtividade('todas')"
+              [class.active]="filtroAtividade === 'todas'">{{ t('intensidade.todas') }}</button>
+            <button class="filter-option" (click)="setFiltroAtividade('Ciclismo')"
+              [class.active]="filtroAtividade === 'Ciclismo'">{{ t('atividades.ciclismo') }}</button>
+            <button class="filter-option" (click)="setFiltroAtividade('Atletismo')"
+              [class.active]="filtroAtividade === 'Atletismo'">{{ t('atividades.atletismo') }}</button>
+            <button class="filter-option" (click)="setFiltroAtividade('Ginásio')"
+              [class.active]="filtroAtividade === 'Ginásio'">{{ t('atividades.ginasio') }}</button>
+            <button class="filter-option" (click)="setFiltroAtividade('Futebol')"
+              [class.active]="filtroAtividade === 'Futebol'">{{ t('atividades.football') }}</button>
+            <button class="filter-option" (click)="setFiltroAtividade('Natação')"
+              [class.active]="filtroAtividade === 'Natação'">{{ t('atividades.natacao') }}</button>
+            <button class="filter-option" (click)="setFiltroAtividade('Yoga')"
+              [class.active]="filtroAtividade === 'Yoga'">{{ t('atividades.yoga') }}</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtro de Intensidade -->
+      <div class="filter-container">
+        <button class="filter" (click)="toggleIntensidadeFilter()">
+          {{ filtroIntensidade === 'todas' ? t('listaAtividades.intensity') : translateIntensity(filtroIntensidade) }}
+          <ion-icon name="chevron-down-outline"></ion-icon>
+        </button>
+
+        <div class="filter-dropdown" *ngIf="showIntensidadeFilter">
+          <div class="filter-section">
+            <button class="filter-option" (click)="setFiltroIntensidade('todas')"
+              [class.active]="filtroIntensidade === 'todas'">{{ t('intensidade.todas') }}</button>
+            <button class="filter-option" (click)="setFiltroIntensidade('Baixa')"
+              [class.active]="filtroIntensidade === 'Baixa'">{{ t('intensidade.baixa') }}</button>
+            <button class="filter-option" (click)="setFiltroIntensidade('Média')"
+              [class.active]="filtroIntensidade === 'Média'">{{ t('intensidade.media') }}</button>
+            <button class="filter-option" (click)="setFiltroIntensidade('Alta')"
+              [class.active]="filtroIntensidade === 'Alta'">{{ t('intensidade.alta') }}</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Filtro de Intensidade -->
-    <div class="filter-container">
-      <button class="filter" (click)="toggleIntensidadeFilter()">
-        {{ filtroIntensidade === 'todas' ? t('listaAtividades.intensity') : translateIntensity(filtroIntensidade) }}
-        <ion-icon name="chevron-down-outline"></ion-icon>
-      </button>
+    <!-- Lista -->
+    <div class="list">
+      <div class="activity-card" *ngFor="let activity of filteredActivities">
+        <img [src]="activity.icon" />
 
-      <div class="filter-dropdown" *ngIf="showIntensidadeFilter">
-        <div class="filter-section">
-          <button class="filter-option" (click)="setFiltroIntensidade('todas')"
-            [class.active]="filtroIntensidade === 'todas'">{{ t('intensidade.todas') }}</button>
-          <button class="filter-option" (click)="setFiltroIntensidade('Baixa')"
-            [class.active]="filtroIntensidade === 'Baixa'">{{ t('intensidade.baixa') }}</button>
-          <button class="filter-option" (click)="setFiltroIntensidade('Média')"
-            [class.active]="filtroIntensidade === 'Média'">{{ t('intensidade.media') }}</button>
-          <button class="filter-option" (click)="setFiltroIntensidade('Alta')"
-            [class.active]="filtroIntensidade === 'Alta'">{{ t('intensidade.alta') }}</button>
+        <div class="info">
+          <h2>{{ translateActivityName(activity.name) }}</h2>
+          <p>{{ activity.date }} | {{ activity.time }}</p>
+          <span>{{ translateIntensity(activity.intensidade) }}</span>
+        </div>
+
+        <div class="activity-actions">
+          <ion-button fill="clear" class="icon-btn" (click)="toggleFav(activity)">
+            <ion-icon [name]="activity.favorite ? 'heart' : 'heart-outline'" [class.fav]="activity.favorite"></ion-icon>
+          </ion-button>
+
+          <ion-button fill="clear" class="icon-btn" (click)="editarAtividade(activity.id)">
+            <ion-icon name="create-outline"></ion-icon>
+          </ion-button>
+
+          <ion-button fill="clear" class="icon-btn" (click)="eliminarAtividade(activity.id)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
         </div>
       </div>
     </div>
+
   </div>
-
-  <!-- Lista -->
-  <div class="list">
-    <div class="activity-card" *ngFor="let activity of filteredActivities">
-      <img [src]="activity.icon" />
-
-      <div class="info">
-        <h2>{{ translateActivityName(activity.name) }}</h2>
-        <p>{{ activity.date }} | {{ activity.time }}</p>
-        <span>{{ translateIntensity(activity.intensidade) }}</span>
-      </div>
-
-      <div class="activity-actions">
-        <ion-button fill="clear" class="icon-btn" (click)="toggleFav(activity)">
-          <ion-icon [name]="activity.favorite ? 'heart' : 'heart-outline'" [class.fav]="activity.favorite"></ion-icon>
-        </ion-button>
-
-        <ion-button fill="clear" class="icon-btn" (click)="editarAtividade(activity.id)">
-          <ion-icon name="create-outline"></ion-icon>
-        </ion-button>
-
-        <ion-button fill="clear" class="icon-btn" (click)="eliminarAtividade(activity.id)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </div>
-    </div>
-  </div>
-
 </ion-content>

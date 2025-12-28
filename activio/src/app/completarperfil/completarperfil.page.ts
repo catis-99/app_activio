@@ -211,7 +211,7 @@ export class CompletarperfilPage implements OnInit {
     // this.userService.updateProfile(profileData).subscribe({
     //   next: (response) => {
     //     console.log('Perfil atualizado com sucesso');
-    //     this.router.navigate(['/home']);
+    //     this.router.navigate(['/login']);
     //   },
     //   error: (error) => {
     //     console.error('Erro ao atualizar perfil', error);
@@ -219,8 +219,8 @@ export class CompletarperfilPage implements OnInit {
     //   }
     // });
 
-    // Por enquanto, navega para a home
-    this.router.navigate(['/home']);
+    // Por enquanto, navega para o login
+    this.router.navigate(['/login']);
   }
 
   /**

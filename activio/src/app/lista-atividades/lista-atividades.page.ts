@@ -136,6 +136,10 @@ export class ListaAtividadesPage implements OnInit {
     });
   }
 
+  goMyActivities() {
+    this.router.navigate(['/minhas-atividades']);
+  }
+
   editarAtividade(activityId: string) {
     this.router.navigate(['/criar-atividade'], { queryParams: { edit: true, id: activityId } });
   }

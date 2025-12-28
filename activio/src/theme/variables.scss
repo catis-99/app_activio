@@ -167,8 +167,15 @@ body.light {
 /* Additional CSS Variables for Custom Components */
 :root {
     /* Card backgrounds */
+    --card-background: #1a1a1a;
     --card-background-dark: #1a1a1a;
     --card-background-light: #f8f9fa;
+    --card-background-light-green: #C6FF00;
+    --stats-card-background: #C6FF00;
+
+    /* Special button colors */
+    --create-button-light: #000000;
+    --create-button-dark: #ffffff;
 
     /* Status indicators */
     --status-success: #10dc60;
@@ -176,19 +183,23 @@ body.light {
     --status-danger: #f04141;
 
     /* Navigation */
+    --nav-background: #000000;
     --nav-background-dark: #000000;
     --nav-background-light: #ffffff;
+    --nav-icon-inactive: #666666;
     --nav-icon-inactive-dark: #666666;
     --nav-icon-inactive-light: #999999;
     --nav-icon-active: #d4ff00;
 
     /* Buttons */
+    --button-primary: #d4ff00;
     --button-primary-dark: #d4ff00;
     --button-primary-light: #d4ff00;
     --button-secondary-dark: #333333;
     --button-secondary-light: #e0e0e0;
 
     /* Text colors */
+    --text-primary: #ffffff;
     --text-primary-dark: #ffffff;
     --text-primary-light: #000000;
     --text-secondary-dark: #cccccc;
@@ -198,11 +209,12 @@ body.light {
 .ios body.light,
 .md body.light,
 body.light {
-    --card-background: var(--card-background-light);
+    --card-background: var(--card-background-light-green);
     --nav-background: var(--nav-background-light);
     --nav-icon-inactive: var(--nav-icon-inactive-light);
     --text-primary: var(--text-primary-light);
     --text-secondary: var(--text-secondary-light);
+    --create-button-bg: var(--create-button-light);
 }
 
 body.dark {
@@ -211,4 +223,5 @@ body.dark {
     --nav-icon-inactive: var(--nav-icon-inactive-dark);
     --text-primary: var(--text-primary-dark);
     --text-secondary: var(--text-secondary-dark);
+    --create-button-bg: var(--create-button-dark);
 }

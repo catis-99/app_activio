@@ -1,6 +1,6 @@
 .badges-page {
-  --background: #000;
-  color: #fff;
+  background: var(--ion-background-color);
+  color: var(--ion-text-color);
 }
 
 /* Header */
@@ -14,17 +14,20 @@
 .header h1 {
   font-size: 20px;
   font-weight: 600;
+  color: var(--ion-text-color);
 }
 
-.icon-btn {
-  background: #caff1f;
+.icon-btn,
+.back-button {
+  background: var(--ion-item-background);
   border-radius: 12px;
   width: 44px;
   height: 44px;
 }
 
-.icon-btn ion-icon {
-  color: #000;
+.icon-btn ion-icon,
+.back-button ion-icon {
+  color: var(--ion-text-color);
   font-size: 20px;
 }
 
@@ -43,12 +46,13 @@
 .section-title h2 {
   font-size: 18px;
   font-weight: 600;
+  color: var(--ion-text-color);
 }
 
 .section-title .line {
   flex: 1;
   height: 2px;
-  background: #caff1f;
+  background: var(--ion-color-primary);
 }
 
 /* Grid */
@@ -75,12 +79,12 @@
 
 /* Estados */
 .achieved {
-  background: #caff1f;
-  color: #000;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
 }
 
 .locked {
-  background: #2b2b2b;
-  color: #fff;
+  background: var(--ion-item-background);
+  color: var(--ion-text-color);
   opacity: 0.7;
 }

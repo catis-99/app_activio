@@ -35,3 +35,43 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 /* @import '@ionic/angular/css/palettes/dark.system.css'; */
+
+/* Global styles for light theme - All titles black */
+
+/* iOS platform */
+.ios .light h1,
+.ios .light h2,
+.ios .light h3,
+.ios .light .page-title,
+.ios .light .section-title,
+.ios .light .card-title {
+    color: #000000 !important;
+}
+
+/* Material Design platform */
+.md .light h1,
+.md .light h2,
+.md .light h3,
+.md .light .page-title,
+.md .light .section-title,
+.md .light .card-title {
+    color: #000000 !important;
+}
+
+/* Generic .light selectors */
+.light h1,
+.light h2,
+.light h3,
+.light .page-title,
+.light .section-title,
+.light .card-title {
+    color: #000000 !important;
+}
+
+/* Specific selectors for common title classes */
+.light .header h1,
+.light .welcome-title,
+.light .intro-title,
+.light .profile-name {
+    color: #000000 !important;
+}
