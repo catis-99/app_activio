@@ -8,57 +8,70 @@
     color: var(--ion-text-color);
 }
 
-.lista-atividades-container {
+.container {
     padding: 20px;
+    padding-top: 20px;
     padding-bottom: 100px;
     background: var(--ion-background-color);
 }
 
-.container {
-    padding: 20px;
-}
 
 /* Header */
 .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 24px;
-}
 
-.header h1 {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--ion-color-primary);
-}
-
-.icon-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: #F7F8F8;
-
-    ion-icon {
-        font-size: 24px;
-        color: #2a2a2a;
+    .icon-btn {
+        --background: #F7F8F8 !important;
+        --border-radius: 12px;
+        --color: #2a2a2a !important;
+        border: none !important;
+        width: 48px;
+        height: 48px;
+        --padding-start: 0;
+        --padding-end: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: none !important;
+        overflow: hidden;
+        position: relative;
     }
-}
 
-.icon-btn.white {
-    background: #F7F8F8;
+    .icon-btn {
+        --background: transparent;
+        --border-radius: 12px;
+        --color: var(--ion-text-color);
 
-    ion-icon {
-        font-size: 24px;
-        color: #2a2a2a;
+        width: 48px;
+        height: 48px;
+
+        --padding-start: 0;
+        --padding-end: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-}
 
-.icon-btn.green {
-    background: var(--ion-color-primary);
 
-    ion-icon {
+    .icon-btn ion-icon {
         font-size: 24px;
-        color: var(--ion-color-primary-contrast);
+        color: var(--ion-text-color);
+    }
+
+    .icon-btn.green {
+        --background: var(--ion-color-primary);
+        --color: var(--ion-color-primary-contrast);
+    }
+
+    .page-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--ion-text-color);
+        margin: 0;
     }
 }
 
@@ -186,6 +199,20 @@
 .activity-card ion-icon {
     font-size: 26px;
     color: var(--ion-text-color);
+}
+
+/* ÍCONES - TEMA RESPONSIVO */
+.activity-card .menu-icon-svg {
+    filter: none;
+    transition: filter 0.2s;
+}
+
+body:not(.light) .activity-card .menu-icon-svg {
+    filter: brightness(0) invert(1);
+}
+
+body.light .activity-card .menu-icon-svg {
+    filter: none;
 }
 
 .activity-card ion-icon.fav {

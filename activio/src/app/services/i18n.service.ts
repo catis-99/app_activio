@@ -72,6 +72,7 @@ export class I18nService {
             profile: {
                 title: 'Perfil',
                 editProfile: 'Editar Perfil',
+                edit: 'Editar',
                 name: 'Nome',
                 height: 'Altura',
                 currentWeight: 'Peso atual',
@@ -242,6 +243,13 @@ export class I18nService {
                 inicio: 'Início',
                 atual: 'Atual',
                 objetivo: 'Objetivo'
+            },
+
+            // Sucesso de Registro
+            sucessoRegisto: {
+                title: 'Bem-vinda,',
+                readyMessage: 'Está tudo pronto! Vamos alcançar os teus objetivos juntos.',
+                buttonText: 'Começar'
             }
         },
 
@@ -300,6 +308,7 @@ export class I18nService {
             profile: {
                 title: 'Profile',
                 editProfile: 'Edit Profile',
+                edit: 'Edit',
                 name: 'Name',
                 height: 'Height',
                 currentWeight: 'Current weight',
@@ -467,6 +476,13 @@ export class I18nService {
                 inicio: 'Start',
                 atual: 'Current',
                 objetivo: 'Goal'
+            },
+
+            // Success Registration
+            sucessoRegisto: {
+                title: 'Welcome,',
+                readyMessage: 'Everything is ready! Let\'s achieve your goals together.',
+                buttonText: 'Get Started'
             }
         }
     };

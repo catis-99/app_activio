@@ -2,11 +2,11 @@
   <div class="profile-container">
     <!-- Header -->
     <div class="header">
-      <ion-button fill="clear" class="back-button" (click)="goBack()">
+      <ion-button fill="solid" class="icon-btn" (click)="goBack()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
       <h1 class="page-title">{{ t('profile.title') }}</h1>
-      <ion-button fill="clear" class="menu-button" (click)="openMenu()">
+      <ion-button fill="solid" class="icon-btn" (click)="openMenu()">
         <ion-icon name="ellipsis-horizontal"></ion-icon>
       </ion-button>
     </div>
@@ -15,25 +15,25 @@
     <div class="profile-card">
       <div class="profile-header">
         <div class="profile-photo">
-          <img src="assets/perfil.svg" alt="Profile Photo">
+          <img [src]="userProfile.photo" alt="Profile Photo">
         </div>
         <h2 class="profile-name">{{ userProfile.name }}</h2>
         <ion-button class="edit-button" (click)="editProfile()">
-          {{ t('profile.editProfile') }}
+          {{ t('profile.edit') }}
         </ion-button>
       </div>
 
       <div class="profile-stats">
-        <div class="stat-item">
-          <div class="stat-value">{{ userProfile.height }}</div>
+        <div class="stat-card">
+          <div class="stat-value">{{ userProfile.height || '---' }} cm</div>
           <div class="stat-label">{{ t('profile.height') }}</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-value">{{ userProfile.weight }}</div>
+        <div class="stat-card">
+          <div class="stat-value">{{ userProfile.weight || '---' }} kg</div>
           <div class="stat-label">{{ t('profile.weight') }}</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-value">{{ userProfile.age }}</div>
+        <div class="stat-card">
+          <div class="stat-value">{{ userProfile.age || '---' }}</div>
           <div class="stat-label">{{ t('profile.age') }}</div>
         </div>
       </div>
@@ -96,19 +96,22 @@
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <button class="nav-btn" (click)="navigateTo('/home')">
-      <img src="assets/icons_nav/Home.svg" alt="Home" class="nav-icon">
+      <img src="assets/icons_nav/Home.svg" alt="Home" class="nav-icon" style="filter:none;color:#000;fill:#000;">
     </button>
     <button class="nav-btn" (click)="navigateTo('/progresso')">
-      <img src="assets/icons_nav/Activity.svg" alt="Progresso" class="nav-icon">
+      <img src="assets/icons_nav/Activity.svg" alt="Progresso" class="nav-icon"
+        style="filter:none;color:#000;fill:#000;">
     </button>
     <button class="nav-btn-fab" (click)="navigateTo('/criar-atividade')">
       <img src="assets/icons_nav/plus.svg" alt="Adicionar" class="nav-icon-plus">
     </button>
     <button class="nav-btn" (click)="navigateTo('/lista-atividades')">
-      <img src="assets/icons_nav/Icon-Activity.svg" alt="Conquistas" class="nav-icon">
+      <img src="assets/icons_nav/Icon-Activity.svg" alt="Conquistas" class="nav-icon"
+        style="filter:none;color:#000;fill:#000;">
     </button>
     <button class="nav-btn active" (click)="navigateTo('/profile')">
-      <img src="assets/icons_nav/Profile.svg" alt="Profile" class="nav-icon">
+      <img src="assets/icons_nav/Profile.svg" alt="Profile" class="nav-icon" style="filter:none;color:#000;fill:#000;">
+      <span class="nav-dot"></span>
     </button>
   </div>
 </ion-content>

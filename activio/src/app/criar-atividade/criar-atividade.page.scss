@@ -28,26 +28,39 @@
         left: 0;
         width: 44px;
         height: 44px;
-        border-radius: 12px;
+        border-radius: 50%;
+        --background: #F7F8F8 !important;
+        background: #F7F8F8 !important;
+        border: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: none !important;
+        overflow: hidden;
+        position: relative;
     }
 
-    .icon-btn.white,
-    .back-button {
-        background: #F7F8F8;
-    }
+    background: transparent;
+    border: none;
+}
 
-    .icon-btn ion-icon,
-    .back-button ion-icon {
-        font-size: 22px;
-        color: #000000;
-    }
+.icon-btn.white,
+.back-button {
+    background: transparent;
+    border: none;
+}
 
-    .page-title {
-        color: #d4ff00;
-        font-size: 20px;
-        font-weight: 700;
-        margin: 0;
-    }
+.icon-btn ion-icon,
+.back-button ion-icon {
+    font-size: 22px;
+    color: var(--ion-text-color);
+}
+
+.page-title {
+    color: #d4ff00;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
 }
 
 // Data Selector
@@ -155,7 +168,7 @@
 
     &.clickable {
         cursor: pointer;
-        transition: background 0.2s;
+        transition: --background 0.2s;
 
         &:active {
             background: #444444;
@@ -232,7 +245,7 @@ ion-modal {
     --border-radius: 20px;
 
     &::part(backdrop) {
-        background: rgba(0, 0, 0, 0.7);
+        --background: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(4px);
     }
 

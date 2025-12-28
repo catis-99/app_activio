@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -11,23 +11,35 @@ import { I18nService } from '../services/i18n.service';
   standalone: true,
   imports: [CommonModule, IonicModule]
 })
-export class ProfilePage {
+export class ProfilePage implements OnInit {
   userProfile = {
-    name: 'Luna Domingues',
-    photo: 'assets/profile-photo.jpg',
-    height: '180cm',
-    weight: '63kg',
-    age: '22'
+    name: '',
+    photo: 'assets/perfil.svg',
+    height: '',
+    weight: '',
+    age: ''
   };
 
   constructor(private router: Router, private i18nService: I18nService) { }
+
+  ngOnInit() {
+    this.loadUserProfile();
+  }
+
+  loadUserProfile() {
+    // Carregar dados do localStorage se existirem
+    this.userProfile.name = localStorage.getItem('userName') || 'Utilizador';
+    this.userProfile.height = localStorage.getItem('userHeight') || '';
+    this.userProfile.weight = localStorage.getItem('userWeight') || '';
+    this.userProfile.age = localStorage.getItem('userAge') || '';
+  }
 
   navigateTo(route: string) {
     this.router.navigate([route]);
   }
 
   editProfile() {
-    this.router.navigate(['/edit-profile']);
+    this.router.navigate(['/completarperfil']);
   }
 
   goBack() {

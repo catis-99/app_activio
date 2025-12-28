@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
-import { IonContent, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonIcon, IonButton } from '@ionic/angular/standalone';
 import { I18nService } from '../services/i18n.service';
 import { addIcons } from 'ionicons';
-import { chevronBack, ellipsisHorizontal } from 'ionicons/icons';
+import { chevronBack, ellipsisHorizontal, chevronBackOutline } from 'ionicons/icons';
 
 interface TrainingDay {
   label: string;
@@ -15,7 +15,12 @@ interface TrainingDay {
   templateUrl: './progresso.page.html',
   styleUrls: ['./progresso.page.scss'],
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon]
+  imports: [
+    CommonModule,
+    IonContent,
+    IonIcon,
+    IonButton // 🔑 Adicionado para poder usar <ion-button>
+  ]
 })
 export class ProgressoPage implements OnInit {
   trainingDays: TrainingDay[] = [
@@ -30,7 +35,7 @@ export class ProgressoPage implements OnInit {
 
   constructor(private location: Location, private i18nService: I18nService) {
     // Registrar os ícones
-    addIcons({ chevronBack, ellipsisHorizontal });
+    addIcons({ chevronBackOutline, ellipsisHorizontal, chevronBack });
   }
 
   ngOnInit() { }

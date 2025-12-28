@@ -1,0 +1,19 @@
+<ion-content class="success-page">
+  <div class="success-container">
+    <div class="success-content">
+      <div class="profile-image">
+        <img src="assets/perfil.svg" alt="Perfil" />
+      </div>
+
+      <h1 class="success-title">{{ t('sucessoRegisto.title') }} {{ userName }}!</h1>
+
+      <p class="success-message">
+        {{ t('sucessoRegisto.readyMessage') }}
+      </p>
+
+      <ion-button expand="block" class="continue-button" (click)="goToHome()">
+        {{ t('sucessoRegisto.buttonText') }}
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -8,6 +8,7 @@
   max-width: 480px;
   margin: 0 auto;
   padding: 20px;
+  padding-top: 20px;
   background: var(--ion-background-color);
   color: var(--ion-text-color);
 }
@@ -19,38 +20,57 @@
   justify-content: space-between;
   margin-bottom: 24px;
 
-  .back-button,
-  .menu-button,
-  .icon-btn {
-    --background: #F7F8F8;
-    --color: #2a2a2a;
-    background: #F7F8F8;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+  ion-button.icon-btn {
+    --background: #fff !important;
+    --border-radius: 12px !important;
+    --color: #000 !important;
+    background: #fff !important;
+    border: 1px solid #e0e0e0 !important;
+    width: 48px;
+    height: 48px;
     --padding-start: 0;
     --padding-end: 0;
-    margin: 0;
-
-    ion-icon {
-      font-size: 24px;
-      color: #2a2a2a;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none !important;
+    overflow: hidden;
+    position: relative;
+    transition: border 0.2s, box-shadow 0.2s;
   }
 
-  .icon-btn.white {
-    --background: #F7F8F8;
-    --color: #2a2a2a;
-    background: #F7F8F8;
+  ion-button.icon-btn:focus,
+  ion-button.icon-btn:active {
+    outline: none;
+    border: 1.5px solid #d4ff00 !important;
+    box-shadow: 0 0 0 2px #d4ff0033;
+  }
+
+  ion-button.icon-btn ion-icon {
+    font-size: 24px;
+    color: #000 !important;
   }
 
   .page-title {
-    color: var(--ion-text-color);
     font-size: 20px;
     font-weight: 700;
+    color: var(--ion-text-color);
     margin: 0;
   }
 }
+
+ion-button.icon-btn ion-icon {
+  font-size: 24px;
+  color: #2a2a2a !important;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin: 0;
+}
+
 
 // Profile Card
 .profile-card {
@@ -105,22 +125,23 @@
   display: flex;
   gap: 12px;
 
-  .stat-item {
+  .stat-card {
     flex: 1;
-    background: var(--stats-card-background);
+    background: #ffffff;
     border-radius: 16px;
     padding: 16px;
     text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
     .stat-value {
-      color: var(--ion-text-color);
+      color: #000000;
       font-size: 18px;
       font-weight: 700;
       margin-bottom: 4px;
     }
 
     .stat-label {
-      color: var(--ion-text-color-step-300);
+      color: #000000;
       font-size: 12px;
       font-weight: 500;
     }
@@ -179,11 +200,20 @@
       width: 24px;
     }
 
+
     .menu-icon-svg {
       width: 24px;
       height: 24px;
       margin-right: 12px;
-      filter: brightness(0) invert(1);
+      vertical-align: middle;
+      filter: grayscale(1) brightness(0) invert(1);
+      /* Fallback: escuro = branco, claro = preto */
+      transition: filter 0.2s;
+    }
+
+    body.light .menu-icon-svg,
+    :root.light .menu-icon-svg {
+      filter: grayscale(1) brightness(0) invert(0);
     }
 
     .menu-label {
@@ -194,8 +224,9 @@
     }
 
     .chevron-icon {
-      color: var(--ion-color-medium);
+      color: var(--ion-text-color);
       font-size: 20px;
+      opacity: 0.7;
     }
   }
 }
@@ -237,12 +268,28 @@
   color: #000
 }
 
+
+/* Todos os ícones da bottom nav pretos */
+.nav-icon,
+.nav-icon-plus {
+  filter: none !important;
+  color: #000 !important;
+  fill: #000 !important;
+}
+
+/* Pontinho ativo só no perfil */
 .nav-btn.active .nav-dot {
   width: 4px;
   height: 4px;
   background: #000;
   border-radius: 50%;
-  display: block
+  display: block;
+  margin: 0 auto;
+}
+
+/* Esconde o pontinho dos outros */
+.nav-btn:not(.active) .nav-dot {
+  display: none;
 }
 
 .nav-btn:active {
@@ -277,29 +324,15 @@
 .nav-icon {
   width: 24px;
   height: 24px;
-  filter: brightness(0.5);
-  transition: filter 0.2s ease;
+  filter: none;
+  transition: filter 0.2s;
+  vertical-align: middle;
 }
 
 .nav-icon-plus {
   width: 22px;
   height: 22px;
-  filter: brightness(20);
-  transition: filter 0.2s ease;
-}
-
-.nav-btn:hover .nav-icon {
-  filter: brightness(1.2);
-}
-
-.nav-btn-fab:hover .nav-icon-plus {
-  filter: brightness(0.8);
-}
-
-.nav-btn.active .nav-icon {
   filter: none;
-}
-
-.nav-btn.active .nav-icon-plus {
-  filter: brightness(0);
+  transition: filter 0.2s;
+  vertical-align: middle;
 }

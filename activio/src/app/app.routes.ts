@@ -70,6 +70,10 @@ export const routes: Routes = [
     path: 'lista-atividades',
     loadComponent: () => import('./lista-atividades/lista-atividades.page').then(m => m.ListaAtividadesPage)
   },
+  {
+    path: 'sucesso-registo',
+    loadComponent: () => import('./sucesso-registo/sucesso-registo.page').then( m => m.SucessoRegistoPage)
+  },
 
 
 ];

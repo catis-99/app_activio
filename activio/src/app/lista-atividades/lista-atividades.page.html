@@ -1,18 +1,18 @@
-<ion-content fullscreen class="lista-atividades">
-  <div class="lista-atividades-container">
-
+<ion-content [fullscreen]="true" class="lista-atividades">
+  <div class="container">
     <!-- Header -->
     <div class="header">
-      <ion-button fill="clear" class="icon-btn white" (click)="goHome()">
+      <ion-button fill="solid" class="icon-btn white" (click)="goHome()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
 
-      <h1>{{ t('listaAtividades.title') }}</h1>
+      <h1 class="page-title">{{ t('listaAtividades.title') }}</h1>
 
-      <ion-button fill="clear" class="icon-btn green" (click)="navigateToCriarAtividade()">
+      <ion-button fill="solid" class="icon-btn green" (click)="navigateToCriarAtividade()">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
     </div>
+
 
     <!-- Filtros -->
     <div class="filters">

@@ -38,40 +38,32 @@
 
 /* Global styles for light theme - All titles black */
 
-/* iOS platform */
-.ios .light h1,
-.ios .light h2,
-.ios .light h3,
-.ios .light .page-title,
-.ios .light .section-title,
-.ios .light .card-title {
+/* Force all text to be black in light theme */
+body.light {
     color: #000000 !important;
 }
 
-/* Material Design platform */
-.md .light h1,
-.md .light h2,
-.md .light h3,
-.md .light .page-title,
-.md .light .section-title,
-.md .light .card-title {
-    color: #000000 !important;
+/* Force all text elements to inherit black color */
+body.light * {
+    color: inherit !important;
 }
 
-/* Generic .light selectors */
-.light h1,
-.light h2,
-.light h3,
-.light .page-title,
-.light .section-title,
-.light .card-title {
-    color: #000000 !important;
-}
-
-/* Specific selectors for common title classes */
-.light .header h1,
-.light .welcome-title,
-.light .intro-title,
-.light .profile-name {
+/* Force specific text elements to be black */
+body.light h1,
+body.light h2,
+body.light h3,
+body.light h4,
+body.light h5,
+body.light h6,
+body.light .page-title,
+body.light .section-title,
+body.light .card-title,
+body.light .header h1,
+body.light .welcome-title,
+body.light .intro-title,
+body.light .profile-name,
+body.light .lista-atividades h1,
+body.light ion-title,
+body.light .toolbar-title {
     color: #000000 !important;
 }
