@@ -68,12 +68,22 @@
 
     <!-- Lista -->
     <div class="list">
+      <!-- Estado vazio quando não há atividades -->
+      <div *ngIf="filteredActivities.length === 0" class="empty-state">
+        <h3>{{ t('listaAtividades.emptyTitle') }}</h3>
+        <p>{{ t('listaAtividades.emptyDescription') }}</p>
+        <ion-button fill="solid" class="create-btn" (click)="navigateToCriarAtividade()">
+          {{ t('home.createActivity') }}
+        </ion-button>
+      </div>
+
       <div class="activity-card" *ngFor="let activity of filteredActivities">
-        <img [src]="activity.icon" />
+        <img [src]="getActivityIcon(activity.tipo)" />
 
         <div class="info">
-          <h2>{{ translateActivityName(activity.name) }}</h2>
-          <p>{{ activity.date }} | {{ activity.time }}</p>
+          <h2>{{ translateActivityName(activity.tipo) }}</h2>
+          <p>{{ activity.data }} | {{ formatTime(activity.hora, activity.minuto, activity.periodo) }} | {{
+            activity.duracao }} min</p>
           <span>{{ translateIntensity(activity.intensidade) }}</span>
         </div>
 

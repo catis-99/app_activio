@@ -137,11 +137,31 @@ export class ListaAtividadesPage implements OnInit {
   }
 
   goMyActivities() {
-    this.router.navigate(['/minhas-atividades']);
+    this.router.navigate(['/lista-atividades']);
+  }
+
+  // Função para construir o horário formatado
+  formatTime(hora: number, minuto: number, periodo: 'AM' | 'PM'): string {
+    const horaFormatada = hora.toString().padStart(2, '0');
+    const minutoFormatado = minuto.toString().padStart(2, '0');
+    return `${horaFormatada}:${minutoFormatado} ${periodo}`;
+  }
+
+  // Função para obter o ícone da atividade
+  getActivityIcon(tipo: string): string {
+    const iconMapping: { [key: string]: string } = {
+      'Ciclismo': 'assets/atividades/ciclismo.svg',
+      'Atletismo': 'assets/atividades/atletismo.svg',
+      'Ginásio': 'assets/atividades/ginasio.svg',
+      'Futebol': 'assets/atividades/futebol.svg',
+      'Natação': 'assets/atividades/natacao.svg',
+      'Yoga': 'assets/atividades/yoga.svg'
+    };
+    return iconMapping[tipo] || 'assets/atividades/ciclismo.svg';
   }
 
   editarAtividade(activityId: string) {
-    this.router.navigate(['/criar-atividade'], { queryParams: { edit: true, id: activityId } });
+    this.router.navigate(['/editar-atividade', activityId]);
   }
 
   eliminarAtividade(activityId: string) {
@@ -162,111 +182,81 @@ export class ListaAtividadesPage implements OnInit {
     const sampleActivities = [
       {
         id: '1',
-        name: 'Ciclismo',
-        date: '12/10/2025',
-        time: '45 min',
-        intensity: 'Moderada',
-        icon: 'assets/atividades/ciclismo.svg',
-        favorite: true,
-        tipo: 'Ciclismo',
-        intensidade: 'Média',
+        data: 'Seg, 25 Maio 2025',
         hora: 15,
         minuto: 30,
         periodo: 'PM' as 'AM' | 'PM',
+        tipo: 'Ciclismo',
+        intensidade: 'Média' as 'Baixa' | 'Média' | 'Alta',
         duracao: '45',
         calorias: '300',
         local: 'Parque da Cidade',
-        data: 'Seg, 25 Maio 2025'
+        favorite: true
       },
       {
         id: '2',
-        name: 'Atletismo',
-        date: '12/10/2025',
-        time: '45 min',
-        intensity: 'Moderada',
-        icon: 'assets/atividades/atletismo.svg',
-        favorite: false,
-        tipo: 'Atletismo',
-        intensidade: 'Média',
+        data: 'Ter, 26 Maio 2025',
         hora: 7,
         minuto: 0,
         periodo: 'AM' as 'AM' | 'PM',
+        tipo: 'Atletismo',
+        intensidade: 'Média' as 'Baixa' | 'Média' | 'Alta',
         duracao: '45',
         calorias: '250',
         local: 'Pista de Atletismo',
-        data: 'Ter, 26 Maio 2025'
+        favorite: false
       },
       {
         id: '3',
-        name: 'Ginásio',
-        date: '12/10/2025',
-        time: '45 min',
-        intensity: 'Moderada',
-        icon: 'assets/atividades/ginasio.svg',
-        favorite: true,
-        tipo: 'Ginásio',
-        intensidade: 'Alta',
+        data: 'Qua, 27 Maio 2025',
         hora: 18,
         minuto: 30,
         periodo: 'PM' as 'AM' | 'PM',
+        tipo: 'Ginásio',
+        intensidade: 'Alta' as 'Baixa' | 'Média' | 'Alta',
         duracao: '60',
         calorias: '400',
         local: 'Fitness Center',
-        data: 'Qua, 27 Maio 2025'
+        favorite: true
       },
       {
         id: '4',
-        name: 'Futebol',
-        date: '12/10/2025',
-        time: '45 min',
-        intensity: 'Moderada',
-        icon: 'assets/atividades/futebol.svg',
-        favorite: false,
-        tipo: 'Futebol',
-        intensidade: 'Alta',
+        data: 'Qui, 28 Maio 2025',
         hora: 16,
         minuto: 0,
         periodo: 'PM' as 'AM' | 'PM',
+        tipo: 'Futebol',
+        intensidade: 'Alta' as 'Baixa' | 'Média' | 'Alta',
         duracao: '90',
         calorias: '500',
         local: 'Campo de Futebol',
-        data: 'Qui, 28 Maio 2025'
+        favorite: false
       },
       {
         id: '5',
-        name: 'Natação',
-        date: '12/10/2025',
-        time: '45 min',
-        intensity: 'Moderada',
-        icon: 'assets/atividades/natacao.svg',
-        favorite: true,
-        tipo: 'Natação',
-        intensidade: 'Média',
+        data: 'Sex, 29 Maio 2025',
         hora: 8,
         minuto: 0,
         periodo: 'AM' as 'AM' | 'PM',
+        tipo: 'Natação',
+        intensidade: 'Média' as 'Baixa' | 'Média' | 'Alta',
         duracao: '45',
         calorias: '350',
         local: 'Piscina Municipal',
-        data: 'Sex, 29 Maio 2025'
+        favorite: true
       },
       {
         id: '6',
-        name: 'Yoga',
-        date: '12/10/2025',
-        time: '45 min',
-        intensity: 'Moderada',
-        icon: 'assets/atividades/yoga.svg',
-        favorite: false,
-        tipo: 'Yoga',
-        intensidade: 'Baixa',
+        data: 'Sáb, 30 Maio 2025',
         hora: 19,
         minuto: 30,
         periodo: 'PM' as 'AM' | 'PM',
+        tipo: 'Yoga',
+        intensidade: 'Baixa' as 'Baixa' | 'Média' | 'Alta',
         duracao: '60',
         calorias: '150',
         local: 'Estúdio de Yoga',
-        data: 'Sáb, 30 Maio 2025'
+        favorite: false
       }
     ];
 
