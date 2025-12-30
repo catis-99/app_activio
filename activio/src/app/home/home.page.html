@@ -7,6 +7,7 @@
         <span class="greeting-text">{{ t('home.welcome') }}</span>
         <h1 class="user-name">Luna</h1>
       </div>
+
       <div class="header-buttons">
         <ion-button fill="clear" class="notification-btn" (click)="navigateToSettings()">
           <ion-icon name="settings-outline"></ion-icon>
@@ -36,40 +37,47 @@
       </div>
     </div>
 
-    <!-- Criar Atividade Button -->
-    <button class="create-activity-btn" (click)="navigateToCriarAtividade()">
-      <span>{{ t('home.createActivity') }}</span>
-      <div class="add-icon">
+    <!-- Criar Atividade -->
+    <div class="create-activity-btn">
+      <span class="create-activity-text">
+        {{ t('home.createActivity') }}
+      </span>
+
+      <button class="add-icon" type="button" (click)="navigateToCriarAtividade()" aria-label="Criar atividade">
         <ion-icon name="add-outline"></ion-icon>
-      </div>
-    </button>
+      </button>
+    </div>
 
     <!-- Resumo de Atividade -->
-    <div class="activity-summary">
+    <div class="activity-summary" r>
       <h2>{{ t('home.activitySummary') }}</h2>
-      <button class="month-selector" (click)="togglePeriodDropdown()">
+
+      <button class="month-selector" type="button" (click)="togglePeriodDropdown()">
         <span>{{ getPeriodLabel() }}</span>
         <ion-icon name="chevron-down-outline"></ion-icon>
       </button>
 
-      <!-- Dropdown de Seleção de Período -->
+      <!-- Dropdown -->
       <div class="period-dropdown" *ngIf="isPeriodDropdownOpen">
-        <button class="dropdown-item" (click)="selectPeriod('week')">
+        <button class="dropdown-item" type="button" (click)="selectPeriod('week')">
           <ion-icon name="calendar-outline"></ion-icon>
           <span>{{ t('home.week') }}</span>
         </button>
-        <button class="dropdown-item" (click)="selectPeriod('month')">
+
+        <button class="dropdown-item" type="button" (click)="selectPeriod('month')">
           <ion-icon name="calendar-outline"></ion-icon>
           <span>{{ t('home.month') }}</span>
         </button>
       </div>
     </div>
 
-    <!-- Visualização de Dados -->
+    <!-- Visualização -->
     <div class="data-view">
+
       <!-- Gráfico Semanal -->
       <div class="weekly-chart" *ngIf="selectedPeriod === 'week'">
         <h3>{{ t('home.thisWeek') }}</h3>
+
         <div class="chart-container">
           <div class="chart-bars">
             <div class="bar-container" *ngFor="let minutes of weeklyData; let i = index">
@@ -82,7 +90,7 @@
         </div>
       </div>
 
-      <!-- Calendário Nativo Ionic -->
+      <!-- Calendário Mensal -->
       <div class="calendar-section" *ngIf="selectedPeriod === 'month'">
         <ion-datetime presentation="date" [value]="selectedDate.toISOString()" (ionChange)="onDateChange($event)"
           locale="pt-PT" class="calendar-datetime">
@@ -95,21 +103,25 @@
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
-    <button class="nav-btn active">
+    <button class="nav-btn active" type="button">
       <img src="assets/icons_nav/Home.svg" alt="Home" class="nav-icon">
       <span class="nav-dot"></span>
     </button>
-    <button class="nav-btn" (click)="navigateToProgresso()">
+
+    <button class="nav-btn" type="button" (click)="navigateToProgresso()">
       <img src="assets/icons_nav/Activity.svg" alt="Progresso" class="nav-icon">
     </button>
-    <button class="nav-btn-fab" (click)="navigateToCriarAtividade()">
+
+    <button class="nav-btn-fab" type="button" (click)="navigateToCriarAtividade()">
       <img src="assets/icons_nav/plus.svg" alt="Adicionar" class="nav-icon-plus">
     </button>
-    <button class="nav-btn" (click)="navigateToListaAtividades()">
-      <img src="assets/icons_nav/Icon-Activity.svg" alt="Lista de Atividades Realizadas" class="nav-icon">
+
+    <button class="nav-btn" type="button" (click)="navigateToListaAtividades()">
+      <img src="assets/icons_nav/Icon-Activity.svg" alt="Lista de Atividades" class="nav-icon">
     </button>
-    <button class="nav-btn" (click)="navigateToProfile()">
-      <img src="assets/icons_nav/Profile.svg" alt="Profile" class="nav-icon">
+
+    <button class="nav-btn" type="button" (click)="navigateToProfile()">
+      <img src="assets/icons_nav/Profile.svg" alt="Perfil" class="nav-icon">
     </button>
   </div>
 

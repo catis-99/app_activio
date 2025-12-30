@@ -40,12 +40,12 @@
 
 /* Force all text to be black in light theme */
 body.light {
-    color: #000000 !important;
+    color: #000000;
 }
 
 /* Force all text elements to inherit black color */
 body.light * {
-    color: inherit !important;
+    color: inherit;
 }
 
 /* Force specific text elements to be black */
@@ -66,4 +66,43 @@ body.light .lista-atividades h1,
 body.light ion-title,
 body.light .toolbar-title {
     color: #000000 !important;
+}
+
+/* Notification/Back Button Style - Light Mode */
+.notification-btn {
+    --background: #F7F8F8;
+    --border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+}
+
+.notification-btn ion-icon {
+    color: #2a2a2a;
+    font-size: 24px;
+}
+
+/* Allow detail-item content to use custom colors in light theme */
+body.light .detail-item,
+body.light .detail-item .detail-icon,
+body.light .detail-item .detail-label,
+body.light .detail-item .detail-value,
+body.light .detail-item .detail-input {
+    color: inherit !important;
+}
+
+body.light .detail-item .detail-icon {
+    color: var(--detail-icon-color) !important;
+}
+
+body.light .detail-item .detail-label {
+    color: var(--detail-text-color) !important;
+}
+
+body.light .detail-item .detail-value {
+    color: var(--detail-value-color) !important;
+}
+
+body.light .detail-item .detail-input {
+    color: var(--detail-text-color) !important;
 }

@@ -12,20 +12,26 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 24px
+    margin-bottom: 24px;
+    position: relative;
+
 }
 
 .header .icon-btn {
-    --background: transparent;
-    --border-radius: 12px;
-    --color: var(--ion-text-color);
+    --background: #F7F8F8 !important;
+    --border-radius: 12px !important;
+    --color: #2a2a2a !important;
+    background: #F7F8F8 !important;
+    border: none !important;
     width: 48px;
     height: 48px;
     --padding-start: 0;
     --padding-end: 0;
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    box-shadow: none !important;
+    overflow: hidden;
 }
 
 .header .icon-btn.white {
@@ -40,14 +46,27 @@
 
 .header .icon-btn ion-icon {
     font-size: 24px;
-    color: var(--ion-text-color)
+    color: #2a2a2a
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 24px;
 }
 
 .header .page-title {
     font-size: 20px;
     font-weight: 700;
     color: var(--ion-text-color);
-    margin: 0
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 1;
 }
 
 .filters {

@@ -126,14 +126,7 @@ export class ListaAtividadesPage implements OnInit {
   }
 
   goHome() {
-    console.log('Navigating to home...');
-    this.router.navigate(['/home']).then(success => {
-      if (success) {
-        console.log('Navigation to home successful');
-      } else {
-        console.error('Navigation to home failed');
-      }
-    });
+    this.router.navigate(['/home']);
   }
 
   goMyActivities() {

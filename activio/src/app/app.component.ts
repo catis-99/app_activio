@@ -7,6 +7,11 @@ import { ThemeService } from './services/theme.service';
   templateUrl: 'app.component.html',
   imports: [IonApp, IonRouterOutlet],
 })
-export class AppComponent {
-  constructor() { }
+export class AppComponent implements OnInit {
+  constructor(private themeService: ThemeService) { }
+
+  ngOnInit() {
+    // Initialize theme on app start
+    this.themeService.loadTheme();
+  }
 }

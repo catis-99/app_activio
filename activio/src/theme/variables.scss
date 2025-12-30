@@ -3,6 +3,8 @@
 
 /** Ionic CSS Variables **/
 :root {
+    --calendar-weekday-color: #000;
+    --calendar-day-header-color: #000;
     /* Primary Colors - Green */
     --ion-color-primary: #d4ff00;
     --ion-color-primary-rgb: 212, 255, 0;
@@ -172,6 +174,7 @@ body.light {
     --card-background-light: #f8f9fa;
     --card-background-light-green: #C6FF00;
     --stats-card-background: #C6FF00;
+    --create-activity-text-color: #ffffff;
 
     /* Special button colors */
     --create-button-light: #000000;
@@ -204,6 +207,12 @@ body.light {
     --text-primary-light: #000000;
     --text-secondary-dark: #cccccc;
     --text-secondary-light: #666666;
+
+    /* Detail card colors for light version */
+    --detail-card-bg-light: #1a1a1a;
+    --detail-text-light: #ffffff;
+    --detail-icon-light: #C6FF00;
+    --detail-value-light: #C6FF00;
 }
 
 .ios body.light,
@@ -215,13 +224,35 @@ body.light {
     --text-primary: var(--text-primary-light);
     --text-secondary: var(--text-secondary-light);
     --create-button-bg: var(--create-button-light);
+    --create-activity-btn-icon: #000000;
+    --create-activity-btn-text-contrast: #000000;
+    --create-activity-btn-bg: var(--ion-text-color);
+    --create-activity-btn-icon-bg: #C6FF00;
+
+    /* Detail card colors for light version - inverted from dark */
+    --detail-card-bg: #000000;
+    --detail-text-color: #ffffff;
+    --detail-icon-color: #ffffff;
+    --detail-value-color: #C6FF00;
 }
 
 body.dark {
+    --calendar-weekday-color: #fff;
+    --calendar-day-header-color: #2a2a2a;
     --card-background: var(--card-background-dark);
     --nav-background: var(--nav-background-dark);
     --nav-icon-inactive: var(--nav-icon-inactive-dark);
     --text-primary: var(--text-primary-dark);
     --text-secondary: var(--text-secondary-dark);
     --create-button-bg: var(--create-button-dark);
+    --create-activity-btn-icon: #ffffff;
+    --create-activity-btn-text-contrast: #000000;
+    --create-activity-btn-bg: var(--ion-text-color);
+    --create-activity-btn-icon-bg: #C6FF00;
+
+    /* Detail card colors for dark version */
+    --detail-card-bg: #2a2a2a;
+    --detail-text-color: #ffffff;
+    --detail-icon-color: #ffffff;
+    --detail-value-color: #C6FF00;
 }
