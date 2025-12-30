@@ -37,15 +37,8 @@
         justify-content: center;
         box-shadow: none !important;
         overflow: hidden;
-        position: relative;
     }
 
-    background: transparent;
-    border: none;
-}
-
-.icon-btn.white,
-.back-button {
     background: transparent;
     border: none;
 }
@@ -53,7 +46,7 @@
 .icon-btn ion-icon,
 .back-button ion-icon {
     font-size: 22px;
-    color: var(--ion-text-color);
+    color: #000000;
 }
 
 .page-title {
@@ -70,25 +63,25 @@
     gap: 12px;
     padding: 16px 0;
     cursor: pointer;
-    background: #2a2a2a;
+    background: #F7F8F8;
     border-radius: 12px;
     margin: 20px 0;
 
     .calendar-icon {
-        color: #ffffff;
+        color: #000000;
         font-size: 24px;
         margin-left: 16px;
     }
 
     .date-text {
-        color: #ffffff;
+        color: #000000;
         font-size: 16px;
         font-weight: 500;
         flex: 1;
     }
 
     .dropdown-icon {
-        color: #d4ff00;
+        color: #000000;
         font-size: 18px;
         margin-right: 16px;
     }
@@ -98,13 +91,13 @@
 .calendar-section {
     margin: 20px 0;
     padding: 16px;
-    background: #2a2a2a;
+    background: #F7F8F8;
     border-radius: 12px;
 
     .inline-calendar {
         --background: transparent;
-        --color: #ffffff;
-        color: #ffffff;
+        --color: #000000;
+        color: #000000;
     }
 }
 
@@ -160,7 +153,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #3a3a3a;
+    background: #F7F8F8;
     border-radius: 16px;
     padding: 18px 20px;
     margin-bottom: 12px;
@@ -171,12 +164,12 @@
         transition: --background 0.2s;
 
         &:active {
-            background: #444444;
+            background: #e0e0e0;
         }
     }
 
     &.input-item {
-        background: #3a3a3a;
+        background: #F7F8F8;
     }
 
     .detail-left {
@@ -186,12 +179,12 @@
         flex: 1;
 
         .detail-icon {
-            color: #ffffff;
+            color: #000000;
             font-size: 22px;
         }
 
         .detail-label {
-            color: #ffffff;
+            color: #000000;
             font-size: 16px;
             font-weight: 400;
         }
@@ -203,20 +196,20 @@
         gap: 8px;
 
         .detail-value {
-            color: #d4ff00;
+            color: #000000;
             font-size: 15px;
             font-weight: 600;
         }
 
         .chevron-icon {
-            color: #d4ff00;
+            color: #000000;
             font-size: 20px;
         }
     }
 
     .detail-input {
-        --color: #2a2a2a;
-        color: #2a2a2a;
+        --color: #000000;
+        color: #000000;
         --placeholder-color: #666666;
         --background: transparent;
         text-align: right;
@@ -265,7 +258,7 @@ ion-modal {
             background: #1a1a1a;
 
             h2 {
-                color: #d4ff00;
+                color: #ffffff !important;
                 font-size: 18px;
                 font-weight: 700;
                 margin: 0;
@@ -284,16 +277,16 @@ ion-modal {
         }
 
         ion-datetime {
-            --background: #1a1a1a;
-            color: #ffffff;
+            --background: #F7F8F8;
+            color: #fff;
             padding: 20px;
 
             &::part(month-year-button) {
-                color: #d4ff00;
+                color: #000000;
             }
 
             &::part(calendar-day) {
-                color: #ffffff;
+                color: #000000;
             }
 
             &::part(calendar-day-active) {
