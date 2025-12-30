@@ -1,3 +1,6 @@
+/* =========================
+   Layout Geral
+========================= */
 .criar-atividade-content {
     background: var(--ion-background-color);
     color: var(--ion-text-color);
@@ -5,7 +8,7 @@
 }
 
 .atividade-container {
-    padding: 20px 16px 20px 16px;
+    padding: 20px 16px;
     min-height: 100%;
     max-width: 480px;
     margin: 0 auto;
@@ -13,150 +16,66 @@
     color: var(--ion-text-color);
 }
 
-// Header
+/* =========================
+   Header
+========================= */
 .header {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 20px 0;
     margin-bottom: 20px;
+    background: transparent;
+    border: none;
 
-    .icon-btn,
-    .back-button {
-        position: absolute;
-        left: 0;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
+    .back-button,
+    .icon-btn {
+        width: 48px;
+        height: 48px;
         --background: #F7F8F8 !important;
         background: #F7F8F8 !important;
         border: none !important;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow: none !important;
         overflow: hidden;
+        z-index: 2;
     }
 
-    background: transparent;
-    border: none;
+    .page-title {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        text-align: center;
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 700;
+        pointer-events: none;
+        z-index: 1;
+    }
 }
 
 .icon-btn ion-icon,
 .back-button ion-icon {
-    font-size: 22px;
-    color: #000000;
+    font-size: 24px;
+    color: #2a2a2a;
 }
 
-.page-title {
-    color: #d4ff00;
-    font-size: 20px;
-    font-weight: 700;
-    margin: 0;
-}
-
-// Data Selector
-.date-selector {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px 0;
-    cursor: pointer;
-    background: #F7F8F8;
-    border-radius: 12px;
-    margin: 20px 0;
-
-    .calendar-icon {
-        color: #000000;
-        font-size: 24px;
-        margin-left: 16px;
-    }
-
-    .date-text {
-        color: #000000;
-        font-size: 16px;
-        font-weight: 500;
-        flex: 1;
-    }
-
-    .dropdown-icon {
-        color: #000000;
-        font-size: 18px;
-        margin-right: 16px;
-    }
-}
-
-// Calendário Inline
-.calendar-section {
-    margin: 20px 0;
-    padding: 16px;
-    background: #F7F8F8;
-    border-radius: 12px;
-
-    .inline-calendar {
-        --background: transparent;
-        --color: #000000;
-        color: #000000;
-    }
-}
-
-.divider {
-    height: 1px;
-    background: #333333;
-    margin: 8px 0 24px 0;
-}
-
-// Section
-.section {
-    margin-bottom: 32px;
-
-    .section-title {
-        color: #d4ff00;
-        font-size: 16px;
-        font-weight: 700;
-        margin: 0 0 16px 0;
-    }
-}
-
-// Time Selector
-.time-selector {
-    margin-bottom: 16px;
-
-    ion-button[fill="outline"] {
-        --border-color: #d4ff00;
-        --color: #d4ff00;
-        --background: transparent;
-        --border-width: 1px;
-        --border-radius: 12px;
-        height: 48px;
-        font-size: 16px;
-        font-weight: 600;
-
-        ion-icon {
-            color: #d4ff00;
-            font-size: 20px;
-        }
-
-        &:hover {
-            --background: rgba(212, 255, 0, 0.1);
-        }
-
-        &:active {
-            --background: rgba(212, 255, 0, 0.2);
-        }
-    }
-}
-
-// Detail Items
+/* =========================
+   Detail Items
+========================= */
 .detail-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #F7F8F8;
+    background: #2a2a2a;
     border-radius: 16px;
-    padding: 18px 20px;
-    margin-bottom: 12px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
     min-height: 60px;
 
     &.clickable {
@@ -164,12 +83,12 @@
         transition: --background 0.2s;
 
         &:active {
-            background: #e0e0e0;
+            background: #3a3a3a;
         }
     }
 
     &.input-item {
-        background: #F7F8F8;
+        background: #2a2a2a;
     }
 
     .detail-left {
@@ -179,12 +98,12 @@
         flex: 1;
 
         .detail-icon {
-            color: #000000;
+            color: #ffffff;
             font-size: 22px;
         }
 
         .detail-label {
-            color: #000000;
+            color: #ffffff;
             font-size: 16px;
             font-weight: 400;
         }
@@ -196,29 +115,52 @@
         gap: 8px;
 
         .detail-value {
-            color: #000000;
+            color: #d4ff00;
             font-size: 15px;
             font-weight: 600;
         }
 
         .chevron-icon {
-            color: #000000;
+            color: #d4ff00;
             font-size: 20px;
         }
+
     }
 
     .detail-input {
-        --color: #000000;
-        color: #000000;
-        --placeholder-color: #666666;
+        --color: #ffffff;
+        --placeholder-color: #999999;
         --background: transparent;
+        color: #ffffff;
         text-align: right;
         font-size: 16px;
         max-width: 200px;
     }
 }
 
-// Save Button
+/* =========================
+   Date / Time Selector
+========================= */
+.date-selector {
+    background: #ffffff;
+    padding: 12px 20px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    color: #333333;
+
+    .calendar-icon {
+        color: #d4ff00;
+        font-size: 20px;
+    }
+}
+
+/* =========================
+   Save Button
+========================= */
 .save-button {
     --background: #d4ff00;
     --color: #000000;
@@ -230,7 +172,9 @@
     margin-top: 32px;
 }
 
-// Modal do Calendário
+/* =========================
+   Calendar Modal
+========================= */
 ion-modal {
     --width: 90%;
     --max-width: 400px;
@@ -278,24 +222,105 @@ ion-modal {
 
         ion-datetime {
             --background: #F7F8F8;
-            color: #fff;
+            color: #ffffff;
             padding: 20px;
 
-            &::part(month-year-button) {
-                color: #000000;
-            }
-
+            &::part(month-year-button),
             &::part(calendar-day) {
                 color: #000000;
             }
 
             &::part(calendar-day-active) {
-                background: #d4ff00 !important;
+                --background: #d4ff00 !important;
                 color: #000000 !important;
             }
 
             &::part(calendar-day-today) {
                 color: #d4ff00;
+            }
+        }
+    }
+}
+
+/* =========================
+   Light Theme Overrides
+   (Using same structure as dark but with inverted colors)
+========================= */
+:host-context(body.light) {
+    .criar-atividade-content {
+        background: var(--ion-background-color);
+        color: var(--ion-text-color);
+    }
+
+    .atividade-container {
+        background: var(--ion-background-color);
+        color: var(--ion-text-color);
+    }
+
+    .header {
+        .page-title {
+            color: var(--text-primary-light);
+        }
+    }
+
+    .detail-item {
+        background: var(--detail-card-bg);
+
+        .detail-left {
+            .detail-icon {
+                color: var(--detail-icon-color);
+            }
+
+            .detail-label {
+                color: var(--detail-text-color);
+            }
+        }
+
+        .detail-right {
+            .detail-value {
+                color: var(--detail-value-color);
+            }
+
+            .chevron-icon {
+                color: var(--detail-value-color);
+            }
+        }
+
+        .detail-input {
+            --color: var(--detail-text-color);
+            --placeholder-color: #999999;
+            color: var(--detail-text-color);
+        }
+    }
+
+    .date-selector {
+        background: var(--card-background-light);
+        color: #333333;
+
+        .calendar-icon {
+            color: var(--ion-color-primary);
+        }
+    }
+
+    ion-modal {
+        .modal-wrapper {
+            background: var(--card-background-dark);
+
+            .modal-header {
+                background: var(--card-background-dark);
+
+                h2 {
+                    color: var(--text-primary-dark);
+                }
+
+                ion-button {
+                    --color: var(--text-primary-dark);
+                }
+            }
+
+            ion-datetime {
+                --background: #F7F8F8;
+                color: var(--text-primary-dark);
             }
         }
     }

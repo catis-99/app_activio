@@ -88,7 +88,7 @@
 
 .create-activity-btn {
   width: 100%;
-  background: var(--ion-text-color);
+  background: var(--create-activity-btn-bg);
   border: none;
   border-radius: 16px;
   padding: 20px 24px;
@@ -118,12 +118,18 @@
 
 .create-activity-btn .add-icon ion-icon {
   font-size: 28px;
-  color: var(--ion-text-color);
+  color: black;
   font-weight: 700
 }
 
 .create-activity-btn:hover {
   transform: translateY(-2px)
+}
+
+.create-activity-text {
+  color: var(--ion-background-color-contrast); // texto invertido
+  font-size: 18px;
+  font-weight: 600
 }
 
 .activity-summary {
@@ -138,8 +144,8 @@
   position: absolute;
   top: 100%;
   right: 0;
-  background: #1a1a1a;
-  border: 1px solid #333;
+  background: var(--ion-background-color);
+  color: var(--ion-background-color-contrast);
   border-radius: 12px;
   padding: 8px;
   margin-top: 8px;
@@ -159,7 +165,7 @@
   cursor: pointer;
   border-radius: 8px;
   transition: background-color 0.2s ease;
-  color: #fff;
+  color: var(--ion-text-color);
 }
 
 .dropdown-item:hover {
@@ -168,7 +174,7 @@
 
 .dropdown-item ion-icon {
   font-size: 18px;
-  color: #C6FF00;
+  color: var(--ion-text-color);
 }
 
 .dropdown-item span {
@@ -195,16 +201,17 @@
 
 // Calendário Nativo Ionic com Indicadores
 .calendar-section h3 {
-  color: #fff;
+  color: var(--ion-text-color);
   font-size: 18px;
   font-weight: 600;
   text-align: center;
   margin: 0 0 20px 0;
 }
 
-// Calendário Nativo
+// Calendário Nativo - Outline Style Cinzento
 .calendar-section {
-  background: #1a1a1a;
+  background: transparent;
+  border: 2px solid var(--ion-text-color);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 24px;
@@ -213,11 +220,9 @@
 .calendar-datetime {
   --background: transparent;
   --border-radius: 12px;
-  --color: #fff;
-  --placeholder-color: #666;
+  --color: var(--ion-text-color);
+  --placeholder-color: var(--ion-color-medium);
   --wheel-highlight-background: rgba(198, 255, 0, 0.2);
-  --wheel-highlight-border-color: #C6FF00;
-
   width: 100%;
   border: none;
   background: transparent;
@@ -225,10 +230,11 @@
 
 // Melhorar seletor de ano e mês
 .calendar-datetime::part(header) {
-  background: #2a2a2a;
+  background: transparent;
   border-radius: 12px 12px 0 0;
   padding: 16px;
-  color: #fff;
+  border-bottom: 1px solid var(--ion-color-medium);
+  color: black;
 }
 
 .calendar-datetime::part(title) {
@@ -238,15 +244,16 @@
 }
 
 .calendar-datetime::part(buttons) {
-  background: #2a2a2a;
+  background: transparent;
   border-radius: 0 0 12px 12px;
   padding: 12px 16px;
   gap: 8px;
 }
 
 .calendar-datetime::part(button-header) {
-  background: #C6FF00;
-  color: #000;
+  background: transparent;
+  color: #C6FF00;
+  border: 1px solid #C6FF00;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -255,54 +262,136 @@
 }
 
 .calendar-datetime::part(button-header):hover {
-  background: #b8ff00;
-  transform: translateY(-1px);
+  background: rgba(198, 255, 0, 0.1);
+}
+
+.calendar-datetime::part(button-header active) {
+  background: #C6FF00;
+  color: #000000;
 }
 
 // Estilizar dias do calendário
 .calendar-datetime::part(calendar-day) {
-  color: #fff;
+  color: var(--ion-text-color);
   background: transparent;
+  border: 1px solid transparent;
   border-radius: 8px;
   transition: all 0.2s ease;
+  color: black
 }
 
 .calendar-datetime::part(calendar-day today) {
-  background: #C6FF00;
-  color: #000;
+  background: transparent;
+  color: black;
+  border: 2px solid #C6FF00;
   font-weight: 600;
 }
 
 .calendar-datetime::part(calendar-day selected) {
-  background: #C6FF00;
-  color: #000;
+  background: rgba(198, 255, 0, 0.2);
+  color: black;
   font-weight: 600;
+  border-color: black;
 }
 
 .calendar-datetime::part(calendar-day disabled) {
-  color: #555;
+  color: var(--ion-color-medium);
   opacity: 0.5;
 }
 
 // Melhorar grid do calendário
 .calendar-datetime::part(calendar-body) {
-  background: #1a1a1a;
+  background: transparent;
   padding: 16px;
 }
 
 .calendar-datetime::part(calendar-header) {
-  color: #888;
+  color: #989aa2 !important;
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
+// Light mode calendar adjustments
+body.light .calendar-section {
+  background: transparent;
+  border-color: #888888;
+}
+
+body.light .calendar-datetime {
+  --color: #000000;
+}
+
+body.light .calendar-datetime::part(header) {
+  border-bottom-color: #888888;
+  color: #000000;
+}
+
+body.light .calendar-datetime::part(title) {
+  color: #000000;
+}
+
+body.light .calendar-datetime::part(calendar-day) {
+  color: #000000;
+}
+
+body.light .calendar-datetime::part(calendar-day today) {
+  color: #000000;
+  border-color: #000000;
+}
+
+body.light .calendar-datetime::part(calendar-day selected) {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000000;
+  border-color: #000000;
+}
+
+body.light .calendar-datetime::part(calendar-header) {
+  color: #000000;
+}
+
+body.light .calendar-datetime::part(button-header) {
+  color: #000000;
+  border-color: #888888;
+}
+
+body.light .calendar-datetime::part(button-header):hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light .calendar-datetime::part(button-header active) {
+  background: #000000;
+  color: #000000;
+  border-color: #000000;
+}
+
+body.light .calendar-datetime::part(years),
+body.light .calendar-datetime::part(months) {
+  border-color: #888888;
+  color: #000000;
+}
+
+body.light .calendar-datetime::part(year-button):hover,
+body.light .calendar-datetime::part(month-button):hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light .calendar-datetime::part(button-cancel) {
+  color: #000000;
+  border-color: #888888;
+}
+
+body.light .calendar-datetime::part(button-cancel):hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
 // Melhorar picker de mês e ano
 .calendar-datetime::part(years) {
-  background: #2a2a2a;
-  color: #fff;
+  background: transparent;
+  color: var(--ion-text-color);
   border-radius: 12px;
+  border: 1px solid var(--ion-text-color);
 }
 
 .calendar-datetime::part(year-column) {
@@ -310,47 +399,68 @@
 }
 
 .calendar-datetime::part(year-button) {
-  color: #fff;
+  color: var(--ion-text-color);
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .calendar-datetime::part(year-button:hover) {
-  background: #333;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .calendar-datetime::part(year-button active) {
-  background: #C6FF00;
-  color: #000;
+  background: #000;
+  color: #000000;
   font-weight: 600;
 }
 
 .calendar-datetime::part(months) {
-  background: #2a2a2a;
-  color: #fff;
+  background: transparent;
+  color: var(--ion-text-color);
   border-radius: 12px;
+  border: 1px solid var(--ion-text-color);
 }
 
 .calendar-datetime::part(month-button) {
-  color: #fff;
+  color: var(--ion-text-color);
   border-radius: 8px;
   transition: all 0.2s ease;
 }
 
 .calendar-datetime::part(month-button:hover) {
-  background: #333;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .calendar-datetime::part(month-button active) {
   background: #C6FF00;
-  color: #000;
+  color: #000000;
   font-weight: 600;
+}
+
+// Light mode picker adjustments
+body.light .calendar-datetime::part(years) {
+  color: #000000;
+  border-color: #888888;
+}
+
+body.light .calendar-datetime::part(year-button) {
+  color: #000000;
+}
+
+body.light .calendar-datetime::part(months) {
+  color: #000000;
+  border-color: #888888;
+}
+
+body.light .calendar-datetime::part(month-button) {
+  color: #000000;
 }
 
 // Melhorar botões de ação
 .calendar-datetime::part(button-confirm) {
-  background: #C6FF00;
-  color: #000;
+  background: transparent;
+  color: #C6FF00;
+  border: 1px solid #C6FF00;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -359,13 +469,13 @@
 }
 
 .calendar-datetime::part(button-confirm):hover {
-  background: #b8ff00;
-  transform: translateY(-1px);
+  background: rgba(198, 255, 0, 0.1);
 }
 
 .calendar-datetime::part(button-cancel) {
   background: transparent;
-  color: #888;
+  color: var(--ion-text-color);
+  border: 1px solid var(--ion-text-color);
   border-radius: 8px;
   font-size: 14px;
   padding: 12px 24px;
@@ -373,8 +483,25 @@
 }
 
 .calendar-datetime::part(button-cancel):hover {
-  background: #333;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.light .calendar-datetime::part(button-confirm) {
+  color: #000000;
+  border-color: #888888;
+}
+
+body.light .calendar-datetime::part(button-confirm):hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light .calendar-datetime::part(button-cancel) {
+  color: #666666;
+  border-color: #888888;
+}
+
+body.light .calendar-datetime::part(button-cancel):hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 // Responsividade para o calendário melhorado
@@ -515,7 +642,7 @@
   overflow-y: auto;
 }
 
-.day-indicator {
+day-indicator {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -530,7 +657,7 @@
 }
 
 .day-number {
-  color: #fff;
+  color: var(--calendar-day-header-color);
   font-size: 12px;
   font-weight: 500;
 }
@@ -778,11 +905,20 @@
 }
 
 .bar-label {
-  color: #fff;
+  color: var(--ion-text-color);
   font-size: 12px;
   font-weight: 500;
   margin-top: 8px;
   text-align: center;
+}
+
+// Light mode - bar labels need to be visible on light background
+body.light .chart-container {
+  background: #f5f5f5;
+}
+
+body.light .bar-label {
+  color: #000000;
 }
 
 // Intensidades de atividade no calendário
@@ -970,16 +1106,16 @@
   gap: 12px
 }
 
+
 .day-header {
-  color: #fff;
   font-size: 12px;
   text-align: center;
   font-weight: 500;
-  padding-bottom: 8px
+  padding-bottom: 8px;
 }
 
 .day {
-  color: #fff;
+  color: var(--calendar-weekday-color);
   font-size: 16px;
   text-align: center;
   padding: 8px;

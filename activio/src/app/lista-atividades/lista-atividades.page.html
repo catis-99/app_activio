@@ -2,15 +2,11 @@
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <ion-button fill="solid" class="icon-btn white" (click)="goHome()">
+      <ion-button fill="clear" class="notification-btn" (click)="goHome()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
 
       <h1 class="page-title">{{ t('listaAtividades.title') }}</h1>
-
-      <ion-button fill="solid" class="icon-btn green" (click)="navigateToCriarAtividade()">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-button>
     </div>
 
 
@@ -68,12 +64,22 @@
 
     <!-- Lista -->
     <div class="list">
+      <!-- Estado vazio quando não há atividades -->
+      <div *ngIf="filteredActivities.length === 0" class="empty-state">
+        <h3>{{ t('listaAtividades.emptyTitle') }}</h3>
+        <p>{{ t('listaAtividades.emptyDescription') }}</p>
+        <ion-button fill="solid" class="create-btn" (click)="navigateToCriarAtividade()">
+          {{ t('home.createActivity') }}
+        </ion-button>
+      </div>
+
       <div class="activity-card" *ngFor="let activity of filteredActivities">
-        <img [src]="activity.icon" />
+        <img [src]="getActivityIcon(activity.tipo)" />
 
         <div class="info">
-          <h2>{{ translateActivityName(activity.name) }}</h2>
-          <p>{{ activity.date }} | {{ activity.time }}</p>
+          <h2>{{ translateActivityName(activity.tipo) }}</h2>
+          <p>{{ activity.data }} | {{ formatTime(activity.hora, activity.minuto, activity.periodo) }} | {{
+            activity.duracao }} min</p>
           <span>{{ translateIntensity(activity.intensidade) }}</span>
         </div>
 

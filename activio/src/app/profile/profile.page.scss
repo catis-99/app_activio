@@ -21,11 +21,11 @@
   margin-bottom: 24px;
 
   ion-button.icon-btn {
-    --background: #fff !important;
+    --background: #F7F8F8 !important;
     --border-radius: 12px !important;
-    --color: #000 !important;
-    background: #fff !important;
-    border: 1px solid #e0e0e0 !important;
+    --color: #2a2a2a !important;
+    background: #F7F8F8 !important;
+    border: none !important;
     width: 48px;
     height: 48px;
     --padding-start: 0;
@@ -48,7 +48,7 @@
 
   ion-button.icon-btn ion-icon {
     font-size: 24px;
-    color: #000 !important;
+    color: #2a2a2a !important;
   }
 
   .page-title {
@@ -62,6 +62,19 @@
 ion-button.icon-btn ion-icon {
   font-size: 24px;
   color: #2a2a2a !important;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .page-title {
@@ -207,7 +220,7 @@ ion-button.icon-btn ion-icon {
       margin-right: 12px;
       vertical-align: middle;
       flex-shrink: 0;
-      
+
       /* Modo escuro: inverte para branco */
       filter: brightness(0) invert(1);
     }
