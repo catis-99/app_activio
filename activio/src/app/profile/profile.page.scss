@@ -206,14 +206,15 @@ ion-button.icon-btn ion-icon {
       height: 24px;
       margin-right: 12px;
       vertical-align: middle;
-      filter: grayscale(1) brightness(0) invert(1);
-      /* Fallback: escuro = branco, claro = preto */
-      transition: filter 0.2s;
+      flex-shrink: 0;
+      
+      /* Modo escuro: inverte para branco */
+      filter: brightness(0) invert(1);
     }
 
-    body.light .menu-icon-svg,
-    :root.light .menu-icon-svg {
-      filter: grayscale(1) brightness(0) invert(0);
+    /* Modo claro: mantém preto */
+    :host-context(body.light) & .menu-icon-svg {
+      filter: none;
     }
 
     .menu-label {
