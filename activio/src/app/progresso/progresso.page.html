@@ -102,7 +102,7 @@ padding<ion-content [fullscreen]="true" class="progress-content">
             <span class="bar-value">{{day.hours}}h</span>
             }
             <div class="bar" [style.height.%]="(day.hours / 3.5) * 100">
-              <div class="bar-fill"></div>
+              <div class="bar-fill" [ngClass]="getBarClass(day.hours)"></div>
             </div>
           </div>
           <span class="bar-label">{{day.label}}</span>
@@ -116,20 +116,21 @@ padding<ion-content [fullscreen]="true" class="progress-content">
       <h2 class="card-title">{{ t('peso.title') }}</h2>
 
       <div class="weight-progress">
+        <!-- Barra de progresso do peso -->
         <div class="weight-bar">
-          <div class="weight-fill"></div>
+          <div class="weight-fill" [style.width.%]="getCurrentWeightPosition()"></div>
           <div class="weight-markers">
-            <div class="marker start">
+            <div class="marker start" [style.left.%]="getStartMarkerPosition()">
               <span class="marker-label">{{ t('peso.inicio') }}</span>
-              <span class="marker-value">68Kg</span>
+              <span class="marker-value">{{weightData.start}}Kg</span>
             </div>
-            <div class="marker current">
+            <div class="marker current" [style.left.%]="getCurrentMarkerPosition()">
               <span class="marker-label">{{ t('peso.atual') }}</span>
-              <span class="marker-value">63Kg</span>
+              <span class="marker-value">{{weightData.current}}Kg</span>
             </div>
-            <div class="marker goal">
+            <div class="marker goal" [style.left.%]="getGoalMarkerPosition()">
               <span class="marker-label">{{ t('peso.objetivo') }}</span>
-              <span class="marker-value">58Kg</span>
+              <span class="marker-value">{{weightData.goal}}Kg</span>
             </div>
           </div>
         </div>

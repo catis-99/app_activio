@@ -217,6 +217,7 @@
   margin-bottom: 24px;
 }
 
+// Garantir que os dias da semana são visíveis
 .calendar-datetime {
   --background: transparent;
   --border-radius: 12px;
@@ -226,6 +227,13 @@
   width: 100%;
   border: none;
   background: transparent;
+}
+
+// Dias da semana (letras) visíveis
+.calendar-datetime::part(weekday) {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 // Melhorar seletor de ano e mês

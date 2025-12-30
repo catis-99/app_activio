@@ -53,7 +53,7 @@
       <!-- Escolher Atividade -->
       <div class="detail-item clickable" (click)="escolherAtividade()">
         <div class="detail-left">
-          <ion-icon name="barbell-outline" class="detail-icon"></ion-icon>
+          <ion-icon [name]="atividadeIcone" class="detail-icon"></ion-icon>
           <span class="detail-label">{{ t('criarAtividade.chooseActivity') }}</span>
         </div>
         <div class="detail-right">
@@ -80,7 +80,10 @@
           <ion-icon name="timer-outline" class="detail-icon"></ion-icon>
           <span class="detail-label">{{ t('criarAtividade.duration') }}</span>
         </div>
-        <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        <div class="detail-right">
+          <span class="detail-value">{{ atividade.duracao || '0h 30m' }}</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </div>
       </div>
 
       <!-- Calorias -->
@@ -101,6 +104,17 @@
         </div>
         <ion-input [(ngModel)]="atividade.local" type="text" placeholder="" class="detail-input">
         </ion-input>
+      </div>
+
+      <!-- Notas -->
+      <div class="detail-item input-item notes-item">
+        <div class="detail-left">
+          <ion-icon name="document-text-outline" class="detail-icon"></ion-icon>
+          <span class="detail-label">Notas</span>
+        </div>
+        <ion-textarea [(ngModel)]="atividade.notas" placeholder="Adicionar notas..." class="detail-textarea"
+          [autoGrow]="true" rows="2">
+        </ion-textarea>
       </div>
     </div>
 

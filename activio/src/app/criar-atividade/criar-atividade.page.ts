@@ -5,7 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AtividadesService, Atividade } from '../services/atividades.service';
 import { I18nService } from '../services/i18n.service';
-import { PickerController } from '@ionic/angular';
+import { DataService } from '../services/data.service';
+import { PickerController, AlertController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -20,8 +21,20 @@ import {
   timeOutline,
   chevronBackOutline,
   addOutline,
-  chevronForwardOutline
+  chevronForwardOutline,
+  walkOutline,
+  bicycleOutline,
+  fitnessOutline,
+  footballOutline,
+  waterOutline,
+  bodyOutline
 } from 'ionicons/icons';
+
+export interface AtividadeOption {
+  nome: string;
+  icone: string;
+  caloriaPorMinuto: number;
+}
 
 @Component({
   selector: 'app-criar-atividade',
@@ -36,16 +49,27 @@ export class CriarAtividadePage {
   showCalendar = false;
   dataSelecionada = new Date().toISOString();
 
+  // Lista de atividades disponíveis
+  atividades: AtividadeOption[] = [
+    { nome: 'Correr', icone: 'walk-outline', caloriaPorMinuto: 10 },
+    { nome: 'Ciclismo', icone: 'bicycle-outline', caloriaPorMinuto: 8 },
+    { nome: 'Ginásio', icone: 'fitness-outline', caloriaPorMinuto: 7 },
+    { nome: 'Futebol', icone: 'football-outline', caloriaPorMinuto: 9 },
+    { nome: 'Natação', icone: 'water-outline', caloriaPorMinuto: 11 },
+    { nome: 'Yoga', icone: 'body-outline', caloriaPorMinuto: 4 }
+  ];
+
   atividade: Partial<Atividade> & { periodo: 'AM' | 'PM', intensidade: 'Baixa' | 'Média' | 'Alta' } = {
     data: 'Qui, 27 Maio 2025',
     hora: 3,
     minuto: 30,
     periodo: 'PM' as 'AM' | 'PM',
-    tipo: 'Ciclismo',
+    tipo: 'Correr',
     intensidade: 'Alta' as 'Baixa' | 'Média' | 'Alta',
     duracao: '',
     calorias: '',
-    local: ''
+    local: '',
+    notas: ''
   };
 
   // Opções para o time picker
@@ -57,7 +81,9 @@ export class CriarAtividadePage {
     private route: ActivatedRoute,
     private atividadesService: AtividadesService,
     private i18nService: I18nService,
-    private pickerController: PickerController
+    private dataService: DataService,
+    private pickerController: PickerController,
+    private alertController: AlertController
   ) {
     addIcons({
       calendarOutline,
@@ -71,7 +97,13 @@ export class CriarAtividadePage {
       timeOutline,
       chevronBackOutline,
       addOutline,
-      chevronForwardOutline
+      chevronForwardOutline,
+      walkOutline,
+      bicycleOutline,
+      fitnessOutline,
+      footballOutline,
+      waterOutline,
+      bodyOutline
     });
     this.checkEditMode();
   }
@@ -97,7 +129,8 @@ export class CriarAtividadePage {
           intensidade: atividade.intensidade,
           duracao: atividade.duracao,
           calorias: atividade.calorias,
-          local: atividade.local
+          local: atividade.local,
+          notas: atividade.notas || ''
         };
       } else {
         this.atividadesService.showToast('Atividade não encontrada!', 'danger');
@@ -112,6 +145,16 @@ export class CriarAtividadePage {
 
   get pageTitle() {
     return this.editMode ? 'Editar Atividade' : 'Criar Atividade';
+  }
+
+  get atividadeIcone(): string {
+    const atividade = this.atividades.find(a => a.nome === this.atividade.tipo);
+    return atividade?.icone || 'barbell-outline';
+  }
+
+  get atividadeCaloriaPorMinuto(): number {
+    const atividade = this.atividades.find(a => a.nome === this.atividade.tipo);
+    return atividade?.caloriaPorMinuto || 7;
   }
 
   goHome() {
@@ -153,8 +196,68 @@ export class CriarAtividadePage {
   }
 
   escolherAtividade() {
-    console.log('Escolher atividade');
-    // Implementar modal de seleção de atividade
+    this.mostrarPickerAtividades();
+  }
+
+  async mostrarPickerAtividades() {
+    // Criar opções de atividades dinamicamente
+    const atividadeOptions = this.atividades.map((a, index) => ({
+      text: a.nome,
+      value: index,
+      icon: a.icone
+    }));
+
+    const picker = await this.pickerController.create({
+      columns: [
+        {
+          name: 'atividade',
+          options: atividadeOptions
+        }
+      ],
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'OK', handler: (value: any) => {
+            const selectedIndex = value.atividade.value;
+            const atividadeSelecionada = this.atividades[selectedIndex];
+            this.atividade.tipo = atividadeSelecionada.nome;
+
+            // Calcular calorias automáticas se tiver duração
+            if (this.atividade.duracao) {
+              this.calcularCalorias(atividadeSelecionada.caloriaPorMinuto);
+            }
+          }
+        }
+      ]
+    });
+    await picker.present();
+  }
+
+  private calcularCalorias(caloriaPorMinuto: number) {
+    // Extrair duração em minutos
+    const duracao = this.atividade.duracao || '';
+    let minutos = 0;
+
+    if (duracao.includes('h')) {
+      const partes = duracao.split('h');
+      const horas = parseInt(partes[0]) || 0;
+      const minPart = partes[1] || '';
+      const min = parseInt(minPart.replace('m', '').trim()) || 0;
+      minutos = (horas * 60) + min;
+    } else if (duracao.includes('m')) {
+      minutos = parseInt(duracao.replace('m', '')) || 0;
+    }
+
+    // Calcular calorias baseadas na intensidade
+    const intensidadeMultiplicador: { [key: string]: number } = {
+      'Baixa': 0.8,
+      'Média': 1.0,
+      'Alta': 1.2
+    };
+    const multiplicador = intensidadeMultiplicador[this.atividade.intensidade] || 1.0;
+
+    const calorias = Math.round(caloriaPorMinuto * minutos * multiplicador);
+    this.atividade.calorias = calorias.toString();
   }
 
   alterarIntensidade() {
@@ -165,8 +268,58 @@ export class CriarAtividadePage {
   }
 
   abrirDuracao() {
-    console.log('Abrir duração');
-    // Implementar modal de duração
+    this.mostrarPickerDuracao();
+  }
+
+  async mostrarPickerDuracao() {
+    // Criar opções de horas (0-10)
+    const horasOptions = Array.from({ length: 11 }, (_, i) => ({
+      text: i === 0 ? '0h' : `${i}h`,
+      value: i
+    }));
+
+    // Criar opções de minutos (0-59, de 5 em 5)
+    const minutosOptions = Array.from({ length: 12 }, (_, i) => {
+      const min = i * 5;
+      return {
+        text: min === 0 ? '00m' : `${min}m`,
+        value: min
+      };
+    });
+
+    const picker = await this.pickerController.create({
+      columns: [
+        {
+          name: 'hours',
+          options: horasOptions,
+          selectedIndex: 1 // Default: 1h
+        },
+        {
+          name: 'minutes',
+          options: minutosOptions,
+          selectedIndex: 6 // Default: 30m
+        }
+      ],
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'OK', handler: (value: any) => {
+            const horas = value.hours.value;
+            const minutos = value.minutes.value;
+
+            // Formatar duração
+            if (horas === 0) {
+              this.atividade.duracao = `${minutos}m`;
+            } else if (minutos === 0) {
+              this.atividade.duracao = `${horas}h`;
+            } else {
+              this.atividade.duracao = `${horas}h ${minutos}m`;
+            }
+          }
+        }
+      ]
+    });
+    await picker.present();
   }
 
   async abrirTimePicker() {
@@ -237,7 +390,32 @@ export class CriarAtividadePage {
       }
     } else {
       this.atividadesService.createAtividade(this.atividade);
+      // Sincronizar com DataService - adicionar horas ao dia atual
+      this.sincronizarComProgresso();
       this.router.navigate(['/lista-atividades']);
+    }
+  }
+
+  private async sincronizarComProgresso() {
+    // Extrair horas da duração
+    const duracao = this.atividade.duracao || '';
+    let horas = 0;
+
+    if (duracao.includes('h')) {
+      const partes = duracao.split('h');
+      horas = parseInt(partes[0]) || 0;
+    }
+
+    if (horas > 0 && this.atividade.data) {
+      // Obter dia da semana da data selecionada
+      const dataParts = this.atividade.data.split(',')[0];
+      const diasMap: { [key: string]: string } = {
+        'Dom': 'Dom', 'Seg': 'Seg', 'Ter': 'Ter', 'Qua': 'Qua',
+        'Qui': 'Qui', 'Sex': 'Sex', 'Sáb': 'Sáb'
+      };
+      const diaKey = diasMap[dataParts] || 'Seg';
+
+      await this.dataService.addTrainingHours(diaKey, horas);
     }
   }
 

@@ -140,3 +140,14 @@
         padding: 3vh 8vw;
     }
 }
+
+// Ignorar tema global - usar sempre cores corretas para este fundo escuro
+:host-context(body.light) {
+    .intro-title {
+        color: #D5FF5F !important;
+    }
+
+    .intro-description {
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+}

@@ -16,6 +16,8 @@
         </div>
         <h2 class="profile-name">{{ userProfile.name }}</h2>
         <ion-button class="edit-button" (click)="editProfile()">
+          <ion-icon name="document-text-outline"
+            style="margin-right: 6px; color: white; pointer-events: none;"></ion-icon>
           {{ t('profile.edit') }}
         </ion-button>
       </div>
@@ -52,7 +54,7 @@
           <span class="menu-label">{{ t('profile.achievements') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
         </div>
-        <div class="menu-item" (click)="navigateTo('/history')">
+        <div class="menu-item" (click)="navigateTo('/lista-atividades')">
           <img src="assets/icons_nav/Icon-Activity.svg " alt="Histórico" class="menu-icon-svg">
           <span class="menu-label">{{ t('profile.history') }}</span>
           <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
@@ -92,23 +94,23 @@
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
-    <button class="nav-btn" (click)="navigateTo('/home')">
+    <ion-button fill="clear" routerLink="/home" class="nav-btn">
       <img src="assets/icons_nav/Home.svg" alt="Home" class="nav-icon" style="filter:none;color:#000;fill:#000;">
-    </button>
-    <button class="nav-btn" (click)="navigateTo('/progresso')">
+    </ion-button>
+    <ion-button fill="clear" routerLink="/progresso" class="nav-btn">
       <img src="assets/icons_nav/Activity.svg" alt="Progresso" class="nav-icon"
         style="filter:none;color:#000;fill:#000;">
-    </button>
-    <button class="nav-btn-fab" (click)="navigateTo('/criar-atividade')">
+    </ion-button>
+    <ion-button fill="clear" routerLink="/criar-atividade" class="nav-btn-fab">
       <img src="assets/icons_nav/plus.svg" alt="Adicionar" class="nav-icon-plus">
-    </button>
-    <button class="nav-btn" (click)="navigateTo('/lista-atividades')">
+    </ion-button>
+    <ion-button fill="clear" routerLink="/lista-atividades" class="nav-btn">
       <img src="assets/icons_nav/Icon-Activity.svg" alt="Conquistas" class="nav-icon"
         style="filter:none;color:#000;fill:#000;">
-    </button>
-    <button class="nav-btn active" (click)="navigateTo('/profile')">
+    </ion-button>
+    <ion-button fill="clear" routerLink="/profile" class="nav-btn active">
       <img src="assets/icons_nav/Profile.svg" alt="Profile" class="nav-icon" style="filter:none;color:#000;fill:#000;">
       <span class="nav-dot"></span>
-    </button>
+    </ion-button>
   </div>
 </ion-content>

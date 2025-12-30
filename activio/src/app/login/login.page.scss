@@ -65,3 +65,26 @@ h2 {
     font-weight: 600;
   }
 }
+
+// Ignorar tema global - usar sempre cores corretas para este fundo escuro
+:host-context(body.light) {
+  h1 {
+    color: #fff !important;
+  }
+
+  h2 {
+    color: #b7ff00 !important;
+  }
+
+  .forgot-password {
+    color: #ccc !important;
+  }
+
+  .register-text {
+    color: #fff !important;
+
+    span {
+      color: #b7ff00 !important;
+    }
+  }
+}

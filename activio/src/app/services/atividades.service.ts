@@ -13,6 +13,7 @@ export interface Atividade {
     duracao: string;
     calorias: string;
     local: string;
+    notas: string;
     favorite?: boolean;
 }
 
@@ -88,6 +89,7 @@ export class AtividadesService {
             duracao: atividade.duracao || '',
             calorias: atividade.calorias || '',
             local: atividade.local || '',
+            notas: atividade.notas || '',
             favorite: atividade.favorite || false,
             id: this.generateId()
         };

@@ -142,3 +142,14 @@
         padding: 1vh 0;
     }
 }
+
+// Ignorar tema global - usar sempre cores corretas para este fundo escuro
+:host-context(body.light) {
+    .welcome-title {
+        color: #C6FF00 !important;
+    }
+
+    .welcome-subtitle {
+        color: #B6B4C2 !important;
+    }
+}
