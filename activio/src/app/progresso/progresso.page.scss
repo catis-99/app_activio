@@ -178,6 +178,9 @@
   gap: 8px;
   height: 180px;
   padding-top: 20px;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .bar-item {
@@ -187,6 +190,8 @@
   align-items: center;
   gap: 8px;
   height: 100%;
+  min-width: 35px;
+  max-width: 60px;
 }
 
 .bar-wrapper {
@@ -197,6 +202,7 @@
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  min-height: 10px;
 }
 
 .bar-value {
@@ -206,23 +212,50 @@
   margin-bottom: 4px;
   position: absolute;
   top: -20px;
+  white-space: nowrap;
 }
 
 .bar {
   width: 100%;
   background: var(--ion-text-color-step-400);
   border-radius: 8px 8px 0 0;
-  min-height: 10px;
+  min-height: 4px;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
+  transition: height 0.3s ease;
 }
 
 .bar-fill {
   width: 100%;
   height: 100%;
-  background: var(--ion-color-primary);
   border-radius: 8px 8px 0 0;
+  transition: background-color 0.3s ease, height 0.3s ease;
+
+  // Cinza escuro para treino muito baixo (0-1h)
+  &.bar-low {
+    background: #2a2a2a;
+  }
+
+  // Cinza médio para treino baixo (1-2h)
+  &.bar-medium {
+    background: #3d3d3d;
+  }
+
+  // Cinza claro para treino médio (2-3h)
+  &.bar-high {
+    background: #4a4a4a;
+  }
+
+  // Verde para treino alto (3-3.5h)
+  &.bar-max {
+    background: var(--ion-color-primary);
+  }
+
+  // Transparente para treino zero
+  &.bar-empty {
+    background: transparent;
+  }
 }
 
 .bar-label {
@@ -230,6 +263,7 @@
   font-size: 12px;
   font-weight: 500;
   margin-top: 8px;
+  white-space: nowrap;
 }
 
 // Weight Card
@@ -241,20 +275,20 @@
   .weight-bar {
     position: relative;
     height: 40px;
-    background: var(--ion-text-color-step-400);
+    background: var(--weight-bar-bg, var(--ion-text-color-step-400));
     border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 60px;
+    overflow: visible;
+    margin-bottom: 80px;
   }
 
   .weight-fill {
     position: absolute;
     left: 0;
     top: 0;
-    width: 50%;
     height: 100%;
-    background: var(--ion-color-primary);
+    background: var(--weight-fill-color, var(--ion-color-primary));
     border-radius: 20px;
+    transition: width 0.5s ease;
   }
 
   .weight-markers {
@@ -264,32 +298,48 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 0 10px;
-    margin-top: 12px;
+    padding: 0;
+    margin-top: 6px;
   }
 
   .marker {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    justify-content: flex-start;
+    gap: 2px;
+    position: absolute;
+    transform: translateX(-50%);
+    transition: left 0.5s ease;
+    text-align: center;
+    min-width: 60px;
+
+    &.start {
+      align-items: center;
+    }
 
     &.current {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      align-items: center;
+    }
+
+    &.goal {
+      align-items: center;
     }
   }
 
   .marker-label {
     color: var(--ion-text-color-step-300);
-    font-size: 12px;
+    font-size: 11px;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .marker-value {
     color: var(--ion-text-color);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
   }
 }
 

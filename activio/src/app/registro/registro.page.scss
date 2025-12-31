@@ -148,3 +148,30 @@ h2 {
     }
   }
 }
+
+// Ignorar tema global - usar sempre cores corretas para este fundo escuro
+:host-context(body.light) {
+  h1 {
+    color: #fff !important;
+  }
+
+  h2 {
+    color: #b7ff00 !important;
+  }
+
+  .terms p {
+    color: #ccc !important;
+  }
+
+  .terms span {
+    color: #C6FF00 !important;
+  }
+
+  .login-text {
+    color: #fff !important;
+
+    span {
+      color: #C6FF00 !important;
+    }
+  }
+}

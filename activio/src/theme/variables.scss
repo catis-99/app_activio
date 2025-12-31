@@ -234,6 +234,10 @@ body.light {
     --detail-text-color: #ffffff;
     --detail-icon-color: #ffffff;
     --detail-value-color: #C6FF00;
+
+    /* Weight chart colors for light theme */
+    --weight-bar-bg: #e0e0e0;
+    --weight-fill-color: #333333;
 }
 
 body.dark {
@@ -255,4 +259,8 @@ body.dark {
     --detail-text-color: #ffffff;
     --detail-icon-color: #ffffff;
     --detail-value-color: #C6FF00;
+
+    /* Weight chart colors for dark theme */
+    --weight-bar-bg: #333333;
+    --weight-fill-color: #d4ff00;
 }

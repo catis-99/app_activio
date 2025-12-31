@@ -43,7 +43,6 @@
   ion-button.icon-btn:active {
     outline: none;
     border: 1.5px solid #d4ff00 !important;
-    box-shadow: 0 0 0 2px #d4ff0033;
   }
 
   ion-button.icon-btn ion-icon {
@@ -123,14 +122,25 @@ ion-button.icon-btn ion-icon {
 
   .edit-button {
     --background: #000000;
-    --color: #C6FF00;
-    --border-radius: 20px;
+    background: #000000 !important;
+    color: #C6FF00 !important;
+    --border-radius: 20px !important;
+    border-radius: 20px !important;
     --padding-start: 24px;
     --padding-end: 24px;
     height: 36px;
     font-weight: 600;
     text-transform: none;
     font-size: 14px;
+    --color: #C6FF00 !important;
+  }
+
+  /* Light mode: fundo preto, texto verde (igual ao dark) */
+  body.light .edit-button {
+    background: #000000 !important;
+    color: #C6FF00 !important;
+    --background: #000000;
+    --color: #C6FF00 !important;
   }
 }
 
@@ -257,12 +267,14 @@ ion-button.icon-btn ion-icon {
   padding-bottom: max(16px, env(safe-area-inset-bottom));
   display: flex;
   justify-content: space-around;
-  align-items: center
+  align-items: center;
+  z-index: 1000;
 }
 
 .nav-btn {
-  background: transparent;
+  background: transparent !important;
   border: none;
+  margin: 0;
   padding: 8px;
   cursor: pointer;
   position: relative;
@@ -270,16 +282,37 @@ ion-button.icon-btn ion-icon {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  transition: transform 0.2s ease
+  transition: transform 0.2s ease;
+  z-index: 1001;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  --background: transparent;
+  height: auto;
+  font-size: inherit;
+  text-transform: none;
+  white-space: normal;
+}
+
+.nav-btn::before {
+  display: none;
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
+  --background: transparent !important;
 }
 
 .nav-btn ion-icon {
   font-size: 24px;
-  color: rgba(0, 0, 0, 0.5)
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .nav-btn.active ion-icon {
-  color: #000
+  color: #000;
+}
+
+.nav-btn.active .nav-icon {
+  filter: none;
 }
 
 
@@ -311,6 +344,7 @@ ion-button.icon-btn ion-icon {
 }
 
 .nav-btn-fab {
+  --background: #2a2a2a !important;
   background: #2a2a2a;
   border: none;
   width: 56px;
@@ -323,15 +357,21 @@ ion-button.icon-btn ion-icon {
   margin-top: -40px;
   transition: transform 0.2s ease;
   box-shadow: 0 8px 12px -6px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  margin-left: 0;
+  margin-right: 0;
+  --border-radius: 50%;
 }
 
 .nav-btn-fab ion-icon {
   font-size: 32px;
-  color: #C6FF00
+  color: #C6FF00;
+  margin: 0;
 }
 
 .nav-btn-fab:active {
-  transform: scale(0.95)
+  transform: scale(0.95);
+  --background: #2a2a2a !important;
 }
 
 // Estilos para ícones personalizados

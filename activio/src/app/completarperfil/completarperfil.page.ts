@@ -9,13 +9,16 @@ import {
   IonIcon,
   IonButton,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonDatetime,
+  IonModal,
+  IonLabel
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   personOutline,
   calendarOutline,
-  mailOutline,
+  bodyOutline,
   trendingUpOutline
 } from 'ionicons/icons';
 import { I18nService } from '../services/i18n.service';
@@ -34,7 +37,10 @@ import { I18nService } from '../services/i18n.service';
     IonIcon,
     IonButton,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    IonDatetime,
+    IonModal,
+    IonLabel
   ]
 })
 export class CompletarperfilPage implements OnInit {
@@ -43,6 +49,9 @@ export class CompletarperfilPage implements OnInit {
   birthdate: string = '';
   weight: number | null = null;
   height: number | null = null;
+
+  // Controlar a abertura do calendário
+  showCalendar = false;
 
   // Data máxima (hoje)
   maxDate: string;
@@ -54,7 +63,7 @@ export class CompletarperfilPage implements OnInit {
     private i18nService: I18nService
   ) {
     // Registrar os ícones necessários
-    addIcons({ personOutline, calendarOutline, mailOutline, trendingUpOutline });
+    addIcons({ personOutline, calendarOutline, bodyOutline, trendingUpOutline });
 
     // Configurar datas
     const today = new Date();
@@ -90,12 +99,11 @@ export class CompletarperfilPage implements OnInit {
    * Carregar dados do usuário (se existirem)
    */
   loadUserData() {
-    // Se você salvou dados do registro, pode carregá-los aqui
-    // const userData = localStorage.getItem('userData');
-    // if (userData) {
-    //   const data = JSON.parse(userData);
-    //   // Carregar dados...
-    // }
+    // Carregar dados do localStorage se existirem
+    this.gender = localStorage.getItem('userGender') || '';
+    this.birthdate = localStorage.getItem('userBirthdate') || '';
+    this.weight = Number(localStorage.getItem('userWeight')) || null;
+    this.height = Number(localStorage.getItem('userHeight')) || null;
   }
 
   /**
@@ -145,14 +153,6 @@ export class CompletarperfilPage implements OnInit {
    */
   showError(message: string) {
     console.error(message);
-    // TODO: Implementar toast
-    // const toast = await this.toastController.create({
-    //   message: message,
-    //   duration: 3000,
-    //   color: 'danger',
-    //   position: 'top'
-    // });
-    // toast.present();
   }
 
   /**
@@ -202,25 +202,17 @@ export class CompletarperfilPage implements OnInit {
       bmi: this.calculateBMI()
     };
 
+    // Salvar dados no localStorage
+    localStorage.setItem('userGender', this.gender);
+    localStorage.setItem('userBirthdate', this.birthdate);
+    localStorage.setItem('userWeight', String(this.weight));
+    localStorage.setItem('userHeight', String(this.height));
+    localStorage.setItem('userAge', String(this.calculateAge()));
+
     console.log('✅ Perfil completo:', profileData);
 
-    // Salvar dados (localStorage ou enviar para API)
-    // localStorage.setItem('userProfile', JSON.stringify(profileData));
-
-    // TODO: Enviar para API
-    // this.userService.updateProfile(profileData).subscribe({
-    //   next: (response) => {
-    //     console.log('Perfil atualizado com sucesso');
-    //     this.router.navigate(['/login']);
-    //   },
-    //   error: (error) => {
-    //     console.error('Erro ao atualizar perfil', error);
-    //     this.showError('Erro ao salvar perfil. Tente novamente.');
-    //   }
-    // });
-
-    // Por enquanto, navega para o login
-    this.router.navigate(['/login']);
+    // Navega para a página de sucesso do registo
+    this.router.navigate(['/sucesso-registo']);
   }
 
   /**
@@ -228,5 +220,26 @@ export class CompletarperfilPage implements OnInit {
    */
   goBack() {
     this.router.navigate(['/registro']);
+  }
+
+  /**
+   * Abrir o calendário
+   */
+  abrirCalendario() {
+    this.showCalendar = true;
+  }
+
+  /**
+   * Fechar o calendário
+   */
+  fecharCalendario() {
+    this.showCalendar = false;
+  }
+
+  /**
+   * Quando a data for alterada, fechar o calendário
+   */
+  onDataChange() {
+    this.fecharCalendario();
   }
 }
