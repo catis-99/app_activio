@@ -21,28 +21,28 @@
 
     <!-- Nome Completo -->
     <ion-item lines="none" class="input-item">
-      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <img src="assets/registro/nome_completo.svg" alt="Nome" class="input-icon" slot="start">
       <ion-input [(ngModel)]="fullName" [placeholder]="t('registro.name')" type="text">
       </ion-input>
     </ion-item>
 
     <!-- Telemóvel -->
     <ion-item lines="none" class="input-item">
-      <ion-icon name="call-outline" slot="start"></ion-icon>
+      <img src="assets/registro/telemovel.svg" alt="Telemóvel" class="input-icon" slot="start">
       <ion-input [(ngModel)]="phone" type="tel" [placeholder]="t('registro.phone')">
       </ion-input>
     </ion-item>
 
     <!-- Email -->
     <ion-item lines="none" class="input-item">
-      <ion-icon name="mail-outline" slot="start"></ion-icon>
+      <img src="assets/registro/email.svg" alt="Email" class="input-icon" slot="start">
       <ion-input [(ngModel)]="email" type="email" [placeholder]="t('registro.email')">
       </ion-input>
     </ion-item>
 
     <!-- Password -->
     <ion-item lines="none" class="input-item">
-      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      <img src="assets/registro/palavra_passe.svg" alt="Password" class="input-icon" slot="start">
       <ion-input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'"
         [placeholder]="t('registro.password')">
       </ion-input>
