@@ -173,6 +173,33 @@
 }
 
 /* =========================
+   Notas Section
+========================= */
+.notes-item {
+    margin-bottom: 12px;
+}
+
+.notes-textarea {
+    background: #2a2a2a;
+    border: 2px solid #444;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 15px;
+    color: #ffffff;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+    
+    &::placeholder {
+        color: #888;
+        opacity: 0.8;
+    }
+}
+
+/* =========================
    Calendar Modal
 ========================= */
 ion-modal {

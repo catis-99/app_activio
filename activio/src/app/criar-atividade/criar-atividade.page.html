@@ -102,6 +102,16 @@
         <ion-input [(ngModel)]="atividade.local" type="text" placeholder="" class="detail-input">
         </ion-input>
       </div>
+
+      <!-- Notas -->
+      <div class="detail-item notes-item">
+        <div class="detail-left">
+          <ion-icon name="document-text-outline" class="detail-icon"></ion-icon>
+          <span class="detail-label">Notas</span>
+        </div>
+      </div>
+      <ion-textarea [(ngModel)]="atividade.notas" placeholder="Adicione notas sobre a atividade..." class="notes-textarea" rows="4">
+      </ion-textarea>
     </div>
 
     <!-- Botão Guardar -->

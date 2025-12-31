@@ -13,6 +13,7 @@ export interface Atividade {
     duracao: string;
     calorias: string;
     local: string;
+    notas?: string;
     favorite?: boolean;
 }
 

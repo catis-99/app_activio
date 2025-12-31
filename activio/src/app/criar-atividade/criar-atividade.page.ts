@@ -20,7 +20,8 @@ import {
   timeOutline,
   chevronBackOutline,
   addOutline,
-  chevronForwardOutline
+  chevronForwardOutline,
+  documentTextOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -45,7 +46,8 @@ export class CriarAtividadePage {
     intensidade: 'Alta' as 'Baixa' | 'Média' | 'Alta',
     duracao: '',
     calorias: '',
-    local: ''
+    local: '',
+    notas: ''
   };
 
   // Opções para o time picker
@@ -71,7 +73,8 @@ export class CriarAtividadePage {
       timeOutline,
       chevronBackOutline,
       addOutline,
-      chevronForwardOutline
+      chevronForwardOutline,
+      documentTextOutline
     });
     this.checkEditMode();
   }
@@ -152,21 +155,85 @@ export class CriarAtividadePage {
     return `${diaSemana}, ${dia} ${mes} ${ano}`;
   }
 
-  escolherAtividade() {
-    console.log('Escolher atividade');
-    // Implementar modal de seleção de atividade
+  async escolherAtividade() {
+    const picker = await this.pickerController.create({
+      columns: [
+        {
+          name: 'atividade',
+          options: [
+            { text: this.t('atividades.ciclismo'), value: 'Ciclismo' },
+            { text: this.t('atividades.atletismo'), value: 'Atletismo' },
+            { text: this.t('atividades.ginasio'), value: 'Ginásio' },
+            { text: this.t('atividades.football'), value: 'Futebol' },
+            { text: this.t('atividades.natacao'), value: 'Natação' },
+            { text: this.t('atividades.yoga'), value: 'Yoga' }
+          ]
+        }
+      ],
+      buttons: [
+        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
+        {
+          text: 'OK',
+          handler: (value: any) => {
+            this.atividade.tipo = value.atividade.value;
+          }
+        }
+      ]
+    });
+    await picker.present();
   }
 
-  alterarIntensidade() {
-    const intensidades: ('Baixa' | 'Média' | 'Alta')[] = ['Baixa', 'Média', 'Alta'];
-    const currentIndex = intensidades.indexOf(this.atividade.intensidade);
-    const nextIndex = (currentIndex + 1) % intensidades.length;
-    this.atividade.intensidade = intensidades[nextIndex];
+  async alterarIntensidade() {
+    const picker = await this.pickerController.create({
+      columns: [
+        {
+          name: 'intensidade',
+          options: [
+            { text: this.t('intensidade.baixa'), value: 'Baixa' },
+            { text: this.t('intensidade.media'), value: 'Média' },
+            { text: this.t('intensidade.alta'), value: 'Alta' }
+          ]
+        }
+      ],
+      buttons: [
+        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
+        {
+          text: 'OK',
+          handler: (value: any) => {
+            this.atividade.intensidade = value.intensidade.value as 'Baixa' | 'Média' | 'Alta';
+          }
+        }
+      ]
+    });
+    await picker.present();
   }
 
-  abrirDuracao() {
-    console.log('Abrir duração');
-    // Implementar modal de duração
+  async abrirDuracao() {
+    const picker = await this.pickerController.create({
+      columns: [
+        {
+          name: 'duracao',
+          options: [
+            { text: '15 min', value: '15' },
+            { text: '30 min', value: '30' },
+            { text: '45 min', value: '45' },
+            { text: '60 min', value: '60' },
+            { text: '90 min', value: '90' },
+            { text: '120 min', value: '120' }
+          ]
+        }
+      ],
+      buttons: [
+        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
+        {
+          text: 'OK',
+          handler: (value: any) => {
+            this.atividade.duracao = value.duracao.value;
+          }
+        }
+      ]
+    });
+    await picker.present();
   }
 
   async abrirTimePicker() {
