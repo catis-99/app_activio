@@ -215,13 +215,160 @@
   margin: 0 0 20px 0;
 }
 
-// Calendário Nativo - Outline Style Cinzento
+// Calendário Customizado
 .calendar-section {
   background: transparent;
   border: 2px solid var(--ion-text-color);
   border-radius: 16px;
-  padding: 16px;
+  padding: 20px;
   margin-bottom: 24px;
+  position: relative;
+}
+
+// Cabeçalho do calendário (mês/ano com navegação)
+.calendar-header-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.month-title {
+  color: var(--ion-text-color);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  text-transform: lowercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: #C6FF00;
+  }
+  
+  .dropdown-icon {
+    font-size: 16px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-month-btn {
+  background: transparent;
+  border: none;
+  color: var(--ion-text-color);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+// Dias da semana
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.weekday {
+  color: var(--ion-text-color);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 4px 0;
+}
+
+// Grid de dias
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ion-text-color);
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  
+  &.empty {
+    visibility: hidden;
+  }
+  
+  &:hover:not(.empty) {
+    background: rgba(198, 255, 0, 0.1);
+  }
+  
+  &.today {
+    border: 2px solid #C6FF00;
+    font-weight: 700;
+  }
+  
+  &.selected {
+    background: rgba(198, 255, 0, 0.2);
+    font-weight: 700;
+  }
+  
+  &.has-activity .activity-dot {
+    position: absolute;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    background: #C6FF00;
+    border-radius: 50%;
+  }
+}
+
+// Light mode adjustments
+body.light {
+  .calendar-section {
+    border-color: #888888;
+  }
+  
+  .calendar-day-cell {
+    &:hover:not(.empty) {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    
+    &.today {
+      border-color: #000000;
+    }
+    
+    &.selected {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    &.has-activity .activity-dot {
+      background: #000000;
+    }
+  }
 }
 
 // Garantir que os dias da semana são visíveis
@@ -229,18 +376,42 @@
   --background: transparent;
   --border-radius: 12px;
   --color: var(--ion-text-color);
+  --ion-color-base: var(--ion-text-color) !important;
   --placeholder-color: var(--ion-color-medium);
   --wheel-highlight-background: rgba(198, 255, 0, 0.2);
   width: 100%;
   border: none;
   background: transparent;
+  color: var(--ion-text-color) !important;
+  
+  // Forçar cor para dias da semana e números
+  ::ng-deep {
+    ion-datetime {
+      color: var(--ion-text-color) !important;
+    }
+    
+    button {
+      color: var(--ion-text-color) !important;
+    }
+    
+    .calendar-day-btn {
+      color: var(--ion-text-color) !important;
+    }
+  }
 }
 
 // Dias da semana (letras) visíveis
 .calendar-datetime::part(weekday) {
-  color: #ffffff !important;
+  color: var(--ion-text-color) !important;
   opacity: 1 !important;
   visibility: visible !important;
+  font-weight: 500 !important;
+}
+
+// Forçar dias da semana no cabeçalho do calendário
+.calendar-datetime::part(calendar-day-of-week) {
+  color: var(--ion-text-color) !important;
+  opacity: 1 !important;
 }
 
 // Melhorar seletor de ano e mês
@@ -248,12 +419,12 @@
   background: transparent;
   border-radius: 12px 12px 0 0;
   padding: 16px;
-  border-bottom: 1px solid var(--ion-color-medium);
-  color: black;
+  border-bottom: 1px solid rgba(198, 255, 0, 0.3);
+  color: var(--ion-text-color);
 }
 
 .calendar-datetime::part(title) {
-  color: #C6FF00;
+  color: var(--ion-text-color);
   font-size: 18px;
   font-weight: 600;
 }
@@ -267,8 +438,8 @@
 
 .calendar-datetime::part(button-header) {
   background: transparent;
-  color: #C6FF00;
-  border: 1px solid #C6FF00;
+  color: var(--ion-text-color);
+  border: 1px solid var(--ion-text-color);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -277,36 +448,38 @@
 }
 
 .calendar-datetime::part(button-header):hover {
-  background: rgba(198, 255, 0, 0.1);
+  background: rgba(198, 255, 0, 0.15);
+  border-color: #C6FF00;
+  color: #C6FF00;
 }
 
 .calendar-datetime::part(button-header active) {
   background: #C6FF00;
   color: #000000;
+  border-color: #C6FF00;
 }
 
 // Estilizar dias do calendário
 .calendar-datetime::part(calendar-day) {
-  color: var(--ion-text-color);
+  color: var(--ion-text-color) !important;
   background: transparent;
   border: 1px solid transparent;
   border-radius: 8px;
   transition: all 0.2s ease;
-  color: black
 }
 
 .calendar-datetime::part(calendar-day today) {
   background: transparent;
-  color: black;
+  color: var(--ion-text-color) !important;
   border: 2px solid #C6FF00;
   font-weight: 600;
 }
 
 .calendar-datetime::part(calendar-day selected) {
   background: rgba(198, 255, 0, 0.2);
-  color: black;
+  color: var(--ion-text-color) !important;
   font-weight: 600;
-  border-color: black;
+  border-color: var(--ion-text-color);
 }
 
 .calendar-datetime::part(calendar-day disabled) {
@@ -321,11 +494,84 @@
 }
 
 .calendar-datetime::part(calendar-header) {
-  color: #989aa2 !important;
+  color: var(--ion-text-color) !important;
   font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+// Estilos específicos para modo escuro - melhorar seletor de mês/ano
+.calendar-datetime::part(month-year-button) {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.calendar-datetime::part(time-button) {
+  color: #ffffff;
+}
+
+.calendar-datetime::part(wheel-item) {
+  color: #ffffff;
+}
+
+.calendar-datetime::part(wheel-item active) {
+  color: #C6FF00;
+  font-weight: 700;
+}
+
+// Botões de navegação (setas)
+.calendar-datetime::part(chevron-button) {
+  color: #ffffff;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(chevron-button):hover {
+  opacity: 1;
+  color: #C6FF00;
+}
+
+// Picker de mês e ano
+.calendar-datetime::part(month-year-toggle) {
+  color: #ffffff;
+  background: rgba(198, 255, 0, 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(month-year-toggle):hover {
+  background: rgba(198, 255, 0, 0.2);
+  color: #C6FF00;
+}
+
+// Grid do picker
+.calendar-datetime::part(month-column),
+.calendar-datetime::part(year-column) {
+  background: transparent;
+}
+
+.calendar-datetime::part(month-button),
+.calendar-datetime::part(year-button) {
+  color: #ffffff;
+  background: transparent;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.calendar-datetime::part(month-button):hover,
+.calendar-datetime::part(year-button):hover {
+  background: rgba(198, 255, 0, 0.15);
+  color: #C6FF00;
+}
+
+.calendar-datetime::part(month-button active),
+.calendar-datetime::part(year-button active) {
+  background: #C6FF00;
+  color: #000000;
+  font-weight: 600;
 }
 
 // Light mode calendar adjustments
@@ -336,6 +582,8 @@ body.light .calendar-section {
 
 body.light .calendar-datetime {
   --color: #000000;
+  --ion-color-base: #000000 !important;
+  color: #000000 !important;
 }
 
 body.light .calendar-datetime::part(header) {
@@ -348,22 +596,51 @@ body.light .calendar-datetime::part(title) {
 }
 
 body.light .calendar-datetime::part(calendar-day) {
-  color: #000000;
+  color: #000000 !important;
 }
 
 body.light .calendar-datetime::part(calendar-day today) {
-  color: #000000;
+  color: #000000 !important;
   border-color: #000000;
 }
 
 body.light .calendar-datetime::part(calendar-day selected) {
   background: rgba(0, 0, 0, 0.1);
-  color: #000000;
+  color: #000000 !important;
   border-color: #000000;
 }
 
 body.light .calendar-datetime::part(calendar-header) {
-  color: #000000;
+  color: #000000 !important;
+}
+
+body.light .calendar-datetime::part(weekday) {
+  color: #000000 !important;
+}
+
+body.light .calendar-datetime::part(calendar-day-of-week) {
+  color: #000000 !important;
+}
+
+body.light .calendar-section ::ng-deep {
+  .calendar-day-of-week,
+  .calendar-weekday {
+    color: #000000 !important;
+  }
+  
+  .calendar-day,
+  .calendar-day-btn {
+    color: #000000 !important;
+  }
+  
+  // Forçar todos os elementos de dia
+  ion-datetime {
+    color: #000000 !important;
+    
+    button {
+      color: #000000 !important;
+    }
+  }
 }
 
 body.light .calendar-datetime::part(button-header) {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, PickerController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { I18nService } from '../services/i18n.service';
 import { AtividadesService, Atividade } from '../services/atividades.service';
@@ -11,6 +11,8 @@ import {
   flameOutline,
   addOutline,
   chevronDownOutline,
+  chevronBackOutline,
+  chevronForwardOutline,
   home,
   statsChartOutline,
   pieChartOutline,
@@ -31,10 +33,18 @@ import {
 export class HomePage {
   selectedPeriod: 'week' | 'month' = 'month';
   isPeriodDropdownOpen = false;
+  isMonthYearPickerOpen = false;
 
   // Dados do calendário nativo
   selectedDate = new Date();
   currentMonth = new Date();
+  
+  // Anos disponíveis no picker
+  availableYears: number[] = [];
+  months = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
 
   // Dados reais das atividades
   atividades: Atividade[] = [];
@@ -49,7 +59,8 @@ export class HomePage {
   constructor(
     private router: Router,
     private i18nService: I18nService,
-    private atividadesService: AtividadesService
+    private atividadesService: AtividadesService,
+    private pickerController: PickerController
   ) {
     addIcons({
       notificationsOutline,
@@ -57,6 +68,8 @@ export class HomePage {
       flameOutline,
       addOutline,
       chevronDownOutline,
+      chevronBackOutline,
+      chevronForwardOutline,
       home,
       statsChartOutline,
       pieChartOutline,
@@ -68,6 +81,72 @@ export class HomePage {
     });
 
     this.loadAtividades();
+    this.generateCalendarDays();
+    this.generateAvailableYears();
+  }
+  
+  generateAvailableYears() {
+    const currentYear = new Date().getFullYear();
+    this.availableYears = [];
+    // Gerar anos de 1900 até 100 anos no futuro
+    for (let year = 1900; year <= currentYear + 100; year++) {
+      this.availableYears.push(year);
+    }
+  }
+  
+  toggleMonthYearPicker() {
+    this.openMonthYearPicker();
+  }
+  
+  async openMonthYearPicker() {
+    const monthOptions = this.months.map((month, index) => ({
+      text: month,
+      value: index
+    }));
+    
+    const yearOptions = this.availableYears.map(year => ({
+      text: year.toString(),
+      value: year
+    }));
+    
+    const picker = await this.pickerController.create({
+      columns: [
+        {
+          name: 'month',
+          options: monthOptions,
+          selectedIndex: this.currentMonth.getMonth()
+        },
+        {
+          name: 'year',
+          options: yearOptions,
+          selectedIndex: this.availableYears.indexOf(this.currentMonth.getFullYear())
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirmar',
+          handler: (value) => {
+            this.selectMonthYear(value.month.value, value.year.value);
+          }
+        }
+      ],
+      cssClass: 'month-year-picker-ionic'
+    });
+
+    await picker.present();
+  }
+  
+  selectYear(year: number) {
+    this.currentMonth = new Date(year, this.currentMonth.getMonth(), 1);
+    this.generateCalendarDays();
+  }
+  
+  selectMonthYear(month: number, year: number) {
+    this.currentMonth = new Date(year, month, 1);
     this.generateCalendarDays();
   }
 
@@ -209,6 +288,51 @@ export class HomePage {
   // Helper para verificar se um dia tem atividades
   hasActivitiesOnDay(dayNumber: number): boolean {
     return this.getAtividadesDoDia(dayNumber).length > 0;
+  }
+
+  // Métodos para o calendário customizado
+  getMonthYear(): string {
+    const monthNames = [
+      'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+    ];
+    return `${monthNames[this.currentMonth.getMonth()]} de ${this.currentMonth.getFullYear()}`;
+  }
+
+  previousMonth() {
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() - 1, 1);
+    this.generateCalendarDays();
+  }
+
+  nextMonth() {
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 1);
+    this.generateCalendarDays();
+  }
+
+  getEmptyDays(): number[] {
+    const firstDayOfWeek = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1).getDay();
+    return Array(firstDayOfWeek).fill(0);
+  }
+
+  isToday(day: number): boolean {
+    const today = new Date();
+    return day === today.getDate() && 
+           this.currentMonth.getMonth() === today.getMonth() && 
+           this.currentMonth.getFullYear() === today.getFullYear();
+  }
+
+  isSelected(day: number): boolean {
+    return day === this.selectedDate.getDate() && 
+           this.currentMonth.getMonth() === this.selectedDate.getMonth() && 
+           this.currentMonth.getFullYear() === this.selectedDate.getFullYear();
+  }
+
+  hasActivity(day: number): boolean {
+    return this.hasActivitiesOnDay(day);
+  }
+
+  selectDay(day: number) {
+    this.selectedDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), day);
   }
 
   // Handler para mudança de data no calendário nativo
