@@ -9,7 +9,10 @@ import {
   IonIcon,
   IonButton,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonDatetime,
+  IonModal,
+  IonLabel
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -34,7 +37,10 @@ import { I18nService } from '../services/i18n.service';
     IonIcon,
     IonButton,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    IonDatetime,
+    IonModal,
+    IonLabel
   ]
 })
 export class CompletarperfilPage implements OnInit {
@@ -43,6 +49,9 @@ export class CompletarperfilPage implements OnInit {
   birthdate: string = '';
   weight: number | null = null;
   height: number | null = null;
+
+  // Controlar a abertura do calendário
+  showCalendar = false;
 
   // Data máxima (hoje)
   maxDate: string;
@@ -144,14 +153,6 @@ export class CompletarperfilPage implements OnInit {
    */
   showError(message: string) {
     console.error(message);
-    // TODO: Implementar toast
-    // const toast = await this.toastController.create({
-    //   message: message,
-    //   duration: 3000,
-    //   color: 'danger',
-    //   position: 'top'
-    // });
-    // toast.present();
   }
 
   /**
@@ -210,8 +211,8 @@ export class CompletarperfilPage implements OnInit {
 
     console.log('✅ Perfil completo:', profileData);
 
-    // Navega de volta para o perfil
-    this.router.navigate(['/profile']);
+    // Navega para a página de sucesso do registo
+    this.router.navigate(['/sucesso-registo']);
   }
 
   /**
@@ -219,5 +220,26 @@ export class CompletarperfilPage implements OnInit {
    */
   goBack() {
     this.router.navigate(['/registro']);
+  }
+
+  /**
+   * Abrir o calendário
+   */
+  abrirCalendario() {
+    this.showCalendar = true;
+  }
+
+  /**
+   * Fechar o calendário
+   */
+  fecharCalendario() {
+    this.showCalendar = false;
+  }
+
+  /**
+   * Quando a data for alterada, fechar o calendário
+   */
+  onDataChange() {
+    this.fecharCalendario();
   }
 }

@@ -21,12 +21,22 @@
     </ion-item>
 
     <!-- Data de nascimento -->
-    <ion-item lines="none" class="input-item">
+    <ion-item lines="none" class="input-item" button (click)="abrirCalendario()">
       <ion-icon name="calendar-outline" slot="start"></ion-icon>
-      <ion-input [(ngModel)]="birthdate" type="date" [placeholder]="t('completarperfil.birthdate')" [max]="maxDate"
-        [min]="minDate">
-      </ion-input>
+      <ion-label>{{ birthdate ? (birthdate | date:'dd/MM/yyyy') : t('completarperfil.birthdate') }}</ion-label>
     </ion-item>
+
+    <!-- Calendário Modal -->
+    <ion-modal [isOpen]="showCalendar" (didDismiss)="fecharCalendario()">
+      <ng-template>
+        <div class="modal-wrapper">
+          <ion-datetime presentation="date" [(ngModel)]="birthdate" locale="pt-PT" [max]="maxDate" [min]="minDate"
+            (ionChange)="onDataChange()">
+            <span slot="title">{{ t('completarperfil.birthdate') }}</span>
+          </ion-datetime>
+        </div>
+      </ng-template>
+    </ion-modal>
 
     <!-- Peso -->
     <div class="row">
