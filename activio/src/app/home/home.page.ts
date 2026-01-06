@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, PickerController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { I18nService } from '../services/i18n.service';
 import { AtividadesService, Atividade } from '../services/atividades.service';
+import { DataService } from '../services/data.service';
 import { addIcons } from 'ionicons';
 import {
   notificationsOutline,
@@ -30,7 +31,7 @@ import {
   standalone: true,
   imports: [IonicModule, CommonModule],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   selectedPeriod: 'week' | 'month' = 'month';
   isPeriodDropdownOpen = false;
   isMonthYearPickerOpen = false;
@@ -38,7 +39,7 @@ export class HomePage {
   // Dados do calendário nativo
   selectedDate = new Date();
   currentMonth = new Date();
-  
+
   // Anos disponíveis no picker
   availableYears: number[] = [];
   months = [
@@ -50,6 +51,12 @@ export class HomePage {
   atividades: Atividade[] = [];
   atividadesPorDia: { [key: string]: Atividade[] } = {};
 
+  // Dados do utilizador
+  userName: string = 'Luna';
+  workoutDays: number = 0;
+  totalWorkoutDays: number = 7;
+  burnedCalories: number = 0;
+
   // Dados mock para gráficos (mantidos)
   weeklyData = [30, 45, 20, 60, 35, 50, 40]; // minutos por dia da semana
 
@@ -60,7 +67,8 @@ export class HomePage {
     private router: Router,
     private i18nService: I18nService,
     private atividadesService: AtividadesService,
-    private pickerController: PickerController
+    private pickerController: PickerController,
+    private dataService: DataService
   ) {
     addIcons({
       notificationsOutline,
@@ -84,7 +92,20 @@ export class HomePage {
     this.generateCalendarDays();
     this.generateAvailableYears();
   }
-  
+
+  async ngOnInit() {
+    await this.loadUserData();
+  }
+
+  async loadUserData() {
+    const profile = await this.dataService.getUserProfile();
+    this.userName = profile.name || 'Luna';
+
+    const stats = await this.dataService.getWeeklyStats();
+    this.workoutDays = stats.totalWorkouts;
+    this.burnedCalories = stats.totalCaloriesBurned;
+  }
+
   generateAvailableYears() {
     const currentYear = new Date().getFullYear();
     this.availableYears = [];
@@ -93,22 +114,22 @@ export class HomePage {
       this.availableYears.push(year);
     }
   }
-  
+
   toggleMonthYearPicker() {
     this.openMonthYearPicker();
   }
-  
+
   async openMonthYearPicker() {
     const monthOptions = this.months.map((month, index) => ({
       text: month,
       value: index
     }));
-    
+
     const yearOptions = this.availableYears.map(year => ({
       text: year.toString(),
       value: year
     }));
-    
+
     const picker = await this.pickerController.create({
       columns: [
         {
@@ -139,12 +160,12 @@ export class HomePage {
 
     await picker.present();
   }
-  
+
   selectYear(year: number) {
     this.currentMonth = new Date(year, this.currentMonth.getMonth(), 1);
     this.generateCalendarDays();
   }
-  
+
   selectMonthYear(month: number, year: number) {
     this.currentMonth = new Date(year, month, 1);
     this.generateCalendarDays();
@@ -316,15 +337,15 @@ export class HomePage {
 
   isToday(day: number): boolean {
     const today = new Date();
-    return day === today.getDate() && 
-           this.currentMonth.getMonth() === today.getMonth() && 
-           this.currentMonth.getFullYear() === today.getFullYear();
+    return day === today.getDate() &&
+      this.currentMonth.getMonth() === today.getMonth() &&
+      this.currentMonth.getFullYear() === today.getFullYear();
   }
 
   isSelected(day: number): boolean {
-    return day === this.selectedDate.getDate() && 
-           this.currentMonth.getMonth() === this.selectedDate.getMonth() && 
-           this.currentMonth.getFullYear() === this.selectedDate.getFullYear();
+    return day === this.selectedDate.getDate() &&
+      this.currentMonth.getMonth() === this.selectedDate.getMonth() &&
+      this.currentMonth.getFullYear() === this.selectedDate.getFullYear();
   }
 
   hasActivity(day: number): boolean {

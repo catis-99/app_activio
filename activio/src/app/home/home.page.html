@@ -5,7 +5,7 @@
     <div class="header">
       <div class="greeting">
         <span class="greeting-text">{{ t('home.welcome') }}</span>
-        <h1 class="user-name">Luna</h1>
+        <h1 class="user-name">{{ userName }}</h1>
       </div>
 
       <div class="header-buttons">
@@ -25,7 +25,7 @@
           <span>{{ t('home.workoutDays') }}</span>
           <ion-icon name="barbell-outline"></ion-icon>
         </div>
-        <div class="stat-value">2/7</div>
+        <div class="stat-value">{{ workoutDays }}/{{ totalWorkoutDays }}</div>
       </div>
 
       <div class="stat-card">
@@ -33,7 +33,7 @@
           <span>{{ t('home.burnedCalories') }}</span>
           <ion-icon name="flame-outline"></ion-icon>
         </div>
-        <div class="stat-value">350</div>
+        <div class="stat-value">{{ burnedCalories }}</div>
       </div>
     </div>
 
@@ -120,11 +120,8 @@
         <!-- Grid de Dias -->
         <div class="calendar-grid">
           <div class="calendar-day-cell" *ngFor="let empty of getEmptyDays()" [class.empty]="true"></div>
-          <div class="calendar-day-cell" *ngFor="let day of calendarDays" 
-               [class.today]="isToday(day)"
-               [class.selected]="isSelected(day)"
-               [class.has-activity]="hasActivity(day)"
-               (click)="selectDay(day)">
+          <div class="calendar-day-cell" *ngFor="let day of calendarDays" [class.today]="isToday(day)"
+            [class.selected]="isSelected(day)" [class.has-activity]="hasActivity(day)" (click)="selectDay(day)">
             {{ day }}
             <span class="activity-dot" *ngIf="hasActivity(day)"></span>
           </div>

@@ -38,6 +38,44 @@
       </ng-template>
     </ion-modal>
 
+    <!-- Calendário Mensal -->
+    <div class="calendar-section">
+      <!-- Cabeçalho do Calendário -->
+      <div class="calendar-header-custom">
+        <button class="nav-month-btn" (click)="previousMonth()" type="button">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </button>
+        <h3 class="month-title" (click)="toggleMonthYearPicker()">
+          {{ getMonthYear() }}
+          <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
+        </h3>
+        <button class="nav-month-btn" (click)="nextMonth()" type="button">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Dias da Semana -->
+      <div class="calendar-weekdays">
+        <div class="weekday">DOMIN</div>
+        <div class="weekday">SEGUN</div>
+        <div class="weekday">TERÇA</div>
+        <div class="weekday">QUART</div>
+        <div class="weekday">QUINT</div>
+        <div class="weekday">SEXTA</div>
+        <div class="weekday">SÁBAD</div>
+      </div>
+
+      <!-- Grid de Dias -->
+      <div class="calendar-grid">
+        <div class="calendar-day-cell" *ngFor="let empty of getEmptyDays()" [class.empty]="true"></div>
+        <div class="calendar-day-cell" *ngFor="let day of calendarDays" [class.today]="isToday(day)"
+          [class.selected]="isSelected(day)" [class.has-activity]="hasActivity(day)" (click)="selectDay(day)">
+          {{ day }}
+          <span class="activity-dot" *ngIf="hasActivity(day)"></span>
+        </div>
+      </div>
+    </div>
+
     <!-- Peso -->
     <div class="row">
       <ion-item lines="none" class="input-item">

@@ -12,6 +12,8 @@ export interface User {
     weight: number;
     goal_weight?: number;
     activity_level: 'Sedentário' | 'Leve' | 'Moderado' | 'Ativo' | 'Muito Ativo';
+    gender?: string;
+    birthdate?: string;
     created_at: string;
     updated_at: string;
 }
@@ -91,11 +93,14 @@ export interface ActivityStats {
 })
 export class DatabaseService {
     private sqlite: SQLiteConnection;
-    private db: SQLiteDBConnection;
+    private db!: SQLiteDBConnection;
     private dbName = 'activio.db';
+    private dbReady: Promise<void>;
+    private isInitialized: boolean = false;
 
     constructor() {
         this.sqlite = new SQLiteConnection(CapacitorSQLite);
+        this.dbReady = this.initializeDatabase();
     }
 
     async initializeDatabase(): Promise<void> {
@@ -115,13 +120,23 @@ export class DatabaseService {
             // Criar tabelas
             await this.createTables();
 
+            // Executar migrações
+            await this.runMigrations();
+
             // Seed inicial
             await this.seedInitialData();
 
+            this.isInitialized = true;
             console.log('Database initialized successfully');
         } catch (error) {
             console.error('Error initializing database:', error);
             throw error;
+        }
+    }
+
+    private async ensureDbReady(): Promise<void> {
+        if (!this.isInitialized) {
+            await this.dbReady;
         }
     }
 
@@ -138,6 +153,8 @@ export class DatabaseService {
         weight REAL NOT NULL,
         goal_weight REAL,
         activity_level TEXT CHECK(activity_level IN ('Sedentário', 'Leve', 'Moderado', 'Ativo', 'Muito Ativo')) DEFAULT 'Moderado',
+        gender TEXT,
+        birthdate TEXT,
         created_at TEXT DEFAULT CURRENT_TIMESTAMP,
         updated_at TEXT DEFAULT CURRENT_TIMESTAMP
       )`,
@@ -250,6 +267,27 @@ export class DatabaseService {
         }
     }
 
+    private async runMigrations(): Promise<void> {
+        try {
+            // Migração: adicionar gender e birthdate à tabela users
+            // Verificar se as colunas já existem
+            const tableInfo = await this.db.query('PRAGMA table_info(users)');
+            const columns = tableInfo.values?.map((row: any) => row.name) || [];
+
+            if (!columns.includes('gender')) {
+                await this.db.execute('ALTER TABLE users ADD COLUMN gender TEXT');
+                console.log('Coluna gender adicionada');
+            }
+
+            if (!columns.includes('birthdate')) {
+                await this.db.execute('ALTER TABLE users ADD COLUMN birthdate TEXT');
+                console.log('Coluna birthdate adicionada');
+            }
+        } catch (error) {
+            console.error('Erro nas migrações:', error);
+        }
+    }
+
     private async seedInitialData(): Promise<void> {
         // Verificar se já existe dados
         const badgeCount = await this.db.query('SELECT COUNT(*) as count FROM badges');
@@ -257,10 +295,12 @@ export class DatabaseService {
             await this.seedBadges();
         }
 
-        const userCount = await this.db.query('SELECT COUNT(*) as count FROM users');
-        if (userCount.values?.[0]?.count === 0) {
-            await this.seedExampleUser();
-        }
+        // Não criar utilizador exemplo automaticamente
+        // Deixar que os utilizadores se registem
+        // const userCount = await this.db.query('SELECT COUNT(*) as count FROM users');
+        // if (userCount.values?.[0]?.count === 0) {
+        //     await this.seedExampleUser();
+        // }
     }
 
     private async seedBadges(): Promise<void> {
@@ -393,6 +433,7 @@ export class DatabaseService {
 
     // CRUD Operations - Users
     async createUser(user: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<number> {
+        await this.ensureDbReady();
         const result = await this.db.run(
             'INSERT INTO users (name, email, password_hash, age, height, weight, goal_weight, activity_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [user.name, user.email, user.password_hash, user.age, user.height, user.weight, user.goal_weight, user.activity_level]
@@ -401,13 +442,23 @@ export class DatabaseService {
     }
 
     async getUserById(id: number): Promise<User | null> {
+        await this.ensureDbReady();
         const result = await this.db.query('SELECT * FROM users WHERE id = ?', [id]);
-        return result.values?.[0] || null;
+        if (!result.values || result.values.length === 0) {
+            return null;
+        }
+        return result.values[0] || null;
     }
 
     async getUserByEmail(email: string): Promise<User | null> {
-        const result = await this.db.query('SELECT * FROM users WHERE email = ?', [email]);
-        return result.values?.[0] || null;
+        await this.ensureDbReady();
+        // Usar LOWER() para pesquisa case-insensitive
+        const result = await this.db.query('SELECT * FROM users WHERE LOWER(email) = LOWER(?)', [email]);
+        // Garantir que retornamos null quando não há resultados
+        if (!result.values || result.values.length === 0) {
+            return null;
+        }
+        return result.values[0] || null;
     }
 
     async updateUser(id: number, updates: Partial<Omit<User, 'id' | 'created_at'>>): Promise<void> {

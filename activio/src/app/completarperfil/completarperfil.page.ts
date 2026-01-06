@@ -12,16 +12,19 @@ import {
   IonSelectOption,
   IonDatetime,
   IonModal,
-  IonLabel
+  IonLabel,
+  PickerController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   personOutline,
   calendarOutline,
   bodyOutline,
-  trendingUpOutline
+  trendingUpOutline, chevronBackOutline, chevronDownOutline, chevronForwardOutline
 } from 'ionicons/icons';
 import { I18nService } from '../services/i18n.service';
+import { DataService } from '../services/data.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-completarperfil',
@@ -53,6 +56,16 @@ export class CompletarperfilPage implements OnInit {
   // Controlar a abertura do calendário
   showCalendar = false;
 
+  // Variáveis do calendário mensal customizado
+  selectedDate = new Date();
+  currentMonth = new Date();
+  calendarDays: number[] = [];
+  availableYears: number[] = [];
+  months = [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ];
+
   // Data máxima (hoje)
   maxDate: string;
   // Data mínima (18 anos atrás)
@@ -60,10 +73,13 @@ export class CompletarperfilPage implements OnInit {
 
   constructor(
     private router: Router,
-    private i18nService: I18nService
+    private i18nService: I18nService,
+    private pickerController: PickerController,
+    private dataService: DataService,
+    private alertController: AlertController
   ) {
     // Registrar os ícones necessários
-    addIcons({ personOutline, calendarOutline, bodyOutline, trendingUpOutline });
+    addIcons({ personOutline, calendarOutline, chevronBackOutline, chevronDownOutline, chevronForwardOutline, bodyOutline, trendingUpOutline });
 
     // Configurar datas
     const today = new Date();
@@ -73,6 +89,10 @@ export class CompletarperfilPage implements OnInit {
     const minDate = new Date();
     minDate.setFullYear(today.getFullYear() - 100);
     this.minDate = this.formatDate(minDate);
+
+    // Inicializar calendário customizado
+    this.generateCalendarDays();
+    this.generateAvailableYears();
   }
 
   // Função para traduzir
@@ -98,30 +118,59 @@ export class CompletarperfilPage implements OnInit {
   /**
    * Carregar dados do usuário (se existirem)
    */
-  loadUserData() {
-    // Carregar dados do localStorage se existirem
-    this.gender = localStorage.getItem('userGender') || '';
-    this.birthdate = localStorage.getItem('userBirthdate') || '';
-    this.weight = Number(localStorage.getItem('userWeight')) || null;
-    this.height = Number(localStorage.getItem('userHeight')) || null;
+  async loadUserData() {
+    // Carregar dados do DataService
+    const profile = await this.dataService.getUserProfile();
+
+    console.log('🔍 Perfil carregado:', profile);
+    console.log('🔍 Gender:', profile.gender);
+    console.log('🔍 Birthdate:', profile.birthdate);
+
+    this.gender = profile.gender || '';
+    this.birthdate = profile.birthdate || '';
+    this.weight = profile.weight || null;
+    this.height = profile.height || null;
+
+    console.log('🔍 Valores no formulário:');
+    console.log('   Gender:', this.gender);
+    console.log('   Birthdate:', this.birthdate);
+    console.log('   Weight:', this.weight);
+    console.log('   Height:', this.height);
   }
 
   /**
    * Validar formulário
    */
   validateForm(): boolean {
+    console.log('🔍 Validando formulário...');
+    console.log('   Gender:', this.gender);
+    console.log('   Birthdate:', this.birthdate);
+    console.log('   Birthdate type:', typeof this.birthdate);
+    console.log('   Birthdate length:', this.birthdate?.length);
+    console.log('   Weight:', this.weight);
+    console.log('   Height:', this.height);
+
     if (!this.gender) {
       this.showError('Por favor, escolhe o teu género');
       return false;
     }
 
-    if (!this.birthdate) {
+    if (!this.birthdate || this.birthdate.trim() === '') {
+      console.log('❌ Birthdate vazio ou inválido');
       this.showError('Por favor, insere a tua data de nascimento');
       return false;
     }
 
     // Validar idade mínima (ex: 13 anos)
     const birthDate = new Date(this.birthdate);
+    console.log('📅 Data parsed:', birthDate);
+
+    if (isNaN(birthDate.getTime())) {
+      console.log('❌ Data inválida');
+      this.showError('Data de nascimento inválida');
+      return false;
+    }
+
     const today = new Date();
     let calculatedAge = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -132,6 +181,11 @@ export class CompletarperfilPage implements OnInit {
 
     if (calculatedAge < 13) {
       this.showError('Deves ter pelo menos 13 anos para usar a aplicação');
+      return false;
+    }
+
+    if (calculatedAge > 120) {
+      this.showError('Por favor, insere uma data de nascimento válida');
       return false;
     }
 
@@ -151,8 +205,13 @@ export class CompletarperfilPage implements OnInit {
   /**
    * Mostrar erro
    */
-  showError(message: string) {
-    console.error(message);
+  async showError(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Erro',
+      message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   /**
@@ -187,32 +246,65 @@ export class CompletarperfilPage implements OnInit {
   /**
    * Método chamado ao clicar em "Próximo"
    */
-  onNext() {
+  async onNext() {
     if (!this.validateForm()) {
       return;
     }
+
+    const age = this.calculateAge();
 
     // Dados do perfil completo
     const profileData = {
       gender: this.gender,
       birthdate: this.birthdate,
-      age: this.calculateAge(),
-      weight: this.weight,
-      height: this.height,
+      age: age,
+      weight: this.weight!,
+      height: this.height!,
       bmi: this.calculateBMI()
     };
 
-    // Salvar dados no localStorage
-    localStorage.setItem('userGender', this.gender);
-    localStorage.setItem('userBirthdate', this.birthdate);
-    localStorage.setItem('userWeight', String(this.weight));
-    localStorage.setItem('userHeight', String(this.height));
-    localStorage.setItem('userAge', String(this.calculateAge()));
+    try {
+      // Buscar perfil atual para manter nome e email
+      const currentProfile = await this.dataService.getUserProfile();
 
-    console.log('✅ Perfil completo:', profileData);
+      // Atualizar perfil com novos dados
+      await this.dataService.saveUserProfile({
+        name: currentProfile.name,
+        email: currentProfile.email,
+        age: age!,
+        height: this.height!,
+        weight: this.weight!,
+        gender: this.gender,
+        activityLevel: 'Moderado',
+        birthdate: this.birthdate
+      });
 
-    // Navega para a página de sucesso do registo
-    this.router.navigate(['/sucesso-registo']);
+      // Salvar progresso inicial
+      const today = new Date().toISOString().split('T')[0];
+      await this.dataService.saveProgress({
+        date: today,
+        weight: this.weight!,
+        notes: 'Perfil inicial completado'
+      });
+
+      console.log('✅ Perfil completo:', profileData);
+
+      // Mostrar alerta de sucesso e redirecionar para home
+      const alert = await this.alertController.create({
+        header: 'Sucesso',
+        message: 'Perfil completado com sucesso!',
+        buttons: [{
+          text: 'OK',
+          handler: () => {
+            this.router.navigate(['/home']);
+          }
+        }]
+      });
+      await alert.present();
+    } catch (error) {
+      console.error('Erro ao salvar perfil:', error);
+      await this.showError('Erro ao salvar o perfil. Tenta novamente.');
+    }
   }
 
   /**
@@ -240,6 +332,131 @@ export class CompletarperfilPage implements OnInit {
    * Quando a data for alterada, fechar o calendário
    */
   onDataChange() {
+    console.log('📅 Data alterada no ion-datetime:', this.birthdate);
+
+    // Se o ion-datetime retorna ISO format (2000-01-01T00:00:00.000Z), extrair apenas a data
+    if (this.birthdate && this.birthdate.includes('T')) {
+      this.birthdate = this.birthdate.split('T')[0];
+      console.log('📅 Data convertida para:', this.birthdate);
+    }
+
     this.fecharCalendario();
+  }
+
+  // ===== MÉTODOS DO CALENDÁRIO MENSAL CUSTOMIZADO =====
+
+  generateAvailableYears() {
+    const currentYear = new Date().getFullYear();
+    this.availableYears = [];
+    // Gerar anos de 1900 até ano atual
+    for (let year = 1900; year <= currentYear; year++) {
+      this.availableYears.push(year);
+    }
+  }
+
+  generateCalendarDays() {
+    const year = this.currentMonth.getFullYear();
+    const month = this.currentMonth.getMonth();
+    const lastDay = new Date(year, month + 1, 0);
+    this.calendarDays = Array.from({ length: lastDay.getDate() }, (_, i) => i + 1);
+  }
+
+  getMonthYear(): string {
+    const monthNames = [
+      'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+    ];
+    return `${monthNames[this.currentMonth.getMonth()]} de ${this.currentMonth.getFullYear()}`;
+  }
+
+  previousMonth() {
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() - 1, 1);
+    this.generateCalendarDays();
+  }
+
+  nextMonth() {
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 1);
+    this.generateCalendarDays();
+  }
+
+  getEmptyDays(): number[] {
+    const firstDayOfWeek = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1).getDay();
+    return Array(firstDayOfWeek).fill(0);
+  }
+
+  isToday(day: number): boolean {
+    const today = new Date();
+    return day === today.getDate() &&
+      this.currentMonth.getMonth() === today.getMonth() &&
+      this.currentMonth.getFullYear() === today.getFullYear();
+  }
+
+  isSelected(day: number): boolean {
+    return day === this.selectedDate.getDate() &&
+      this.currentMonth.getMonth() === this.selectedDate.getMonth() &&
+      this.currentMonth.getFullYear() === this.selectedDate.getFullYear();
+  }
+
+  hasActivity(day: number): boolean {
+    // Por enquanto, retornar false - pode ser customizado depois
+    return false;
+  }
+
+  selectDay(day: number) {
+    this.selectedDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), day);
+    // Atualizar birthdate com o formato correto
+    this.birthdate = this.formatDate(this.selectedDate);
+    console.log('📅 Data selecionada:', this.birthdate);
+  }
+
+  toggleMonthYearPicker() {
+    this.openMonthYearPicker();
+  }
+
+  async openMonthYearPicker() {
+    const monthOptions = this.months.map((month, index) => ({
+      text: month,
+      value: index
+    }));
+
+    const yearOptions = this.availableYears.map(year => ({
+      text: year.toString(),
+      value: year
+    }));
+
+    const picker = await this.pickerController.create({
+      columns: [
+        {
+          name: 'month',
+          options: monthOptions,
+          selectedIndex: this.currentMonth.getMonth()
+        },
+        {
+          name: 'year',
+          options: yearOptions,
+          selectedIndex: this.availableYears.indexOf(this.currentMonth.getFullYear())
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirmar',
+          handler: (value) => {
+            this.selectMonthYear(value.month.value, value.year.value);
+          }
+        }
+      ],
+      cssClass: 'month-year-picker-ionic'
+    });
+
+    await picker.present();
+  }
+
+  selectMonthYear(month: number, year: number) {
+    this.currentMonth = new Date(year, month, 1);
+    this.generateCalendarDays();
   }
 }

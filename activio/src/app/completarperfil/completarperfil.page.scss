@@ -84,3 +84,153 @@ h2 {
   --background: linear-gradient(90deg, #b7ff00, #d8ff4d);
   --border-radius: 30px;
 }
+
+// ===== CALENDÁRIO MENSAL CUSTOMIZADO =====
+.calendar-section {
+  background: transparent;
+  border: 2px solid var(--ion-text-color);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 24px 0;
+  position: relative;
+}
+
+.calendar-section h3 {
+  color: var(--ion-text-color);
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+.calendar-header-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.month-title {
+  color: var(--ion-text-color);
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  text-transform: lowercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #C6FF00;
+  }
+
+  .dropdown-icon {
+    font-size: 16px;
+  }
+}
+
+.nav-month-btn {
+  background: transparent;
+  border: none;
+  color: var(--ion-text-color);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    font-size: 20px;
+  }
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.weekday {
+  color: var(--ion-text-color);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 4px 0;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ion-text-color);
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+
+  &.empty {
+    visibility: hidden;
+  }
+
+  &:hover:not(.empty) {
+    background: rgba(198, 255, 0, 0.1);
+  }
+
+  &.today {
+    border: 2px solid #C6FF00;
+    font-weight: 700;
+  }
+
+  &.selected {
+    background: rgba(198, 255, 0, 0.2);
+    font-weight: 700;
+  }
+
+  &.has-activity .activity-dot {
+    position: absolute;
+    bottom: 4px;
+    width: 4px;
+    height: 4px;
+    background: #C6FF00;
+    border-radius: 50%;
+  }
+}
+
+// Light mode adjustments
+body.light {
+  .calendar-section {
+    border-color: #888888;
+  }
+
+  .calendar-day-cell {
+    &:hover:not(.empty) {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    &.today {
+      border-color: #000000;
+    }
+
+    &.selected {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    &.has-activity .activity-dot {
+      background: #000000;
+    }
+  }
+}
