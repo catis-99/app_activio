@@ -98,20 +98,26 @@ body.light .detail-item .detail-input {
 .month-year-picker-ionic {
   --background: var(--ion-background-color);
   --border-radius: 16px;
+
+
   
   .picker-wrapper {
     border-radius: 16px;
     background: var(--ion-background-color);
+    padding: 20px 0; // ← Más padding
+
   }
   
   .picker-toolbar {
     background: transparent;
     border-bottom: 1px solid rgba(198, 255, 0, 0.3);
-    padding: 16px;
+    padding: 20px 30px; // ← Más padding
+    min-height: 60px;
     
     .picker-button {
       color: var(--ion-text-color);
       font-weight: 600;
+      font-size: 20px;
       
       &.picker-button-confirm {
         color: #C6FF00;
@@ -128,6 +134,8 @@ body.light .detail-item .detail-input {
           color: var(--ion-text-color);
           opacity: 0.4;
           transition: all 0.2s ease;
+          height: 56px; // ← Celdas más altas
+
           
           &.picker-opt-selected {
             opacity: 1;
@@ -143,6 +151,7 @@ body.light .detail-item .detail-input {
       background: rgba(198, 255, 0, 0.15);
       border-top: 1px solid rgba(198, 255, 0, 0.3);
       border-bottom: 1px solid rgba(198, 255, 0, 0.3);
+      
     }
   }
 }
@@ -180,6 +189,103 @@ body.light {
         background: rgba(0, 0, 0, 0.05);
         border-color: rgba(0, 0, 0, 0.1);
       }
+    }
+  }
+}
+// ===== ALERTS - VERSIÓN CON !IMPORTANT =====
+ion-alert {
+  --background: var(--ion-background-color) !important;
+  
+  .alert-wrapper {
+    background: var(--ion-background-color) !important;
+    border-radius: 16px;
+  }
+  
+  .alert-head {
+    background: var(--ion-background-color) !important;
+  }
+  
+  .alert-title {
+    color: var(--ion-text-color) !important;
+    font-weight: 600;
+  }
+  
+  .alert-message,
+  .alert-sub-title {
+    color: var(--ion-text-color) !important;
+  }
+  
+  .alert-button-group {
+    background: var(--ion-background-color) !important;
+  }
+  
+  .alert-button {
+    color: #C6FF00 !important;
+    font-weight: 600;
+  }
+}
+
+// Modo claro - Alerts con contraste
+body.light {
+  ion-alert {
+    --background: #ffffff !important;
+    
+    .alert-wrapper {
+      background: #ffffff !important;
+    }
+    
+    .alert-head {
+      background: #ffffff !important;
+    }
+    
+    .alert-title {
+      color: #000000 !important;
+    }
+    
+    .alert-message,
+    .alert-sub-title {
+      color: #000000 !important;
+    }
+    
+    .alert-button-group {
+      background: #ffffff !important;
+    }
+    
+    .alert-button {
+      color: #000000 !important;
+      font-weight: 700;
+    }
+  }
+}
+
+// Modo oscuro - Alerts
+body.dark {
+  ion-alert {
+    --background: #1a1a1a !important;
+    
+    .alert-wrapper {
+      background: #1a1a1a !important;
+    }
+    
+    .alert-head {
+      background: #1a1a1a !important;
+    }
+    
+    .alert-title {
+      color: #ffffff !important;
+    }
+    
+    .alert-message,
+    .alert-sub-title {
+      color: #ffffff !important;
+    }
+    
+    .alert-button-group {
+      background: #1a1a1a !important;
+    }
+    
+    .alert-button {
+      color: #C6FF00 !important;
     }
   }
 }

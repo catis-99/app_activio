@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ThemeService } from '../services/theme.service';
 import { I18nService } from '../services/i18n.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-settings',
@@ -26,6 +27,7 @@ export class SettingsPage implements OnInit {
 
   constructor(
     private router: Router,
+    private navCtrl: NavController,
     private themeService: ThemeService,
     private i18nService: I18nService
   ) { }
@@ -99,8 +101,8 @@ export class SettingsPage implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/profile']);
-  }
+  this.navCtrl.back();
+}
 
   openMenu() {
     console.log('Menu aberto');

@@ -10,7 +10,6 @@ import {
   IonButton,
   IonSelect,
   IonSelectOption,
-  IonDatetime,
   IonModal,
   IonLabel,
   PickerController
@@ -20,7 +19,11 @@ import {
   personOutline,
   calendarOutline,
   bodyOutline,
-  trendingUpOutline, chevronBackOutline, chevronDownOutline, chevronForwardOutline
+  trendingUpOutline,
+  chevronBackOutline,
+  chevronDownOutline,
+  chevronForwardOutline,
+  closeOutline
 } from 'ionicons/icons';
 import { I18nService } from '../services/i18n.service';
 import { DataService } from '../services/data.service';
@@ -41,7 +44,6 @@ import { AlertController } from '@ionic/angular';
     IonButton,
     IonSelect,
     IonSelectOption,
-    IonDatetime,
     IonModal,
     IonLabel
   ]
@@ -68,7 +70,7 @@ export class CompletarperfilPage implements OnInit {
 
   // Data máxima (hoje)
   maxDate: string;
-  // Data mínima (18 anos atrás)
+  // Data mínima (100 anos atrás)
   minDate: string;
 
   constructor(
@@ -79,7 +81,16 @@ export class CompletarperfilPage implements OnInit {
     private alertController: AlertController
   ) {
     // Registrar os ícones necessários
-    addIcons({ personOutline, calendarOutline, chevronBackOutline, chevronDownOutline, chevronForwardOutline, bodyOutline, trendingUpOutline });
+    addIcons({
+      personOutline,
+      calendarOutline,
+      chevronBackOutline,
+      chevronDownOutline,
+      chevronForwardOutline,
+      bodyOutline,
+      trendingUpOutline,
+      closeOutline
+    });
 
     // Configurar datas
     const today = new Date();
@@ -130,6 +141,13 @@ export class CompletarperfilPage implements OnInit {
     this.birthdate = profile.birthdate || '';
     this.weight = profile.weight || null;
     this.height = profile.height || null;
+
+    // Si hay birthdate, actualizar selectedDate
+    if (this.birthdate) {
+      this.selectedDate = new Date(this.birthdate);
+      this.currentMonth = new Date(this.birthdate);
+      this.generateCalendarDays();
+    }
 
     console.log('🔍 Valores no formulário:');
     console.log('   Gender:', this.gender);
@@ -329,17 +347,13 @@ export class CompletarperfilPage implements OnInit {
   }
 
   /**
-   * Quando a data for alterada, fechar o calendário
+   * Confirmar fecha seleccionada y cerrar modal
    */
-  onDataChange() {
-    console.log('📅 Data alterada no ion-datetime:', this.birthdate);
-
-    // Se o ion-datetime retorna ISO format (2000-01-01T00:00:00.000Z), extrair apenas a data
-    if (this.birthdate && this.birthdate.includes('T')) {
-      this.birthdate = this.birthdate.split('T')[0];
-      console.log('📅 Data convertida para:', this.birthdate);
+  confirmarData() {
+    if (this.selectedDate) {
+      this.birthdate = this.formatDate(this.selectedDate);
+      console.log('📅 Fecha confirmada:', this.birthdate);
     }
-
     this.fecharCalendario();
   }
 
@@ -404,9 +418,8 @@ export class CompletarperfilPage implements OnInit {
 
   selectDay(day: number) {
     this.selectedDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), day);
-    // Atualizar birthdate com o formato correto
-    this.birthdate = this.formatDate(this.selectedDate);
-    console.log('📅 Data selecionada:', this.birthdate);
+    console.log('📅 Día seleccionado:', day);
+    // NO actualizar birthdate aquí, solo al confirmar
   }
 
   toggleMonthYearPicker() {
