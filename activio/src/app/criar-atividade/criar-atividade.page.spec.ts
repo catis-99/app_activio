@@ -1,17 +1,25 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CriarAtividadePage } from './criar-atividade.page';
+import { Component, OnInit } from '@angular/core';
 
-describe('CriarAtividadePage', () => {
-  let component: CriarAtividadePage;
-  let fixture: ComponentFixture<CriarAtividadePage>;
+@Component({
+  selector: 'app-edit-profile',
+  templateUrl: './edit-profile.page.html',
+  styleUrls: ['./edit-profile.page.scss'],
+})
+export class EditProfilePage implements OnInit {
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CriarAtividadePage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  user = {
+    nome: '',
+    email: '',
+    peso: 65,
+    altura: 180
+  };
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  constructor() {}
+
+  ngOnInit() {}
+
+  saveProfile() {
+    console.log('Perfil guardado:', this.user);
+    // Aqui podes ligar a um service ou Firebase / API
+  }
+}

@@ -1,0 +1,137 @@
+.edit-profile-content {
+  --background: var(--ion-background-color);
+}
+
+.container {
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ion-background-color);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.back-btn,
+.menu-btn {
+  --background: transparent;
+  --color: var(--ion-text-color);
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 44px;
+  height: 44px;
+}
+
+.back-btn ion-icon,
+.menu-btn ion-icon {
+  font-size: 24px;
+  color: var(--ion-text-color);
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ion-text-color);
+  margin: 0;
+  text-align: center;
+  flex: 1;
+}
+
+/* Section Title */
+.section-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ion-text-color);
+  margin-bottom: 16px;
+}
+
+/* Edit Items */
+.edit-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex: 1;
+}
+
+.edit-item {
+  background: var(--ion-item-background, #2a2a2a);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+
+  ion-icon {
+    font-size: 24px;
+    color: var(--ion-text-color);
+  }
+}
+
+.item-label {
+  font-size: 16px;
+  color: var(--ion-text-color);
+}
+
+.item-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  ion-icon {
+    font-size: 20px;
+    color: var(--ion-text-color);
+    opacity: 0.5;
+  }
+}
+
+.item-value {
+  font-size: 14px;
+  color: var(--ion-text-color);
+  opacity: 0.7;
+
+  &.highlight {
+    color: var(--ion-color-primary);
+    opacity: 1;
+    font-weight: 500;
+  }
+}
+
+/* Save Button */
+.save-btn {
+  --background: var(--ion-color-primary);
+  --background-activated: var(--ion-color-primary-shade);
+  --color: #000;
+  --border-radius: 16px;
+  height: 56px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: auto;
+  text-transform: none;
+}
+
+/* Light mode adjustments */
+@media (prefers-color-scheme: light) {
+  .edit-item {
+    background: #f5f5f5;
+  }
+}

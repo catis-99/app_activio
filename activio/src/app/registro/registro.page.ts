@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonItem, IonIcon, IonInput, IonCheckbox, IonButton, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonItem, IonIcon, IonInput, IonCheckbox, IonButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { DataService } from '../services/data.service';
 
 @Component({
@@ -58,8 +59,8 @@ export class RegistroPage implements OnInit {
 
   constructor(
     private router: Router,
-    private dataService: DataService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
@@ -72,12 +73,12 @@ export class RegistroPage implements OnInit {
   t(key: string): string {
     const keys = key.split('.');
     let value = this.translations[this.currentLanguage];
-
+    
     for (const k of keys) {
       value = value[k];
       if (!value) return key;
     }
-
+    
     return value;
   }
 
@@ -96,40 +97,111 @@ export class RegistroPage implements OnInit {
   }
 
   async onRegister() {
-    if (!this.fullName || !this.email || !this.password) {
-      await this.showAlert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
+    if (!this.fullName || !this.phone || !this.email || !this.password) {
+      const alert = await this.alertController.create({
+        header: this.currentLanguage === 'pt' ? 'Campos obrigatórios' : 'Required fields',
+        message: this.currentLanguage === 'pt' 
+          ? 'Por favor, preencha todos os campos.' 
+          : 'Please fill in all fields.',
+        buttons: ['OK']
+      });
+      await alert.present();
       return;
     }
 
     if (!this.acceptedTerms) {
-      await this.showAlert('Erro', 'Por favor, aceite os termos e condições.');
+      const alert = await this.alertController.create({
+        header: this.currentLanguage === 'pt' ? 'Termos e Condições' : 'Terms and Conditions',
+        message: this.currentLanguage === 'pt' 
+          ? 'Por favor, aceite os Termos de Uso e a Política de Privacidade.' 
+          : 'Please accept the Terms of Use and Privacy Policy.',
+        buttons: ['OK']
+      });
+      await alert.present();
       return;
     }
 
-    const success = await this.dataService.register(this.email, this.password, this.fullName);
-
-    if (success) {
-      // Salvar nome e email do utilizador no perfil
-      await this.dataService.saveUserProfile({
-        name: this.fullName,
-        age: 25,
-        height: 170,
-        email: this.email
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      const alert = await this.alertController.create({
+        header: this.currentLanguage === 'pt' ? 'Email inválido' : 'Invalid email',
+        message: this.currentLanguage === 'pt' 
+          ? 'Por favor, insira um email válido.' 
+          : 'Please enter a valid email.',
+        buttons: ['OK']
       });
-
-      this.router.navigate(['/completarperfil']);
-    } else {
-      await this.showAlert('Erro', 'Este email já está registado.');
+      await alert.present();
+      return;
     }
-  }
 
-  async showAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
-    await alert.present();
+    // Validate password length
+    if (this.password.length < 6) {
+      const alert = await this.alertController.create({
+        header: this.currentLanguage === 'pt' ? 'Senha fraca' : 'Weak password',
+        message: this.currentLanguage === 'pt' 
+          ? 'A senha deve ter pelo menos 6 caracteres.' 
+          : 'Password must be at least 6 characters long.',
+        buttons: ['OK']
+      });
+      await alert.present();
+      return;
+    }
+
+    // Register user in database
+    try {
+      console.log('=== REGISTRATION ATTEMPT ===');
+      console.log('Name:', this.fullName);
+      console.log('Email:', this.email);
+      console.log('Phone:', this.phone);
+      console.log('Password length:', this.password?.length);
+      
+      const result = await this.dataService.register(
+        this.email,
+        this.password,
+        this.fullName
+      );
+      
+      console.log('Registration result:', result);
+
+      if (result) {
+        console.log('Registration successful!');
+        // Show success alert before navigating
+        const alert = await this.alertController.create({
+          header: this.currentLanguage === 'pt' ? 'Sucesso!' : 'Success!',
+          message: this.currentLanguage === 'pt' 
+            ? 'Conta criada com sucesso! Agora pode fazer login.' 
+            : 'Account created successfully! You can now login.',
+          buttons: [{
+            text: 'OK',
+            handler: () => {
+              this.router.navigate(['/login']);
+            }
+          }]
+        });
+        await alert.present();
+      } else {
+        console.log('Registration failed - Email already exists');
+        const alert = await this.alertController.create({
+          header: this.currentLanguage === 'pt' ? 'Erro' : 'Error',
+          message: this.currentLanguage === 'pt' 
+            ? 'Este email já está registado. Tente fazer login.' 
+            : 'This email is already registered. Try logging in.',
+          buttons: ['OK']
+        });
+        await alert.present();
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      const alert = await this.alertController.create({
+        header: this.currentLanguage === 'pt' ? 'Erro' : 'Error',
+        message: this.currentLanguage === 'pt' 
+          ? 'Ocorreu um erro ao criar a conta. Detalhes: ' + error 
+          : 'An error occurred while creating the account. Details: ' + error,
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
   }
 
   goToLogin() {

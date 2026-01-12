@@ -100,3 +100,11 @@
   color: var(--ion-text-color);
   opacity: 0.7;
 }
+
+/* Modo escuro - ícones específicos brancos */
+@media (prefers-color-scheme: dark) {
+  .badge img[src="/assets/conquistas/100_horas_atividade.svg"],
+  .badge img[src="/assets/conquistas/10_horas_atividade.svg"] {
+    filter: brightness(0) invert(1);
+  }
+}

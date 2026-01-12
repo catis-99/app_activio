@@ -10,6 +10,8 @@ import {
     Achievement
 } from './database.service';
 import { AuthService } from './auth.service';
+import { MockAuthService } from './mock-auth.service';
+import { Platform } from '@ionic/angular';
 
 export interface TrainingDay {
     label: string;
@@ -112,14 +114,23 @@ export interface ProgressEntry {
 export class DataService {
     private storageReady: Promise<Storage>;
     private dbInitialized = false;
+    private useMockAuth = true; // Use mock for web development
 
     constructor(
         private storage: Storage,
         private databaseService: DatabaseService,
-        private authService: AuthService
+        private authService: AuthService,
+        private mockAuthService: MockAuthService,
+        private platform: Platform
     ) {
         this.storageReady = this.initStorage();
-        this.initializeDatabase();
+        // Check if running on native platform
+        this.useMockAuth = !this.platform.is('capacitor');
+        console.log('DataService: Using mock auth:', this.useMockAuth);
+        
+        if (!this.useMockAuth) {
+            this.initializeDatabase();
+        }
     }
 
     private async initStorage(): Promise<Storage> {
@@ -148,6 +159,12 @@ export class DataService {
     // ===== AUTHENTICATION & REGISTRATION =====
 
     async register(email: string, password: string, name?: string): Promise<boolean> {
+        if (this.useMockAuth) {
+            console.log('DataService: Using mock registration');
+            const result = await this.mockAuthService.register(email, password, name || 'Utilizador');
+            return result.success;
+        }
+        
         const result = await this.authService.register({
             name: name || 'Utilizador',
             email,
@@ -161,26 +178,63 @@ export class DataService {
     }
 
     async login(email: string, password: string): Promise<boolean> {
+        if (this.useMockAuth) {
+            console.log('DataService: Using mock login');
+            const result = await this.mockAuthService.login(email, password);
+            return result.success;
+        }
+        
         const result = await this.authService.login(email, password);
         return result.success;
     }
 
     async logout(): Promise<void> {
+        if (this.useMockAuth) {
+            await this.mockAuthService.logout();
+            return;
+        }
         await this.authService.logout();
     }
 
     async getCurrentUser(): Promise<string | null> {
+        if (this.useMockAuth) {
+            const user = this.mockAuthService.getCurrentUser();
+            return user?.email || null;
+        }
         const user = this.authService.getCurrentUser();
         return user?.email || null;
     }
 
     async isLoggedIn(): Promise<boolean> {
+        if (this.useMockAuth) {
+            return this.mockAuthService.isAuthenticated();
+        }
         return this.authService.isAuthenticated();
     }
 
     // ===== USER PROFILE =====
 
     async getUserProfile(): Promise<UserProfile> {
+        if (this.useMockAuth) {
+            const user = this.mockAuthService.getCurrentUser();
+            console.log('🔍 DataService.getUserProfile() - mock user:', user);
+            
+            if (user) {
+                return {
+                    name: user.name || '',
+                    age: user.age || 0,
+                    height: user.height || 0,
+                    email: user.email,
+                    weight: user.weight,
+                    goalWeight: undefined,
+                    activityLevel: undefined,
+                    gender: undefined,
+                    birthdate: undefined
+                };
+            }
+            return { name: '', age: 0, height: 0 };
+        }
+
         const user = this.authService.getCurrentUser();
         console.log('🔍 DataService.getUserProfile() - user:', user);
 
@@ -209,6 +263,20 @@ export class DataService {
 
     async saveUserProfile(profile: UserProfile): Promise<void> {
         console.log('💾 DataService.saveUserProfile() - Recebido:', profile);
+
+        if (this.useMockAuth) {
+            const updates: any = {};
+            if (profile.name) updates.name = profile.name;
+            if (profile.email) updates.email = profile.email;
+            if (profile.age) updates.age = Number(profile.age);
+            if (profile.height) updates.height = Number(profile.height);
+            if (profile.weight) updates.weight = Number(profile.weight);
+            
+            console.log('💾 DataService.saveUserProfile() - Mock updates:', updates);
+            await this.mockAuthService.updateUser(updates);
+            console.log('💾 DataService.saveUserProfile() - Mock user updated');
+            return;
+        }
 
         const user = this.authService.getCurrentUser();
         console.log('💾 DataService.saveUserProfile() - Current user:', user);

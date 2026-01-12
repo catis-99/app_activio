@@ -390,3 +390,48 @@ ion-button.icon-btn ion-icon {
   transition: filter 0.2s;
   vertical-align: middle;
 }
+
+/* Logout item styles: imagem atrás do texto e label vermelho */
+.menu-list .logout-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-list .logout-item .logout-bg {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 120px;
+  height: auto;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.menu-list .logout-item .logout-label {
+  color: #FF3B30;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+}
+
+.menu-list .logout-item .menu-label {
+  flex: 1;
+}
+    .logout-item .logout-bg {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+    }

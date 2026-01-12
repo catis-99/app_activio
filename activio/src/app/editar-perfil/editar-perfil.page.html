@@ -1,0 +1,71 @@
+<ion-content [fullscreen]="true" class="edit-profile-content">
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <ion-button fill="clear" class="back-btn" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-button>
+
+      <h1 class="page-title">Editar Perfil</h1>
+
+      <ion-button fill="clear" class="menu-btn" (click)="openMenu()">
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Editar Section -->
+    <h2 class="section-title">Editar</h2>
+
+    <!-- Edit Items -->
+    <div class="edit-items">
+      <div class="edit-item" (click)="editField('name')">
+        <div class="item-left">
+          <ion-icon name="person-outline"></ion-icon>
+          <span class="item-label">Nome</span>
+        </div>
+        <div class="item-right">
+          <span class="item-value">{{ userProfile.name || 'Não definido' }}</span>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="edit-item" (click)="editField('email')">
+        <div class="item-left">
+          <ion-icon name="mail-outline"></ion-icon>
+          <span class="item-label">Email</span>
+        </div>
+        <div class="item-right">
+          <span class="item-value">{{ userProfile.email || 'Não definido' }}</span>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="edit-item" (click)="editField('weight')">
+        <div class="item-left">
+          <ion-icon name="barbell-outline"></ion-icon>
+          <span class="item-label">Peso</span>
+        </div>
+        <div class="item-right">
+          <span class="item-value highlight">{{ userProfile.weight ? userProfile.weight + ' kg' : 'Não definido' }}</span>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+      </div>
+
+      <div class="edit-item" (click)="editField('height')">
+        <div class="item-left">
+          <ion-icon name="swap-vertical-outline"></ion-icon>
+          <span class="item-label">Altura</span>
+        </div>
+        <div class="item-right">
+          <span class="item-value highlight">{{ userProfile.height ? userProfile.height + ' cm' : 'Não definido' }}</span>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save Button -->
+    <ion-button expand="block" class="save-btn" (click)="saveProfile()">
+      Guardar
+    </ion-button>
+  </div>
+</ion-content>

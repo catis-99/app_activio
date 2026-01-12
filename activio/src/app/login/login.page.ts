@@ -29,17 +29,48 @@ export class LoginPage {
     }
 
     async onLogin() {
+        console.log('=== LOGIN ATTEMPT ===');
+        console.log('Email:', this.email);
+        console.log('Password length:', this.password?.length);
+        
         if (!this.email || !this.password) {
-            await this.showAlert('Erro', 'Por favor, preencha todos os campos.');
+            await this.showAlert('Campos obrigatórios', 'Por favor, preencha todos os campos.');
             return;
         }
 
-        const success = await this.dataService.login(this.email, this.password);
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(this.email)) {
+            await this.showAlert('Email inválido', 'Por favor, insira um email válido.');
+            return;
+        }
 
-        if (success) {
-            this.router.navigate(['/home']);
-        } else {
-            await this.showAlert('Erro', 'Email ou palavra-passe incorretos.');
+        try {
+            console.log('Calling dataService.login...');
+            const success = await this.dataService.login(this.email, this.password);
+            console.log('Login result:', success);
+
+            if (success) {
+                // Show success message
+                console.log('Login successful! Navigating to home...');
+                const alert = await this.alertController.create({
+                    header: 'Sucesso',
+                    message: 'Login realizado com sucesso!',
+                    buttons: [{
+                        text: 'OK',
+                        handler: () => {
+                            this.router.navigate(['/home']);
+                        }
+                    }]
+                });
+                await alert.present();
+            } else {
+                console.log('Login failed - Invalid credentials');
+                await this.showAlert('Erro de autenticação', 'Email ou palavra-passe incorretos.\n\nSe ainda não tem conta, clique em "Criar conta aqui" para se registar primeiro.');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            await this.showAlert('Erro', 'Ocorreu um erro ao tentar fazer login. Detalhes: ' + error);
         }
     }
 

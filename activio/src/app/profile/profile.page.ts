@@ -46,7 +46,7 @@ export class ProfilePage implements OnInit {
   }
 
   editProfile() {
-    this.router.navigate(['/completarperfil']);
+    this.router.navigate(['/editar-perfil']);
   }
 
   goBack() {
@@ -55,6 +55,11 @@ export class ProfilePage implements OnInit {
 
   openMenu() {
     console.log('Menu aberto');
+  }
+
+  logout() {
+    // Placeholder: add real logout logic (clear tokens, call API, etc.)
+    this.router.navigate(['/login']);
   }
 
   t(key: string): string {

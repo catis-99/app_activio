@@ -74,6 +74,11 @@ export const routes: Routes = [
     path: 'sucesso-registo',
     loadComponent: () => import('./sucesso-registo/sucesso-registo.page').then( m => m.SucessoRegistoPage)
   },
+  {
+    path: 'editar-perfil',
+    loadComponent: () => import('./editar-perfil/editar-perfil.page').then( m => m.EditarPerfilPage)
+  },
+
 
 
 ];
