@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
+import { LocalStorageService } from './local-storage.service';
 
 // Interfaces para as entidades da base de dados
 export interface User {
@@ -97,6 +98,8 @@ export class DatabaseService {
     private dbName = 'activio.db';
     private dbReady: Promise<void>;
     private isInitialized: boolean = false;
+    private autoSyncEnabled: boolean = true; // Sync automático habilitado
+
     private getPlatform(): string {
         const win = window as any;
         if (win.Capacitor) {
@@ -105,7 +108,7 @@ export class DatabaseService {
         return 'web';
     }
 
-    constructor() {
+    constructor(private localStorageService: LocalStorageService) {
         this.sqlite = new SQLiteConnection(CapacitorSQLite);
         this.dbReady = this.initializeDatabase();
     }
@@ -346,32 +349,7 @@ export class DatabaseService {
 
 
 
-    private async seedBadges(): Promise<void> {
-        const badges = [
-            { name: 'Primeiro Passo', description: 'Completou o primeiro treino', icon: '/assets/conquistas/primeiro_passo.svg', requirement_type: 'first_activity', requirement_value: 1, points: 10, category: 'iniciante' },
-            { name: 'Sequência de 3 Dias', description: 'Treinou 3 dias seguidos', icon: '/assets/conquistas/3_dias_seguidos.svg', requirement_type: 'streak_days', requirement_value: 3, points: 25, category: 'consistência' },
-            { name: 'Sequência de 7 Dias', description: 'Treinou 7 dias seguidos', icon: '/assets/conquistas/7_dias_seguidos.svg', requirement_type: 'streak_days', requirement_value: 7, points: 50, category: 'consistência' },
-            { name: 'Sequência de 30 Dias', description: 'Treinou 30 dias seguidos', icon: '/assets/conquistas/30_dias_seguidos.svg', requirement_type: 'streak_days', requirement_value: 30, points: 100, category: 'consistência' },
-            { name: '1 Hora de Atividade', description: 'Completou 1 hora de atividade', icon: '/assets/conquistas/1_hora_atividade.svg', requirement_type: 'total_hours', requirement_value: 1, points: 15, category: 'volume' },
-            { name: '10 Horas de Atividade', description: 'Completou 10 horas de atividade', icon: '/assets/conquistas/10_horas_atividade.svg', requirement_type: 'total_hours', requirement_value: 10, points: 75, category: 'volume' },
-            { name: '100 Horas de Atividade', description: 'Completou 100 horas de atividade', icon: '/assets/conquistas/100_horas_atividade.svg', requirement_type: 'total_hours', requirement_value: 100, points: 200, category: 'volume' },
-            { name: '500 Calorias', description: 'Queimou 500 calorias', icon: '/assets/conquistas/500_calorias.svg', requirement_type: 'total_calories', requirement_value: 500, points: 20, category: 'calorias' },
-            { name: '1000 Calorias', description: 'Queimou 1000 calorias', icon: '/assets/conquistas/1000_calorias.svg', requirement_type: 'total_calories', requirement_value: 1000, points: 40, category: 'calorias' },
-            { name: '5000 Calorias', description: 'Queimou 5000 calorias', icon: '/assets/conquistas/5000_calorias.svg', requirement_type: 'total_calories', requirement_value: 5000, points: 100, category: 'calorias' },
-            { name: 'Maratonista', description: 'Completou 5km de corrida', icon: '/assets/conquistas/666_KM.svg', requirement_type: 'running_distance', requirement_value: 5, points: 30, category: 'corrida' },
-            { name: 'Meio Maratonista', description: 'Completou 21km de corrida', icon: '/assets/conquistas/meio_maratona.svg', requirement_type: 'running_distance', requirement_value: 21, points: 80, category: 'corrida' },
-            { name: 'Maratonista Completo', description: 'Completou 42km de corrida', icon: '/assets/conquistas/maratona_completa.svg', requirement_type: 'running_distance', requirement_value: 42, points: 150, category: 'corrida' },
-            { name: 'Força Total', description: 'Levantou 1000kg acumulados', icon: '/assets/conquistas/1000kg.svg', requirement_type: 'weight_lifted', requirement_value: 1000, points: 60, category: 'ginásio' },
-            { name: 'Mestre do Fitness', description: 'Alcançou todos os objetivos mensais', icon: '/assets/conquistas/mestre_fitness.svg', requirement_type: 'monthly_goals', requirement_value: 12, points: 300, category: 'mestre' }
-        ];
 
-        for (const badge of badges) {
-            await this.db.run(
-                'INSERT INTO badges (name, description, icon, requirement_type, requirement_value, points, category) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                [badge.name, badge.description, badge.icon, badge.requirement_type, badge.requirement_value, badge.points, badge.category]
-            );
-        }
-    }
 
 
     // CRUD Operations - Users
@@ -625,4 +603,122 @@ export class DatabaseService {
             await this.db.execute(`DELETE FROM ${table}`);
         }
     }
+
+    // ==================== SYNC COM LOCAL STORAGE ====================
+
+    /**
+     * Habilita ou desabilita o sync automático
+     */
+    setAutoSync(enabled: boolean): void {
+        this.autoSyncEnabled = enabled;
+        console.log(`Sync automático: ${enabled ? 'ATIVADO' : 'DESATIVADO'}`);
+    }
+
+    /**
+     * Sincroniza TODAS as atividades do SQLite para o LocalStorage
+     */
+    async syncToLocalStorage(): Promise<void> {
+        try {
+            console.log('🔄 Iniciando sync SQLite → LocalStorage...');
+
+            // Sincronizar atividades (assumindo user_id = 1)
+            const activities = await this.getActivities(1);
+            await this.localStorageService.saveActivities(activities);
+
+            // Sincronizar usuário (assumindo user_id = 1)
+            const user = await this.getUserById(1);
+            if (user) {
+                await this.localStorageService.saveUser(user);
+            }
+
+            // Sincronizar histórico de peso
+            const weightHistory = await this.getWeightEntries(1);
+            await this.localStorageService.saveWeightHistory(weightHistory);
+
+            console.log('✅ Sync completo!');
+        } catch (error) {
+            console.error('❌ Erro no sync:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Restaura dados do LocalStorage para o SQLite
+     */
+    async restoreFromLocalStorage(): Promise<void> {
+        try {
+            console.log('🔄 Restaurando dados do LocalStorage...');
+
+            // Verificar se há dados
+            if (!this.localStorageService.hasData()) {
+                console.log('⚠️ Nenhum dado no LocalStorage');
+                return;
+            }
+
+            // Restaurar atividades
+            const activities = await this.localStorageService.getActivities();
+            for (const activity of activities) {
+                // Verifica se já existe antes de inserir
+                const exists = await this.getActivityById(activity.id!);
+                if (!exists) {
+                    await this.createActivity(activity);
+                }
+            }
+
+            // Restaurar usuário
+            const user = await this.localStorageService.getUser();
+            if (user) {
+                const existingUser = await this.getUserById(user.id!);
+                if (!existingUser) {
+                    await this.createUser(user);
+                }
+            }
+
+            console.log('✅ Dados restaurados!');
+        } catch (error) {
+            console.error('❌ Erro ao restaurar:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Cria um backup completo em formato JSON
+     */
+    async createBackup(): Promise<string> {
+        return await this.localStorageService.createBackup();
+    }
+
+    /**
+     * Restaura dados de um backup JSON
+     */
+    async restoreBackup(backupJson: string): Promise<void> {
+        await this.localStorageService.restoreBackup(backupJson);
+        // Após restaurar no LocalStorage, sincroniza para o SQLite
+        await this.restoreFromLocalStorage();
+    }
+
+    /**
+     * Download do backup como arquivo
+     */
+    async downloadBackup(): Promise<void> {
+        // Primeiro sincroniza dados atuais
+        await this.syncToLocalStorage();
+        // Depois faz o download
+        await this.localStorageService.downloadBackup();
+    }
+
+    /**
+     * Informações sobre o armazenamento
+     */
+    getStorageInfo() {
+        return this.localStorageService.getStorageSize();
+    }
+
+    /**
+     * Última data de sincronização
+     */
+    getLastSyncDate(): Date | null {
+        return this.localStorageService.getLastSync();
+    }
 }
+
