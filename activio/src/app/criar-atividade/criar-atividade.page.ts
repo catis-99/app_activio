@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AtividadesService, Atividade } from '../services/atividades.service';
+import { DataService } from '../services/data.service';
 import { I18nService } from '../services/i18n.service';
 import { PickerController } from '@ionic/angular';
-import { IonModal } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   calendarOutline,
@@ -31,33 +31,31 @@ import {
   standalone: true,
   imports: [CommonModule, IonicModule, FormsModule]
 })
-export class CriarAtividadePage {
+export class CriarAtividadePage implements OnInit {
   editMode = false;
   atividadeId: string | null = null;
   showCalendar = false;
   dataSelecionada = new Date().toISOString();
 
+  // ✅ CORRIGIDO: Inicializar com dados vazios/padrão do utilizador
   atividade: Partial<Atividade> & { periodo: 'AM' | 'PM', intensidade: 'Baixa' | 'Média' | 'Alta' } = {
-    data: 'Qui, 27 Maio 2025',
-    hora: 3,
-    minuto: 30,
+    data: this.formatarData(new Date()), // Data atual
+    hora: 12,
+    minuto: 0,
     periodo: 'PM' as 'AM' | 'PM',
-    tipo: 'Ciclismo',
-    intensidade: 'Alta' as 'Baixa' | 'Média' | 'Alta',
+    tipo: '', // Vazio até o utilizador escolher
+    intensidade: 'Média' as 'Baixa' | 'Média' | 'Alta', // Valor padrão razoável
     duracao: '',
     calorias: '',
     local: '',
     notas: ''
   };
 
-  // Opções para o time picker
-  horas = Array.from({ length: 12 }, (_, i) => i + 1);
-  minutos = Array.from({ length: 60 }, (_, i) => i);
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private atividadesService: AtividadesService,
+    private dataService: DataService,
     private i18nService: I18nService,
     private pickerController: PickerController
   ) {
@@ -76,6 +74,9 @@ export class CriarAtividadePage {
       chevronForwardOutline,
       documentTextOutline
     });
+  }
+
+  ngOnInit() {
     this.checkEditMode();
   }
 
@@ -100,8 +101,13 @@ export class CriarAtividadePage {
           intensidade: atividade.intensidade,
           duracao: atividade.duracao,
           calorias: atividade.calorias,
-          local: atividade.local
+          local: atividade.local,
+          notas: atividade.notas
         };
+        
+        // Atualizar dataSelecionada para o calendário
+        const parsedDate = this.parseActivityDate(atividade.data);
+        this.dataSelecionada = parsedDate.toISOString();
       } else {
         this.atividadesService.showToast('Atividade não encontrada!', 'danger');
         this.router.navigate(['/lista-atividades']);
@@ -117,28 +123,18 @@ export class CriarAtividadePage {
     return this.editMode ? 'Editar Atividade' : 'Criar Atividade';
   }
 
-  goHome() {
-    this.router.navigate(['/home']);
-  }
-
-  openMenu() {
-    console.log('Menu aberto');
-  }
-
   abrirCalendario() {
-    console.log('Abrir calendário - showCalendar antes:', this.showCalendar);
     this.showCalendar = true;
-    console.log('Abrir calendário - showCalendar depois:', this.showCalendar);
   }
 
   fecharCalendario() {
-    console.log('Fechar calendário');
     this.showCalendar = false;
   }
 
   onDataChange(event: any) {
     const selectedDate = new Date(event.detail.value);
     this.atividade.data = this.formatarData(selectedDate);
+    this.dataSelecionada = event.detail.value;
     this.fecharCalendario();
   }
 
@@ -166,12 +162,13 @@ export class CriarAtividadePage {
             { text: this.t('atividades.ginasio'), value: 'Ginásio' },
             { text: this.t('atividades.football'), value: 'Futebol' },
             { text: this.t('atividades.natacao'), value: 'Natação' },
-            { text: this.t('atividades.yoga'), value: 'Yoga' }
-          ]
+            { text: this.t('atividades.yoga'), value: 'Yoga' },
+          ],
+          selectedIndex: this.getSelectedActivityIndex()
         }
       ],
       buttons: [
-        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
+        { text: this.t('Cancelar'), role: 'cancel' },
         {
           text: 'OK',
           handler: (value: any) => {
@@ -183,7 +180,17 @@ export class CriarAtividadePage {
     await picker.present();
   }
 
+  // ✅ NOVO: Helper para manter seleção atual
+  private getSelectedActivityIndex(): number {
+    const activities = ['Ciclismo', 'Atletismo', 'Ginásio', 'Futebol', 'Natação', 'Yoga'];
+    const index = activities.indexOf(this.atividade.tipo as string);
+    return index >= 0 ? index : 0;
+  }
+
   async alterarIntensidade() {
+    const intensidades = ['Baixa', 'Média', 'Alta'];
+    const currentIndex = intensidades.indexOf(this.atividade.intensidade);
+
     const picker = await this.pickerController.create({
       columns: [
         {
@@ -192,7 +199,8 @@ export class CriarAtividadePage {
             { text: this.t('intensidade.baixa'), value: 'Baixa' },
             { text: this.t('intensidade.media'), value: 'Média' },
             { text: this.t('intensidade.alta'), value: 'Alta' }
-          ]
+          ],
+          selectedIndex: currentIndex >= 0 ? currentIndex : 1
         }
       ],
       buttons: [
@@ -209,6 +217,9 @@ export class CriarAtividadePage {
   }
 
   async abrirDuracao() {
+    const duracoes = ['15', '30', '45', '60', '90', '120'];
+    const currentIndex = duracoes.indexOf(this.atividade.duracao as string);
+
     const picker = await this.pickerController.create({
       columns: [
         {
@@ -220,7 +231,8 @@ export class CriarAtividadePage {
             { text: '60 min', value: '60' },
             { text: '90 min', value: '90' },
             { text: '120 min', value: '120' }
-          ]
+          ],
+          selectedIndex: currentIndex >= 0 ? currentIndex : 0
         }
       ],
       buttons: [
@@ -237,37 +249,43 @@ export class CriarAtividadePage {
   }
 
   async abrirTimePicker() {
+    // ✅ CORRIGIDO: Converter valores atuais para índices
+    const horaIndex = (this.atividade.hora || 12) - 1;
+    const minutoOptions = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+    const minutoIndex = minutoOptions.indexOf(this.atividade.minuto || 0);
+
     const picker = await this.pickerController.create({
       columns: [
         {
           name: 'hour',
-          options: [
-            { text: '1', value: '1' }, { text: '2', value: '2' }, { text: '3', value: '3' },
-            { text: '4', value: '4' }, { text: '5', value: '5' }, { text: '6', value: '6' },
-            { text: '7', value: '7' }, { text: '8', value: '8' }, { text: '9', value: '9' },
-            { text: '10', value: '10' }, { text: '11', value: '11' }, { text: '12', value: '12' }
-          ]
+          options: Array.from({ length: 12 }, (_, i) => ({
+            text: (i + 1).toString(),
+            value: (i + 1).toString()
+          })),
+          selectedIndex: horaIndex >= 0 ? horaIndex : 11
         },
         {
           name: 'minute',
-          options: [
-            { text: '00', value: '0' }, { text: '05', value: '5' }, { text: '10', value: '10' },
-            { text: '15', value: '15' }, { text: '20', value: '20' }, { text: '25', value: '25' },
-            { text: '30', value: '30' }, { text: '35', value: '35' }, { text: '40', value: '40' },
-            { text: '45', value: '45' }, { text: '50', value: '50' }, { text: '55', value: '55' }
-          ]
+          options: minutoOptions.map(m => ({
+            text: m.toString().padStart(2, '0'),
+            value: m.toString()
+          })),
+          selectedIndex: minutoIndex >= 0 ? minutoIndex : 0
         },
         {
           name: 'period',
           options: [
-            { text: 'AM', value: 'AM' }, { text: 'PM', value: 'PM' }
-          ]
+            { text: 'AM', value: 'AM' },
+            { text: 'PM', value: 'PM' }
+          ],
+          selectedIndex: this.atividade.periodo === 'AM' ? 0 : 1
         }
       ],
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
-          text: 'OK', handler: (value: any) => {
+          text: 'OK',
+          handler: (value: any) => {
             this.atividade.hora = parseInt(value.hour.value);
             this.atividade.minuto = parseInt(value.minute.value);
             this.atividade.periodo = value.period.value;
@@ -278,33 +296,125 @@ export class CriarAtividadePage {
     await picker.present();
   }
 
-  onHoraChange(event: any) {
-    this.atividade.hora = parseInt(event.detail.value);
+  // ✅ CORRIGIDO: Mapear TODAS as atividades disponíveis
+  private mapActivityType(tipo: string): 'football' | 'ciclismo' | 'atletismo' | 'ginasio' | 'natacao' | 'yoga' | null {
+    const tipoLower = tipo.toLowerCase();
+    
+    if (tipoLower.includes('futebol')) return 'football';
+    if (tipoLower.includes('ciclismo')) return 'ciclismo';
+    if (tipoLower.includes('atletismo')) return 'atletismo';
+    if (tipoLower.includes('ginásio') || tipoLower.includes('ginasio')) return 'ginasio';
+    if (tipoLower.includes('natação') || tipoLower.includes('natacao')) return 'natacao';
+    if (tipoLower.includes('yoga')) return 'yoga';
+    
+    // Atividades que não são rastreadas nos gráficos
+    return null;
   }
 
-  onMinutoChange(event: any) {
-    this.atividade.minuto = parseInt(event.detail.value);
-  }
-
-  togglePeriodo() {
-    this.atividade.periodo = this.atividade.periodo === 'AM' ? 'PM' : 'AM';
-  }
-
-  guardarAtividade() {
-    // Validar campos obrigatórios
-    if (!this.atividade.data || !this.atividade.tipo || !this.atividade.duracao || !this.atividade.calorias || !this.atividade.local) {
-      this.atividadesService.showToast('Por favor, preencha todos os campos obrigatórios!', 'warning');
+  async guardarAtividade() {
+    // ✅ CORRIGIDO: Validação completa
+    if (!this.atividade.tipo || this.atividade.tipo.trim() === '') {
+      this.atividadesService.showToast('Por favor, escolha uma atividade!', 'warning');
       return;
     }
 
-    if (this.editMode && this.atividadeId) {
-      const success = this.atividadesService.updateAtividade(this.atividadeId, this.atividade);
-      if (success) {
+    if (!this.atividade.duracao) {
+      this.atividadesService.showToast('Por favor, selecione a duração!', 'warning');
+      return;
+    }
+
+    if (!this.atividade.calorias || parseInt(this.atividade.calorias as string) <= 0) {
+      this.atividadesService.showToast('Por favor, insira as calorias queimadas!', 'warning');
+      return;
+    }
+
+    if (!this.atividade.local || this.atividade.local.trim() === '') {
+      this.atividadesService.showToast('Por favor, insira o local!', 'warning');
+      return;
+    }
+
+    // Converter duração de minutos para horas
+    const duracaoMinutos = parseInt(this.atividade.duracao as string);
+    const duracaoHoras = duracaoMinutos / 60;
+
+    // Mapear o tipo de atividade
+    const activityType = this.mapActivityType(this.atividade.tipo as string);
+
+    // Parsear a data da atividade
+    const activityDate = this.parseActivityDate(this.atividade.data as string);
+
+    try {
+      if (this.editMode && this.atividadeId) {
+        const success = this.atividadesService.updateAtividade(this.atividadeId, this.atividade);
+        if (success) {
+          // Atualizar gráficos se for uma atividade rastreada
+          if (activityType) {
+            await this.dataService.recordActivity(activityType, duracaoHoras, activityDate);
+          }
+          this.atividadesService.showToast('Atividade atualizada com sucesso!', 'success');
+          this.router.navigate(['/lista-atividades']);
+        } else {
+          this.atividadesService.showToast('Erro ao atualizar atividade!', 'danger');
+        }
+      } else {
+        // Criar nova atividade
+        this.atividadesService.createAtividade(this.atividade);
+        
+        // Registar atividade nos gráficos se for uma atividade rastreada
+        if (activityType) {
+          await this.dataService.recordActivity(activityType, duracaoHoras, activityDate);
+          console.log(`✅ Atividade ${activityType} registada: ${duracaoHoras}h em ${activityDate.toLocaleDateString()}`);
+        }
+        
+        this.atividadesService.showToast('Atividade criada com sucesso!', 'success');
         this.router.navigate(['/lista-atividades']);
       }
-    } else {
-      this.atividadesService.createAtividade(this.atividade);
-      this.router.navigate(['/lista-atividades']);
+    } catch (error) {
+      console.error('Erro ao guardar atividade:', error);
+      this.atividadesService.showToast('Erro ao guardar atividade!', 'danger');
+    }
+  }
+
+  // ✅ CORRIGIDO: Melhor tratamento de erros e suporte para diferentes formatos
+  private parseActivityDate(dataStr: string): Date {
+    const meses: { [key: string]: number } = {
+      'janeiro': 0, 'fevereiro': 1, 'março': 2, 'abril': 3,
+      'maio': 4, 'junho': 5, 'julho': 6, 'agosto': 7,
+      'setembro': 8, 'outubro': 9, 'novembro': 10, 'dezembro': 11
+    };
+
+    try {
+      // Remover dia da semana se existir (formato: "Qui, 27 Maio 2025")
+      const datePart = dataStr.includes(',') ? dataStr.split(',')[1].trim() : dataStr.trim();
+      const parts = datePart.split(' ');
+      
+      if (parts.length !== 3) {
+        throw new Error('Formato de data inválido');
+      }
+
+      const dia = parseInt(parts[0]);
+      const mesNome = parts[1].toLowerCase();
+      const ano = parseInt(parts[2]);
+
+      const mes = meses[mesNome];
+
+      if (mes === undefined || isNaN(dia) || isNaN(ano)) {
+        throw new Error('Componentes de data inválidos');
+      }
+
+      // Criar data às 12:00 para evitar problemas de timezone
+      const date = new Date(ano, mes, dia, 12, 0, 0);
+      
+      // Validar se a data é válida
+      if (isNaN(date.getTime())) {
+        throw new Error('Data inválida');
+      }
+
+      return date;
+    } catch (error) {
+      console.error('Erro ao parsear data:', dataStr, error);
+      // Retornar data atual em caso de erro
+      return new Date();
     }
   }
 

@@ -54,6 +54,7 @@ export class ListaAtividadesPage implements OnInit {
   navigateToCriarAtividade() {
     this.router.navigate(['/criar-atividade']);
   }
+
   // Traduzir intensidade
   translateIntensity(intensity: string): string {
     const mapping: { [key: string]: string } = {
@@ -66,32 +67,33 @@ export class ListaAtividadesPage implements OnInit {
   }
 
   ngOnInit() {
-    // Carregar atividades do localStorage
+    this.loadActivities();
+  }
+
+  // ✅ CORREÇÃO: Método separado para carregar atividades
+  ionViewWillEnter() {
+    // Recarrega sempre que a página é exibida (útil após criar/editar)
+    this.loadActivities();
+  }
+
+  private loadActivities() {
+    // Carregar atividades reais do utilizador
     this.activities = this.atividadesService.getAtividades();
-
-    // Se não houver atividades, criar algumas de exemplo
-    if (this.activities.length === 0) {
-      this.createSampleActivities();
-    }
-
-    // Aplicar filtros iniciais
     this.applyFilters();
   }
 
+  // ✅ CORREÇÃO: Atualização de favorito simplificada
   toggleFav(activity: any) {
     activity.favorite = !activity.favorite;
 
-    // Toast notification
-    const message = activity.favorite ? 'Adicionado aos favoritos!' : 'Removido dos favoritos!';
+    // Atualizar no serviço
+    this.atividadesService.updateAtividade(activity.id, activity);
+
+    // Toast notification com tradução
+    const message = activity.favorite 
+      ? this.t('listaAtividades.addedToFavorites') 
+      : this.t('listaAtividades.removedFromFavorites');
     this.atividadesService.showToast(message);
-
-    // Salvar no localStorage
-    this.saveActivitiesToStorage();
-  }
-
-  private saveActivitiesToStorage() {
-    this.atividadesService.saveAtividades(this.activities);
-    this.applyFilters(); // Atualizar filtros após salvar
   }
 
   // Métodos de filtro
@@ -105,12 +107,12 @@ export class ListaAtividadesPage implements OnInit {
 
   toggleAtividadeFilter() {
     this.showAtividadeFilter = !this.showAtividadeFilter;
-    this.showIntensidadeFilter = false; // Fechar o outro filtro
+    this.showIntensidadeFilter = false;
   }
 
   toggleIntensidadeFilter() {
     this.showIntensidadeFilter = !this.showIntensidadeFilter;
-    this.showAtividadeFilter = false; // Fechar o outro filtro
+    this.showAtividadeFilter = false;
   }
 
   setFiltroAtividade(filtro: string) {
@@ -127,10 +129,6 @@ export class ListaAtividadesPage implements OnInit {
 
   goHome() {
     this.router.navigate(['/home']);
-  }
-
-  goMyActivities() {
-    this.router.navigate(['/lista-atividades']);
   }
 
   // Função para construir o horário formatado
@@ -157,104 +155,19 @@ export class ListaAtividadesPage implements OnInit {
     this.router.navigate(['/editar-atividade', activityId]);
   }
 
+  // ✅ CORREÇÃO: Eliminar atividade com traduções e lógica corrigida
   eliminarAtividade(activityId: string) {
     this.atividadesService.showConfirmAlert(
-      'Eliminar Atividade',
-      'Tem certeza de que deseja eliminar esta atividade?',
+      this.t('listaAtividades.deleteTitle'),
+      this.t('listaAtividades.deleteMessage'),
       () => {
         const success = this.atividadesService.deleteAtividade(activityId);
         if (success) {
-          // Atualizar a lista local
-          this.activities = this.activities.filter(a => a.id !== activityId);
+          // Recarregar atividades após eliminação
+          this.loadActivities();
+          this.atividadesService.showToast(this.t('listaAtividades.activityDeleted'));
         }
       }
     );
   }
-
-  private createSampleActivities() {
-    const sampleActivities = [
-      {
-        id: '1',
-        data: 'Seg, 25 Maio 2025',
-        hora: 15,
-        minuto: 30,
-        periodo: 'PM' as 'AM' | 'PM',
-        tipo: 'Ciclismo',
-        intensidade: 'Média' as 'Baixa' | 'Média' | 'Alta',
-        duracao: '45',
-        calorias: '300',
-        local: 'Parque da Cidade',
-        favorite: true
-      },
-      {
-        id: '2',
-        data: 'Ter, 26 Maio 2025',
-        hora: 7,
-        minuto: 0,
-        periodo: 'AM' as 'AM' | 'PM',
-        tipo: 'Atletismo',
-        intensidade: 'Média' as 'Baixa' | 'Média' | 'Alta',
-        duracao: '45',
-        calorias: '250',
-        local: 'Pista de Atletismo',
-        favorite: false
-      },
-      {
-        id: '3',
-        data: 'Qua, 27 Maio 2025',
-        hora: 18,
-        minuto: 30,
-        periodo: 'PM' as 'AM' | 'PM',
-        tipo: 'Ginásio',
-        intensidade: 'Alta' as 'Baixa' | 'Média' | 'Alta',
-        duracao: '60',
-        calorias: '400',
-        local: 'Fitness Center',
-        favorite: true
-      },
-      {
-        id: '4',
-        data: 'Qui, 28 Maio 2025',
-        hora: 16,
-        minuto: 0,
-        periodo: 'PM' as 'AM' | 'PM',
-        tipo: 'Futebol',
-        intensidade: 'Alta' as 'Baixa' | 'Média' | 'Alta',
-        duracao: '90',
-        calorias: '500',
-        local: 'Campo de Futebol',
-        favorite: false
-      },
-      {
-        id: '5',
-        data: 'Sex, 29 Maio 2025',
-        hora: 8,
-        minuto: 0,
-        periodo: 'AM' as 'AM' | 'PM',
-        tipo: 'Natação',
-        intensidade: 'Média' as 'Baixa' | 'Média' | 'Alta',
-        duracao: '45',
-        calorias: '350',
-        local: 'Piscina Municipal',
-        favorite: true
-      },
-      {
-        id: '6',
-        data: 'Sáb, 30 Maio 2025',
-        hora: 19,
-        minuto: 30,
-        periodo: 'PM' as 'AM' | 'PM',
-        tipo: 'Yoga',
-        intensidade: 'Baixa' as 'Baixa' | 'Média' | 'Alta',
-        duracao: '60',
-        calorias: '150',
-        local: 'Estúdio de Yoga',
-        favorite: false
-      }
-    ];
-
-    this.activities = sampleActivities;
-    this.saveActivitiesToStorage();
-  }
 }
-

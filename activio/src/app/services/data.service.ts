@@ -50,6 +50,23 @@ export interface CalorieEntry {
     meals?: Meal[];
 }
 
+export interface ActivityStat {
+    activityType: string;
+    percentage: number;
+    totalHours: number;
+}
+
+export interface MonthlyActivity {
+    week: number;
+    football: number;
+    ciclismo: number;
+    natacao: number;
+    atletismo: number;
+    ginasio: number;
+    yoga: number;
+
+}
+
 export interface Meal {
     name: string;
     calories: number;
@@ -219,6 +236,7 @@ export class DataService {
         }
     }
 
+
     // ===== TRAINING DAYS =====
 
     async getTrainingDays(): Promise<TrainingDay[]> {
@@ -249,20 +267,30 @@ export class DataService {
     private async getTrainingDaysFromStorage(): Promise<TrainingDay[]> {
         const storage = await this.getStorage();
         const days = await storage.get('trainingDays');
-        return days || [
-            { label: 'Seg', hours: 2 },
-            { label: 'Ter', hours: 2.5 },
-            { label: 'Qua', hours: 1.5 },
-            { label: 'Qui', hours: 3 },
-            { label: 'Sex', hours: 0 },
-            { label: 'Sáb', hours: 3.5 },
-            { label: 'Dom', hours: 1.5 }
-        ];
+        
+        console.log('🔍 getTrainingDaysFromStorage - Dados do storage:', days);
+
+        // Se não houver dados, retorna semana vazia
+        if (!days) {
+            console.warn('⚠️ trainingDays está vazio/null - retornando array vazio');
+            return [
+                { label: 'Seg', hours: 0 },
+                { label: 'Ter', hours: 0 },
+                { label: 'Qua', hours: 0 },
+                { label: 'Qui', hours: 0 },
+                { label: 'Sex', hours: 0 },
+                { label: 'Sáb', hours: 0 },
+                { label: 'Dom', hours: 0 }
+            ];
+        }
+        
+        return days;
     }
 
     async saveTrainingDays(days: TrainingDay[]): Promise<void> {
         const storage = await this.getStorage();
         await storage.set('trainingDays', days);
+        console.log('💾 Training days salvos:', days);
     }
 
     async addTrainingHours(dayLabel: string, hours: number): Promise<void> {
@@ -280,16 +308,16 @@ export class DataService {
         if (!this.dbInitialized) {
             return this.getWeightDataFromStorage();
         }
-
+        
         try {
             const userId = this.getCurrentUserId();
             const user = this.authService.getCurrentUser();
             const entries = await this.databaseService.getWeightEntries(userId, 10);
-
+            
             if (entries.length === 0 || !user) {
                 return this.getWeightDataFromStorage();
             }
-
+            
             return {
                 start: entries[entries.length - 1]?.weight || user.weight,
                 current: entries[0]?.weight || user.weight,
@@ -303,12 +331,35 @@ export class DataService {
     private async getWeightDataFromStorage(): Promise<WeightData> {
         const storage = await this.getStorage();
         const data = await storage.get('weightData');
-        return data || { start: 68, current: 63, goal: 58 };
+        
+        console.log('🔍 getWeightDataFromStorage - Dados do storage:', data);
+        
+        // Se não houver dados no storage, tenta buscar do perfil do utilizador
+        if (!data) {
+            console.warn('⚠️ weightData está vazio/null');
+            
+            const user = this.authService.getCurrentUser();
+            if (user && user.weight) {
+                console.log('✅ Usando dados do utilizador atual:', user.weight);
+                return {
+                    start: user.weight,
+                    current: user.weight,
+                    goal: user.goal_weight || user.weight - 5
+                };
+            }
+            
+            // Se não houver utilizador ou dados, retorna valores neutros
+            console.warn('⚠️ Sem dados de utilizador - retornando valores neutros');
+            return { start: 0, current: 0, goal: 0 };
+        }
+        
+        return data;
     }
 
     async saveWeightData(data: WeightData): Promise<void> {
         const storage = await this.getStorage();
         await storage.set('weightData', data);
+        console.log('💾 Weight data salvos:', data);
     }
 
     async updateWeight(current: number): Promise<void> {
@@ -320,7 +371,7 @@ export class DataService {
                 date: new Date().toISOString().split('T')[0]
             });
         }
-
+        
         const data = await this.getWeightData();
         data.current = current;
         await this.saveWeightData(data);
@@ -509,17 +560,152 @@ export class DataService {
 
     // ===== ACTIVITY STATS =====
 
-    async getActivityStats(): Promise<{ [key: string]: number }> {
+    async getActivityStats(): Promise<ActivityStat[]> {
         const storage = await this.getStorage();
-        const stats = await storage.get('activityStats');
-        return stats || {};
+        
+        try {
+            const stats = await storage.get('activity-stats-chart');
+            if (stats && Array.isArray(stats)) {
+                return stats;
+            }
+        } catch (error) {
+            console.log('Estatísticas de atividades não encontradas');
+        }
+        
+        // Retorna dados vazios inicialmente
+        return [
+            { activityType: 'football', percentage: 0, totalHours: 0 },
+            { activityType: 'ciclismo', percentage: 0, totalHours: 0 },
+            { activityType: 'atletismo', percentage: 0, totalHours: 0 },
+            { activityType: 'ginasio', percentage: 0, totalHours: 0 },
+            { activityType: 'natacao', percentage: 0, totalHours: 0 },
+            { activityType: 'yoga', percentage: 0, totalHours: 0 },
+        ];
     }
+
+    async updateActivityStats(activityType: string, hours: number): Promise<void> {
+        const storage = await this.getStorage();
+        
+        try {
+            const stats = await this.getActivityStats();
+            
+            // Encontra a atividade e atualiza as horas
+            const activity = stats.find(s => s.activityType === activityType);
+            if (activity) {
+                activity.totalHours += hours;
+            } else {
+                stats.push({ activityType, percentage: 0, totalHours: hours });
+            }
+            
+            // Recalcula as percentagens
+            const totalHours = stats.reduce((sum, s) => sum + s.totalHours, 0);
+            if (totalHours > 0) {
+                stats.forEach(s => {
+                    s.percentage = Math.round((s.totalHours / totalHours) * 100);
+                });
+            }
+            
+            await storage.set('activity-stats-chart', stats);
+        } catch (error) {
+            console.error('Erro ao atualizar estatísticas:', error);
+        }
+    }
+
+    async getMonthlyActivities(): Promise<MonthlyActivity[]> {
+        const storage = await this.getStorage();
+        
+        try {
+            const activities = await storage.get('monthly-activities-chart');
+            if (activities && Array.isArray(activities) && activities.length > 0) {
+                return activities;
+            }
+        } catch (error) {
+            console.log('Atividades mensais não encontradas');
+        }
+        
+        // Retorna 4 semanas vazias inicialmente
+        return [
+            { week: 1, football: 0, ciclismo: 0, atletismo: 0, ginasio: 0, natacao: 0, yoga: 0  },
+            { week: 2, football: 0, ciclismo: 0, atletismo: 0, ginasio: 0, natacao: 0, yoga: 0  },
+            { week: 3, football: 0, ciclismo: 0, atletismo: 0, ginasio: 0, natacao: 0, yoga: 0 },
+            { week: 4, football: 0, ciclismo: 0, atletismo: 0, ginasio: 0, natacao: 0, yoga: 0 }
+        ];
+    }
+
+    async updateMonthlyActivity(
+        week: number, 
+        activityType: 'football' | 'ciclismo' | 'atletismo'| 'ginasio'| 'natacao'| 'yoga', 
+        hours: number
+    ): Promise<void> {
+        const storage = await this.getStorage();
+        
+        try {
+            const activities = await this.getMonthlyActivities();
+            const weekData = activities.find(a => a.week === week);
+            
+            if (weekData) {
+                weekData[activityType] = (weekData[activityType] || 0) + hours;
+            }
+            
+            await storage.set('monthly-activities-chart', activities);
+        } catch (error) {
+            console.error('Erro ao atualizar atividades mensais:', error);
+        }
+    }
+
+    async recordActivity(
+        activityType: 'football' | 'ciclismo' | 'atletismo'| 'ginasio'| 'natacao'| 'yoga',
+        hours: number,
+        date?: Date
+    ): Promise<void> {
+        // Atualiza estatísticas gerais (gráfico de pizza)
+        await this.updateActivityStats(activityType, hours);
+        
+        // Determina a semana do mês (1-4)
+        const currentDate = date || new Date();
+        const dayOfMonth = currentDate.getDate();
+        const week = Math.min(4, Math.ceil(dayOfMonth / 7));
+        
+        // Mapeia o tipo de atividade para o formato do gráfico mensal
+        let monthlyActivityType: 'football' | 'ciclismo' | 'atletismo'| 'ginasio'| 'natacao'| 'yoga';
+        if (activityType === 'ciclismo') {
+            monthlyActivityType = 'ciclismo';
+        } else if (activityType === 'atletismo') {
+            monthlyActivityType = 'atletismo';
+        } else if (activityType === 'ginasio') {
+            monthlyActivityType = 'ginasio';
+        } else if (activityType === 'natacao') {
+            monthlyActivityType = 'natacao';
+        } else if (activityType === 'yoga') {
+            monthlyActivityType = 'yoga';
+        } else {
+            monthlyActivityType = 'football';
+        }
+        
+        // Atualiza atividades mensais (gráfico de linhas)
+        await this.updateMonthlyActivity(week, monthlyActivityType, hours);
+    }
+
+    
 
     async incrementActivity(activity: string): Promise<void> {
         const storage = await this.getStorage();
-        const stats = await this.getActivityStats();
+        const stats = await storage.get('activityStats') || {};
         stats[activity] = (stats[activity] || 0) + 1;
         await storage.set('activityStats', stats);
+    }
+
+    async debugStorage(): Promise<void> {
+    const storage = await this.getStorage();
+    
+    console.log('🔍 ===== DEBUG STORAGE =====');
+    console.log('trainingDays:', await storage.get('trainingDays'));
+    console.log('weightData:', await storage.get('weightData'));
+    console.log('activity-stats-chart:', await storage.get('activity-stats-chart'));
+    console.log('monthly-activities-chart:', await storage.get('monthly-activities-chart'));
+    console.log('currentUser:', await storage.get('currentUser'));
+    console.log('userProfile:', await storage.get('userProfile'));
+    console.log('activityStats:', await storage.get('activityStats'));
     }
 
     // ===== CLEAR DATA =====
@@ -544,6 +730,14 @@ export class DataService {
 
         await storage.remove('userProfile');
         await storage.remove('activityStats');
+
+        await storage.remove('trainingDays');
+        await storage.remove('weightData');
+        await storage.remove('activity-stats-chart');
+        await storage.remove('monthly-activities-chart');
+        
+        console.log('✅ Dados do utilizador limpos');
     }
+  
 }
 

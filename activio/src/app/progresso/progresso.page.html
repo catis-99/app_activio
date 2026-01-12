@@ -1,46 +1,42 @@
-padding<ion-content [fullscreen]="true" class="progress-content">
+<ion-content [fullscreen]="true" class="progress-content">
   <div class="container">
+    
     <!-- Header -->
     <div class="header">
       <ion-button fill="clear" class="notification-btn" (click)="goBack()">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
       <h1 class="page-title">{{ t('progresso.title') }}</h1>
-
     </div>
-
+    <ion-button (click)="limparTudo()">🗑️ Limpar Dados</ion-button>
     <!-- Atividades Favoritas Card -->
     <div class="card favorites-card">
       <h2 class="card-title">{{ t('progresso.favoriteActivities') }}</h2>
 
       <div class="favorites-content">
         <div class="activities-list">
-          <div class="activity-item">
-            <span class="activity-name">{{ t('atividades.football') }}</span>
-            <span class="activity-percent">25%</span>
-          </div>
-          <div class="activity-item">
-            <span class="activity-name">{{ t('atividades.caminhar') }}</span>
-            <span class="activity-percent">25%</span>
-          </div>
-          <div class="activity-item">
-            <span class="activity-name">{{ t('atividades.saltarCord') }}</span>
-            <span class="activity-percent">50%</span>
-          </div>
+          @for (activity of activityStats; track activity.name) {
+            <div class="activity-item">
+              <span class="activity-dot" [style.background-color]="activity.color"></span>
+              <span class="activity-name">{{ activity.name }}</span>
+              <span class="activity-percent">{{ activity.percentage }}%</span>
+            </div>
+          }
+          @empty {
+            <p class="no-data">{{ t('progresso.noActivities') }}</p>
+          }
         </div>
 
-        <!-- Pie Chart -->
+        <!-- Pie Chart Dinâmico -->
         <div class="pie-chart">
           <svg viewBox="0 0 140 140" class="chart-svg">
-            <!-- Saltar à corda - 50% (Rosa) -->
-            <circle cx="70" cy="70" r="50" fill="transparent" stroke="#E91E63" stroke-width="35"
-              stroke-dasharray="157.08 157.08" transform="rotate(-90 70 70)" />
-            <!-- Football - 25% (Azul) -->
-            <circle cx="70" cy="70" r="50" fill="transparent" stroke="#64B5F6" stroke-width="35"
-              stroke-dasharray="78.54 157.08" stroke-dashoffset="-157.08" transform="rotate(-90 70 70)" />
-            <!-- Caminhar - 25% (Laranja) -->
-            <circle cx="70" cy="70" r="50" fill="transparent" stroke="#FF9800" stroke-width="35"
-              stroke-dasharray="78.54 157.08" stroke-dashoffset="-235.62" transform="rotate(-90 70 70)" />
+            @for (slice of getPieSlices(); track $index) {
+              <path [attr.d]="slice.path" [attr.fill]="slice.color" />
+            }
+            @empty {
+              <circle cx="70" cy="70" r="50" fill="#333" />
+
+            }
           </svg>
         </div>
       </div>
@@ -67,74 +63,121 @@ padding<ion-content [fullscreen]="true" class="progress-content">
           <text x="20" y="145" fill="#999" font-size="10">10</text>
 
           <!-- Y-axis label -->
-          <text x="15" y="90" fill="#999" font-size="10" transform="rotate(-90 15 90)">{{ t('progresso.hours') }}</text>
+          <text x="15" y="90" fill="#999" font-size="10" transform="rotate(-90 15 90)">
+            {{ t('progresso.hours') }}
+          </text>
 
-          <!-- Linha Roxa -->
-          <polyline points="45,65 80,45 115,75 150,35 185,55 220,75 255,95" fill="none" stroke="#9C27B0"
-            stroke-width="2" />
-
-          <!-- Linha Laranja -->
-          <polyline points="45,105 80,85 115,115 150,75 185,95 220,105 255,135" fill="none" stroke="#FF9800"
-            stroke-width="2" />
-
-          <!-- Linha Azul -->
-          <polyline points="45,95 80,115 115,100 150,105 185,90 220,100 255,110" fill="none" stroke="#64B5F6"
-            stroke-width="2" />
+          <!-- Linhas dinâmicas -->
+          @if (monthlyActivities.length > 0) {
+            <polyline 
+              [attr.points]="getLinePoints('ciclismo')" 
+              fill="none" 
+              [attr.stroke]="getLineColor('ciclismo')" 
+              stroke-width="2" />
+            <polyline 
+              [attr.points]="getLinePoints('atletismo')" 
+              fill="none" 
+              [attr.stroke]="getLineColor('atletismo')" 
+              stroke-width="2" />
+            <polyline 
+              [attr.points]="getLinePoints('football')" 
+              fill="none" 
+              [attr.stroke]="getLineColor('football')" 
+              stroke-width="2" />
+            <polyline 
+              [attr.points]="getLinePoints('ginasio')"
+              fill="none" 
+              [attr.stroke]="getLineColor('ginasio')" 
+              stroke-width="2" />
+            <polyline 
+              [attr.points]="getLinePoints('natacao')"
+              fill="none"
+              [attr.stroke]="getLineColor('natacao')"
+              stroke-width="2" />
+            <polyline
+              [attr.points]="getLinePoints('yoga')"
+              fill="none"
+              [attr.stroke]="getLineColor('yoga')"
+              stroke-width="2" />
+          }
 
           <!-- X-axis labels -->
-          <text x="45" y="165" fill="#999" font-size="9" text-anchor="middle">{{ t('progresso.semana1') }}</text>
-          <text x="115" y="165" fill="#999" font-size="9" text-anchor="middle">{{ t('progresso.semana2') }}</text>
-          <text x="185" y="165" fill="#999" font-size="9" text-anchor="middle">{{ t('progresso.semana3') }}</text>
-          <text x="255" y="165" fill="#999" font-size="9" text-anchor="middle">{{ t('progresso.semana4') }}</text>
+          <text x="45" y="165" fill="#999" font-size="9" text-anchor="middle">
+            {{ t('progresso.semana1') }}
+          </text>
+          <text x="115" y="165" fill="#999" font-size="9" text-anchor="middle">
+            {{ t('progresso.semana2') }}
+          </text>
+          <text x="185" y="165" fill="#999" font-size="9" text-anchor="middle">
+            {{ t('progresso.semana3') }}
+          </text>
+          <text x="255" y="165" fill="#999" font-size="9" text-anchor="middle">
+            {{ t('progresso.semana4') }}
+          </text>
         </svg>
       </div>
     </div>
 
-    <!-- Tempo Treinado Card -->
+    <!-- Tempo Treinado Card - AGORA DINÂMICO -->
     <div class="card">
       <h2 class="card-title">{{ t('progresso.trainedTime') }}</h2>
 
-      <div class="bar-chart">
-        @for (day of trainingDays; track day.label) {
-        <div class="bar-item">
-          <div class="bar-wrapper">
-            @if (day.hours > 0) {
-            <span class="bar-value">{{day.hours}}h</span>
-            }
-            <div class="bar" [style.height.%]="(day.hours / 3.5) * 100">
-              <div class="bar-fill" [ngClass]="getBarClass(day.hours)"></div>
+      @if (trainingDays.length > 0) {
+        <div class="bar-chart">
+          @for (day of trainingDays; track day.label) {
+            <div class="bar-item">
+              <div class="bar-wrapper">
+                @if (day.hours > 0) {
+                  <span class="bar-value">{{day.hours}}h</span>
+                }
+                <!-- Altura dinâmica baseada nos dados reais -->
+                <div class="bar" [style.height.%]="getBarHeight(day.hours)">
+                  <div class="bar-fill" [ngClass]="getBarClass(day.hours)"></div>
+                </div>
+              </div>
+              <span class="bar-label">{{day.label}}</span>
             </div>
-          </div>
-          <span class="bar-label">{{day.label}}</span>
+          }
         </div>
-        }
-      </div>
+      } @else {
+        <p class="no-data">{{ t('progresso.noTrainingData') }}</p>
+      }
     </div>
 
-    <!-- Peso Card -->
+    <!-- Gráfico de Peso - AGORA DINÂMICO -->
     <div class="card weight-card">
       <h2 class="card-title">{{ t('peso.title') }}</h2>
-
-      <div class="weight-progress">
-        <!-- Barra de progresso do peso -->
-        <div class="weight-bar">
-          <div class="weight-fill" [style.width.%]="getCurrentWeightPosition()"></div>
-          <div class="weight-markers">
-            <div class="marker start" [style.left.%]="getStartMarkerPosition()">
-              <span class="marker-label">{{ t('peso.inicio') }}</span>
-              <span class="marker-value">{{weightData.start}}Kg</span>
-            </div>
-            <div class="marker current" [style.left.%]="getCurrentMarkerPosition()">
-              <span class="marker-label">{{ t('peso.atual') }}</span>
-              <span class="marker-value">{{weightData.current}}Kg</span>
-            </div>
-            <div class="marker goal" [style.left.%]="getGoalMarkerPosition()">
-              <span class="marker-label">{{ t('peso.objetivo') }}</span>
-              <span class="marker-value">{{weightData.goal}}Kg</span>
+      
+      @if (hasWeightData()) {
+        <div class="weight-progress">
+          <div class="weight-bar">
+            <!-- Barra de progresso dinâmica -->
+            <div class="weight-fill" [style.width.%]="getCurrentWeightPosition()"></div>
+            
+            <div class="weight-markers">
+              <!-- Marcador Inicial -->
+              <div class="marker start" [style.left.%]="getStartMarkerPosition()">
+                <span class="marker-label">{{ t('peso.inicio') }}</span>
+                <span class="marker-value">{{weightData.start}}kg</span>
+              </div>
+              
+              <!-- Marcador Atual - posição dinâmica -->
+              <div class="marker current" [style.left.%]="getCurrentMarkerPosition()">
+                <span class="marker-label">{{ t('peso.atual') }}</span>
+                <span class="marker-value">{{weightData.current}}kg</span>
+              </div>
+              
+              <!-- Marcador Objetivo -->
+              <div class="marker goal" [style.left.%]="getGoalMarkerPosition()">
+                <span class="marker-label">{{ t('peso.objetivo') }}</span>
+                <span class="marker-value">{{weightData.goal}}kg</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      } @else {
+        <p class="no-data">{{ t('progresso.noWeightData') }}</p>
+      }
+    </div> 
   </div>
 </ion-content>
