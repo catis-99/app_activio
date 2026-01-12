@@ -204,7 +204,7 @@ export class DataService {
         const storage = await this.getStorage();
         const profile = await storage.get('userProfile');
         console.log('🔍 DataService.getUserProfile() - fallback storage:', profile);
-        return profile || { name: '', age: 25, height: 170 };
+        return profile || { name: '', age: '', height: '' };
     }
 
     async saveUserProfile(profile: UserProfile): Promise<void> {

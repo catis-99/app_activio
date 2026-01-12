@@ -14,8 +14,8 @@ export interface User {
     activity_level: 'Sedentário' | 'Leve' | 'Moderado' | 'Ativo' | 'Muito Ativo';
     gender?: string;
     birthdate?: string;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface Activity {
@@ -97,6 +97,13 @@ export class DatabaseService {
     private dbName = 'activio.db';
     private dbReady: Promise<void>;
     private isInitialized: boolean = false;
+    private getPlatform(): string {
+    const win = window as any;
+    if (win.Capacitor) {
+        return win.Capacitor.getPlatform();
+    }
+    return 'web';
+}
 
     constructor() {
         this.sqlite = new SQLiteConnection(CapacitorSQLite);
@@ -105,32 +112,81 @@ export class DatabaseService {
 
     async initializeDatabase(): Promise<void> {
         try {
-            // Criar conexão
-            this.db = await this.sqlite.createConnection(
-                this.dbName,
-                false,
-                'no-encryption',
-                1,
-                false
-            );
+            // Detectar plataforma
+            const platform = this.getPlatform();
+            console.log('Initializing database on platform:', platform);
+            
+            if (platform === 'web') {
+                // Configuração específica para web
+                const jeepEl = document.querySelector('jeep-sqlite');
+                if (!jeepEl) {
+                    console.error('jeep-sqlite element not found in DOM!');
+                    throw new Error('jeep-sqlite element not found! Make sure it is added to index.html: <jeep-sqlite></jeep-sqlite>');
+                }
+                
+                // Esperar que o custom element esteja definido
+                await customElements.whenDefined('jeep-sqlite');
+                console.log('jeep-sqlite custom element defined');
+                
+                // Inicializar o web store
+                await this.sqlite.initWebStore();
+                console.log('Web store initialized');
+            }
+
+            // Verificar se a conexão já existe
+            const isConnection = await this.sqlite.isConnection(this.dbName, false);
+            
+            if (isConnection.result) {
+                // Recuperar conexão existente
+                console.log('Retrieving existing connection');
+                this.db = await this.sqlite.retrieveConnection(this.dbName, false);
+            } else {
+                // Criar nova conexão
+                console.log('Creating new connection');
+                this.db = await this.sqlite.createConnection(
+                    this.dbName,
+                    false,
+                    'no-encryption',
+                    1,
+                    false
+                );
+            }
 
             // Abrir conexão
             await this.db.open();
+            console.log('Database connection opened');
 
             // Criar tabelas
             await this.createTables();
+            console.log('Tables created');
 
             // Executar migrações
             await this.runMigrations();
+            console.log('Migrations completed');
 
-            // Seed inicial
-            await this.seedInitialData();
+            // Salvar mudanças na web
+            if (platform === 'web') {
+                await this.sqlite.saveToStore(this.dbName);
+                console.log('Database saved to web store');
+            }
 
             this.isInitialized = true;
-            console.log('Database initialized successfully');
+            console.log('✅ Database initialized successfully');
         } catch (error) {
-            console.error('Error initializing database:', error);
+            console.error('❌ Error initializing database:', error);
+            this.isInitialized = false;
             throw error;
+        }
+    }
+
+    async saveChanges(): Promise<void> {
+        const platform = this.getPlatform();
+        if (platform === 'web' && this.isInitialized) {
+            try {
+                await this.sqlite.saveToStore(this.dbName);
+            } catch (error) {
+                console.error('Error saving to web store:', error);
+            }
         }
     }
 
@@ -288,20 +344,7 @@ export class DatabaseService {
         }
     }
 
-    private async seedInitialData(): Promise<void> {
-        // Verificar se já existe dados
-        const badgeCount = await this.db.query('SELECT COUNT(*) as count FROM badges');
-        if (badgeCount.values?.[0]?.count === 0) {
-            await this.seedBadges();
-        }
 
-        // Não criar utilizador exemplo automaticamente
-        // Deixar que os utilizadores se registem
-        // const userCount = await this.db.query('SELECT COUNT(*) as count FROM users');
-        // if (userCount.values?.[0]?.count === 0) {
-        //     await this.seedExampleUser();
-        // }
-    }
 
     private async seedBadges(): Promise<void> {
         const badges = [
@@ -330,107 +373,7 @@ export class DatabaseService {
         }
     }
 
-    private async seedExampleUser(): Promise<void> {
-        // Criar utilizador exemplo
-        const userId = await this.createUser({
-            name: 'João Silva',
-            email: 'joao.silva@email.com',
-            password_hash: 'hashed_password_example',
-            age: 28,
-            height: 175,
-            weight: 70,
-            goal_weight: 68,
-            activity_level: 'Moderado'
-        });
-
-        // Adicionar atividades de exemplo
-        const activities = [
-            {
-                user_id: userId,
-                date: '2024-12-20',
-                time: '07:30',
-                type: 'Corrida',
-                intensity: 'Alta' as const,
-                duration: 0.75,
-                calories: 320,
-                location: 'Parque da Cidade',
-                notes: 'Corrida matinal excelente!',
-                favorite: true
-            },
-            {
-                user_id: userId,
-                date: '2024-12-19',
-                time: '18:00',
-                type: 'Ginásio',
-                intensity: 'Média' as const,
-                duration: 1.5,
-                calories: 450,
-                location: 'Fitness Center',
-                notes: 'Treino de força completo',
-                favorite: false
-            },
-            {
-                user_id: userId,
-                date: '2024-12-18',
-                time: '08:00',
-                type: 'Yoga',
-                intensity: 'Baixa' as const,
-                duration: 1.0,
-                calories: 120,
-                location: 'Estúdio Local',
-                notes: 'Sessão relaxante de yoga',
-                favorite: true
-            }
-        ];
-
-        for (const activity of activities) {
-            await this.createActivity(activity);
-        }
-
-        // Adicionar registos de peso
-        const weightEntries = [
-            { user_id: userId, weight: 72, date: '2024-12-01' },
-            { user_id: userId, weight: 71.5, date: '2024-12-08' },
-            { user_id: userId, weight: 71, date: '2024-12-15' },
-            { user_id: userId, weight: 70.5, date: '2024-12-22' },
-            { user_id: userId, weight: 70, date: '2024-12-29' }
-        ];
-
-        for (const entry of weightEntries) {
-            await this.db.run(
-                'INSERT INTO weight_entries (user_id, weight, date) VALUES (?, ?, ?)',
-                [entry.user_id, entry.weight, entry.date]
-            );
-        }
-
-        // Adicionar dias de treino da semana atual
-        const today = new Date();
-        const trainingDays = [
-            { day: 1, target: 2.0, actual: 1.5 }, // Monday
-            { day: 2, target: 2.5, actual: 2.0 }, // Tuesday
-            { day: 3, target: 1.5, actual: 0 },   // Wednesday
-            { day: 4, target: 3.0, actual: 0 },   // Thursday
-            { day: 5, target: 0, actual: 0 },     // Friday
-            { day: 6, target: 3.5, actual: 0 },   // Saturday
-            { day: 0, target: 1.5, actual: 1.0 }  // Sunday
-        ];
-
-        for (const day of trainingDays) {
-            const date = new Date(today);
-            date.setDate(today.getDate() - today.getDay() + day.day);
-            const dateStr = date.toISOString().split('T')[0];
-
-            await this.db.run(
-                'INSERT INTO training_days (user_id, day_of_week, target_hours, actual_hours, date) VALUES (?, ?, ?, ?, ?)',
-                [userId, day.day, day.target, day.actual, dateStr]
-            );
-        }
-
-        // Desbloquear algumas conquistas
-        await this.unlockAchievement(userId, 1); // Primeiro Passo
-        await this.unlockAchievement(userId, 5); // 1 Hora de Atividade
-    }
-
+ 
     // CRUD Operations - Users
     async createUser(user: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<number> {
         await this.ensureDbReady();
@@ -438,6 +381,7 @@ export class DatabaseService {
             'INSERT INTO users (name, email, password_hash, age, height, weight, goal_weight, activity_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [user.name, user.email, user.password_hash, user.age, user.height, user.weight, user.goal_weight, user.activity_level]
         );
+            await this.saveChanges(); 
         return result.changes?.lastId || 0;
     }
 
@@ -471,10 +415,12 @@ export class DatabaseService {
         const query = `UPDATE users SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = ?`;
 
         await this.db.run(query, [...values, id]);
+        await this.saveChanges();
     }
 
     // CRUD Operations - Activities
     async createActivity(activity: Omit<Activity, 'id' | 'created_at' | 'updated_at'>): Promise<number> {
+        await this.ensureDbReady();
         const result = await this.db.run(
             'INSERT INTO activities (user_id, date, time, type, intensity, duration, calories, location, notes, favorite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [activity.user_id, activity.date, activity.time, activity.type, activity.intensity, activity.duration, activity.calories, activity.location, activity.notes, activity.favorite ? 1 : 0]
@@ -485,6 +431,7 @@ export class DatabaseService {
         // Atualizar estatísticas
         await this.updateActivityStats(activity.user_id, activity.type, activity.duration, activity.calories);
 
+        await this.saveChanges();
         return activityId;
     }
 
@@ -521,10 +468,12 @@ export class DatabaseService {
         const query = `UPDATE activities SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = ?`;
 
         await this.db.run(query, [...values, id]);
+        await this.saveChanges();
     }
 
     async deleteActivity(id: number): Promise<void> {
         await this.db.run('DELETE FROM activities WHERE id = ?', [id]);
+            await this.saveChanges(); 
     }
 
     // Activity Statistics
@@ -555,7 +504,9 @@ export class DatabaseService {
                 'INSERT INTO activity_stats (user_id, activity_type, total_sessions, total_hours, total_calories, best_session, last_session) VALUES (?, ?, 1, ?, ?, ?, ?)',
                 [userId, activityType, duration, calories, duration, new Date().toISOString()]
             );
+            await this.saveChanges();
         }
+
     }
 
     async getActivityStats(userId: number): Promise<ActivityStats[]> {
