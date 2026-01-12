@@ -933,5 +933,68 @@ export class DataService {
         }
     }
 
+    // ===== ACTIVITY STATISTICS =====
+
+    async getActivityStatistics(): Promise<{
+        totalCalories: number;
+        activeDays: number;
+        totalActivities: number;
+        weekActiveDays: number;
+    }> {
+        const storage = await this.getStorage();
+        
+        // Buscar estatísticas salvas ou calcular do zero
+        const stats = await storage.get('activity-statistics');
+        
+        if (stats) {
+            return stats;
+        }
+
+        return {
+            totalCalories: 0,
+            activeDays: 0,
+            totalActivities: 0,
+            weekActiveDays: 0
+        };
+    }
+
+    async updateActivityStatistics(caloriesBurned: number, activityDate: Date): Promise<void> {
+        const storage = await this.getStorage();
+        
+        // Buscar estatísticas atuais
+        const stats = await this.getActivityStatistics();
+        
+        // Atualizar calorias totais
+        stats.totalCalories += caloriesBurned;
+        stats.totalActivities += 1;
+
+        // Calcular dias ativos únicos
+        const activityDates: string[] = await storage.get('activity-dates') || [];
+        const dateStr = activityDate.toISOString().split('T')[0];
+        
+        if (!activityDates.includes(dateStr)) {
+            activityDates.push(dateStr);
+            stats.activeDays = activityDates.length;
+            
+            // Calcular dias ativos na semana atual
+            const today = new Date();
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay());
+            weekStart.setHours(0, 0, 0, 0);
+            
+            stats.weekActiveDays = activityDates.filter(date => {
+                const d = new Date(date);
+                return d >= weekStart;
+            }).length;
+            
+            await storage.set('activity-dates', activityDates);
+        }
+
+        // Salvar estatísticas atualizadas
+        await storage.set('activity-statistics', stats);
+        
+        console.log('📊 Estatísticas atualizadas:', stats);
+    }
+
 }
 

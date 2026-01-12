@@ -453,7 +453,10 @@ export class CompletarperfilPage implements OnInit {
   }
 
   selectDay(day: number) {
-    this.selectedDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), day);
+    const year = this.currentMonth.getFullYear();
+    const month = this.currentMonth.getMonth();
+    this.selectedDate = new Date(year, month, day);
+    
     console.log('📅 Dia selecionado:', this.selectedDate);
     console.log('📅 Data formatada:', this.formatDate(this.selectedDate));
   }
@@ -507,5 +510,19 @@ export class CompletarperfilPage implements OnInit {
   selectMonthYear(month: number, year: number) {
     this.currentMonth = new Date(year, month, 1);
     this.generateCalendarDays();
+  }
+
+  /**
+   * Confirmar data selecionada e fechar modal
+   */
+  confirmarData() {
+    if (this.selectedDate) {
+      this.birthdate = this.formatDate(this.selectedDate);
+      console.log('📅 Data confirmada:', this.birthdate);
+      console.log('📅 Idade calculada:', this.calculateAge());
+    } else {
+      console.warn('⚠️ Nenhuma data selecionada');
+    }
+    this.fecharCalendario();
   }
 }

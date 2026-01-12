@@ -35,6 +35,11 @@ export class ProfilePage implements OnInit {
     this.loadUserProfile();
   }
 
+  ionViewWillEnter() {
+    // Recarregar perfil sempre que entrar na página
+    this.loadUserProfile();
+  }
+
   async loadUserProfile() {
     const profile = await this.dataService.getUserProfile();
     const latestProgress = await this.dataService.getLatestProgress();

@@ -95,15 +95,29 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
     await this.loadUserData();
+    await this.loadActivityStatistics();
+  }
+
+  async ionViewWillEnter() {
+    // Recarregar estatísticas sempre que voltar à home
+    await this.loadActivityStatistics();
   }
 
   async loadUserData() {
     const profile = await this.dataService.getUserProfile();
     this.userName = profile.name || 'Luna';
+  }
 
-    const stats = await this.dataService.getWeeklyStats();
-    this.workoutDays = stats.totalWorkouts;
-    this.burnedCalories = stats.totalCaloriesBurned;
+  async loadActivityStatistics() {
+    const stats = await this.dataService.getActivityStatistics();
+    
+    // Atualizar calorias queimadas
+    this.burnedCalories = stats.totalCalories;
+    
+    // Atualizar dias de treino (semana atual)
+    this.workoutDays = stats.weekActiveDays;
+    
+    console.log('📊 Estatísticas carregadas na home:', stats);
   }
 
   generateAvailableYears() {

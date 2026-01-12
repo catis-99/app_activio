@@ -161,6 +161,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 8px;
+  flex: 1;
 }
 
 .calendar-day-cell {
@@ -175,23 +176,30 @@ h2 {
   cursor: pointer;
   position: relative;
   transition: all 0.2s ease;
+  background: transparent;
+  border: 1px solid transparent;
 
   &.empty {
     visibility: hidden;
+    pointer-events: none;
   }
 
   &:hover:not(.empty) {
     background: rgba(198, 255, 0, 0.1);
+    border-color: rgba(198, 255, 0, 0.3);
   }
 
   &.today {
     border: 2px solid #C6FF00;
     font-weight: 700;
+    color: #C6FF00;
   }
 
   &.selected {
-    background: rgba(198, 255, 0, 0.2);
+    background: #C6FF00;
+    color: #000;
     font-weight: 700;
+    border-color: #C6FF00;
   }
 
   &.has-activity .activity-dot {
@@ -236,6 +244,7 @@ body.light {
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .modal-header {
@@ -243,35 +252,54 @@ body.light {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  flex-shrink: 0;
 
   h3 {
     margin: 0;
     color: #b7ff00;
     font-size: 20px;
+    font-weight: bold;
   }
 
   ion-button {
     --color: var(--ion-text-color);
+    
+    ion-icon {
+      font-size: 28px;
+    }
   }
 }
 
 .modal-footer {
   margin-top: auto;
   padding-top: 20px;
+  flex-shrink: 0;
 
   ion-button {
     --background: linear-gradient(90deg, #b7ff00, #d8ff4d);
     --color: #000;
     font-weight: bold;
     height: 48px;
+    --border-radius: 24px;
   }
 }
 
 // Ajustar calendario dentro del modal
 ion-modal {
+  --height: 70%;
+  --border-radius: 20px 20px 0 0;
+  
   .calendar-section {
     flex: 1;
     margin: 0;
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .calendar-grid {
+    min-height: 280px;
   }
 }
 

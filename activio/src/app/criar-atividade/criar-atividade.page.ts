@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AtividadesService, Atividade } from '../services/atividades.service';
 import { I18nService } from '../services/i18n.service';
+import { DataService } from '../services/data.service';
 import { PickerController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -65,7 +66,8 @@ export class CriarAtividadePage {
     private route: ActivatedRoute,
     private atividadesService: AtividadesService,
     private i18nService: I18nService,
-    private pickerController: PickerController
+    private pickerController: PickerController,
+    private dataService: DataService
   ) {
     addIcons({
       calendarOutline,
@@ -306,12 +308,30 @@ export class CriarAtividadePage {
     this.atividade.periodo = this.atividade.periodo === 'AM' ? 'PM' : 'AM';
   }
 
-  guardarAtividade() {
+  async guardarAtividade() {
     // Validar campos obrigatórios
     if (!this.atividade.data || !this.atividade.tipo || !this.atividade.duracao || !this.atividade.calorias || !this.atividade.local) {
       this.atividadesService.showToast('Por favor, preencha todos os campos obrigatórios!', 'warning');
       return;
     }
+
+    // Calcular horas a partir da duração (formato: "30min" ou "1h 30min")
+    const durationHours = this.parseDurationToHours(this.atividade.duracao);
+    const calories = parseInt(this.atividade.calorias.toString());
+
+    // Mapear tipo de atividade para os gráficos
+    const activityTypeMap: { [key: string]: 'football' | 'ciclismo' | 'atletismo' | 'ginasio' | 'natacao' | 'yoga' } = {
+      'Futebol': 'football',
+      'Ciclismo': 'ciclismo',
+      'Corrida': 'atletismo',
+      'Ginásio': 'ginasio',
+      'Natação': 'natacao',
+      'Yoga': 'yoga',
+      'Basquetebol': 'football', // Agrupado com futebol
+      'Caminhada': 'atletismo' // Agrupado com atletismo
+    };
+
+    const mappedActivityType = activityTypeMap[this.atividade.tipo] || 'ginasio';
 
     if (this.editMode && this.atividadeId) {
       const success = this.atividadesService.updateAtividade(this.atividadeId, this.atividade);
@@ -319,9 +339,62 @@ export class CriarAtividadePage {
         this.router.navigate(['/lista-atividades']);
       }
     } else {
+      // Criar atividade
       this.atividadesService.createAtividade(this.atividade);
+
+      // Converter data para formato correto
+      // Se a data está em formato "Qui, 27 Maio 2025", usar dataSelecionada
+      const activityDate = this.dataSelecionada ? new Date(this.dataSelecionada) : new Date();
+      
+      console.log('📅 Data da atividade:', activityDate);
+      console.log('🔥 Calorias:', calories);
+      console.log('⏱️ Duração (horas):', durationHours);
+
+      // Registar atividade nos gráficos de progresso
+      await this.dataService.recordActivity(mappedActivityType, durationHours, activityDate);
+
+      // Atualizar dias de treino (gráfico de barras)
+      const dayOfWeek = this.getDayLabel(activityDate);
+      await this.dataService.addTrainingHours(dayOfWeek, durationHours);
+
+      // Atualizar estatísticas de calorias e dias ativos
+      await this.dataService.updateActivityStatistics(calories, activityDate);
+
+      console.log(`✅ Atividade registada: ${this.atividade.tipo} - ${durationHours}h - ${calories} cal`);
+      
       this.router.navigate(['/lista-atividades']);
     }
+  }
+
+  /**
+   * Converter duração (string) para horas (número)
+   * Exemplos: "30min" -> 0.5, "1h 30min" -> 1.5, "2h" -> 2
+   */
+  private parseDurationToHours(duration: string): number {
+    let hours = 0;
+    let minutes = 0;
+
+    // Extrair horas
+    const hoursMatch = duration.match(/(\d+)h/);
+    if (hoursMatch) {
+      hours = parseInt(hoursMatch[1]);
+    }
+
+    // Extrair minutos
+    const minutesMatch = duration.match(/(\d+)min/);
+    if (minutesMatch) {
+      minutes = parseInt(minutesMatch[1]);
+    }
+
+    return hours + (minutes / 60);
+  }
+
+  /**
+   * Obter label do dia da semana em português abreviado
+   */
+  private getDayLabel(date: Date): string {
+    const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    return days[date.getDay()];
   }
 
   t(key: string): string {

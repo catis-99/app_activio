@@ -170,12 +170,12 @@ export class RegistroPage implements OnInit {
         const alert = await this.alertController.create({
           header: this.currentLanguage === 'pt' ? 'Sucesso!' : 'Success!',
           message: this.currentLanguage === 'pt' 
-            ? 'Conta criada com sucesso! Agora pode fazer login.' 
-            : 'Account created successfully! You can now login.',
+            ? 'Conta criada com sucesso! Complete o seu perfil.' 
+            : 'Account created successfully! Complete your profile.',
           buttons: [{
             text: 'OK',
             handler: () => {
-              this.router.navigate(['/login']);
+              this.router.navigate(['/completarperfil']);
             }
           }]
         });

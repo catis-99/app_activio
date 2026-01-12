@@ -143,40 +143,5 @@
       }
     </div>
 
-    <!-- Gráfico de Peso - AGORA DINÂMICO -->
-    <div class="card weight-card">
-      <h2 class="card-title">{{ t('peso.title') }}</h2>
-      
-      @if (hasWeightData()) {
-        <div class="weight-progress">
-          <div class="weight-bar">
-            <!-- Barra de progresso dinâmica -->
-            <div class="weight-fill" [style.width.%]="getCurrentWeightPosition()"></div>
-            
-            <div class="weight-markers">
-              <!-- Marcador Inicial -->
-              <div class="marker start" [style.left.%]="getStartMarkerPosition()">
-                <span class="marker-label">{{ t('peso.inicio') }}</span>
-                <span class="marker-value">{{weightData.start}}kg</span>
-              </div>
-              
-              <!-- Marcador Atual - posição dinâmica -->
-              <div class="marker current" [style.left.%]="getCurrentMarkerPosition()">
-                <span class="marker-label">{{ t('peso.atual') }}</span>
-                <span class="marker-value">{{weightData.current}}kg</span>
-              </div>
-              
-              <!-- Marcador Objetivo -->
-              <div class="marker goal" [style.left.%]="getGoalMarkerPosition()">
-                <span class="marker-label">{{ t('peso.objetivo') }}</span>
-                <span class="marker-value">{{weightData.goal}}kg</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      } @else {
-        <p class="no-data">{{ t('progresso.noWeightData') }}</p>
-      }
-    </div> 
   </div>
 </ion-content>
