@@ -3,6 +3,7 @@ import { RouteReuseStrategy, provideRouter, withPreloading, PreloadAllModules } 
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { importProvidersFrom } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { defineCustomElements as jeepSqlite } from 'jeep-sqlite/loader';
 
 import { routes } from './app/app.routes';
@@ -16,6 +17,7 @@ bootstrapApplication(AppComponent, {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideHttpClient(),
     importProvidersFrom(IonicStorageModule.forRoot()),
   ],
 }).catch(err => console.log(err));

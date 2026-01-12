@@ -98,12 +98,12 @@ export class DatabaseService {
     private dbReady: Promise<void>;
     private isInitialized: boolean = false;
     private getPlatform(): string {
-    const win = window as any;
-    if (win.Capacitor) {
-        return win.Capacitor.getPlatform();
+        const win = window as any;
+        if (win.Capacitor) {
+            return win.Capacitor.getPlatform();
+        }
+        return 'web';
     }
-    return 'web';
-}
 
     constructor() {
         this.sqlite = new SQLiteConnection(CapacitorSQLite);
@@ -115,7 +115,7 @@ export class DatabaseService {
             // Detectar plataforma
             const platform = this.getPlatform();
             console.log('Initializing database on platform:', platform);
-            
+
             if (platform === 'web') {
                 // Configuração específica para web
                 const jeepEl = document.querySelector('jeep-sqlite');
@@ -123,11 +123,11 @@ export class DatabaseService {
                     console.error('jeep-sqlite element not found in DOM!');
                     throw new Error('jeep-sqlite element not found! Make sure it is added to index.html: <jeep-sqlite></jeep-sqlite>');
                 }
-                
+
                 // Esperar que o custom element esteja definido
                 await customElements.whenDefined('jeep-sqlite');
                 console.log('jeep-sqlite custom element defined');
-                
+
                 // Inicializar o web store
                 await this.sqlite.initWebStore();
                 console.log('Web store initialized');
@@ -135,7 +135,7 @@ export class DatabaseService {
 
             // Verificar se a conexão já existe
             const isConnection = await this.sqlite.isConnection(this.dbName, false);
-            
+
             if (isConnection.result) {
                 // Recuperar conexão existente
                 console.log('Retrieving existing connection');
@@ -373,7 +373,7 @@ export class DatabaseService {
         }
     }
 
- 
+
     // CRUD Operations - Users
     async createUser(user: Omit<User, 'id' | 'created_at' | 'updated_at'>): Promise<number> {
         await this.ensureDbReady();
@@ -381,7 +381,7 @@ export class DatabaseService {
             'INSERT INTO users (name, email, password_hash, age, height, weight, goal_weight, activity_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
             [user.name, user.email, user.password_hash, user.age, user.height, user.weight, user.goal_weight, user.activity_level]
         );
-            await this.saveChanges(); 
+        await this.saveChanges();
         return result.changes?.lastId || 0;
     }
 
@@ -473,7 +473,7 @@ export class DatabaseService {
 
     async deleteActivity(id: number): Promise<void> {
         await this.db.run('DELETE FROM activities WHERE id = ?', [id]);
-            await this.saveChanges(); 
+        await this.saveChanges();
     }
 
     // Activity Statistics
@@ -582,6 +582,34 @@ export class DatabaseService {
             'INSERT OR REPLACE INTO achievements (user_id, badge_id, progress, is_completed) VALUES (?, ?, 100, 1)',
             [userId, badgeId]
         );
+    }
+
+    async insertBadge(badge: Omit<Badge, 'id'>): Promise<number> {
+        const result = await this.db.run(
+            `INSERT INTO badges (name, description, icon, requirement_type, requirement_value, points, category, created_at)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                badge.name,
+                badge.description,
+                badge.icon,
+                badge.requirement_type,
+                badge.requirement_value,
+                badge.points,
+                badge.category,
+                badge.created_at || new Date().toISOString()
+            ]
+        );
+        return result.changes?.lastId || 0;
+    }
+
+    async getBadgeById(id: number): Promise<Badge | null> {
+        const result = await this.db.query('SELECT * FROM badges WHERE id = ?', [id]);
+        return result.values?.[0] || null;
+    }
+
+    async getAllBadges(): Promise<Badge[]> {
+        const result = await this.db.query('SELECT * FROM badges ORDER BY points ASC');
+        return result.values || [];
     }
 
     // Utility methods

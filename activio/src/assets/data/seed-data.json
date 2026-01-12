@@ -1,0 +1,83 @@
+{
+    "defaultUser": {
+        "name": "Utilizador",
+        "email": "user@activio.com",
+        "age": 25,
+        "height": 170,
+        "weight": 70,
+        "goal_weight": 65,
+        "activity_level": "Moderado",
+        "gender": "Prefiro não informar"
+    },
+    "sampleActivities": [
+        {
+            "type": "Corrida",
+            "intensity": "Média",
+            "duration": 30,
+            "calories": 300,
+            "location": "Parque",
+            "notes": "Atividade de exemplo",
+            "favorite": false
+        },
+        {
+            "type": "Ginásio",
+            "intensity": "Alta",
+            "duration": 60,
+            "calories": 450,
+            "location": "Ginásio Local",
+            "notes": "Treino de força",
+            "favorite": true
+        },
+        {
+            "type": "Yoga",
+            "intensity": "Baixa",
+            "duration": 45,
+            "calories": 150,
+            "location": "Casa",
+            "notes": "Relaxamento",
+            "favorite": false
+        }
+    ],
+    "activityTypes": [
+        {
+            "name": "Corrida",
+            "icon": "walk-outline",
+            "defaultCaloriesPerHour": 600
+        },
+        {
+            "name": "Ciclismo",
+            "icon": "bicycle-outline",
+            "defaultCaloriesPerHour": 500
+        },
+        {
+            "name": "Natação",
+            "icon": "water-outline",
+            "defaultCaloriesPerHour": 550
+        },
+        {
+            "name": "Ginásio",
+            "icon": "barbell-outline",
+            "defaultCaloriesPerHour": 450
+        },
+        {
+            "name": "Yoga",
+            "icon": "fitness-outline",
+            "defaultCaloriesPerHour": 200
+        },
+        {
+            "name": "Futebol",
+            "icon": "football-outline",
+            "defaultCaloriesPerHour": 650
+        },
+        {
+            "name": "Basquetebol",
+            "icon": "basketball-outline",
+            "defaultCaloriesPerHour": 600
+        },
+        {
+            "name": "Caminhada",
+            "icon": "walk-outline",
+            "defaultCaloriesPerHour": 300
+        }
+    ]
+}

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Preferences } from '@capacitor/preferences';
 
 export interface Translation {
     [key: string]: string | string[] | Translation;
@@ -14,6 +15,7 @@ export interface LanguageData {
 export class I18nService {
     private readonly LANGUAGE_KEY = 'appLanguage';
     private currentLanguage = 'pt'; // padrão é português
+    private initialized = false;
 
     // Dados de tradução
     private translations: LanguageData = {
@@ -495,35 +497,53 @@ export class I18nService {
         this.loadLanguage();
     }
 
-    private loadLanguage() {
-        const savedLanguage = localStorage.getItem(this.LANGUAGE_KEY);
-        console.log('Idioma carregado do localStorage:', savedLanguage);
+    private async loadLanguage() {
+        if (this.initialized) return;
 
-        if (savedLanguage && this.translations[savedLanguage]) {
-            this.currentLanguage = savedLanguage;
-        } else {
-            // Definir idioma padrão se não houver salvamento
+        try {
+            const result = await Preferences.get({ key: this.LANGUAGE_KEY });
+            const savedLanguage = result.value;
+            console.log('Idioma carregado do Preferences:', savedLanguage);
+
+            if (savedLanguage && this.translations[savedLanguage]) {
+                this.currentLanguage = savedLanguage;
+            } else {
+                // Definir idioma padrão se não houver salvamento
+                this.currentLanguage = 'pt';
+                await this.saveLanguage();
+                console.log('Idioma padrão definido:', this.currentLanguage);
+            }
+
+            this.initialized = true;
+            console.log('Idioma atual definido:', this.currentLanguage);
+            console.log('Exemplo de tradução home.welcome:', this.translations[this.currentLanguage]['home']);
+        } catch (error) {
+            console.error('Erro ao carregar idioma:', error);
             this.currentLanguage = 'pt';
-            this.saveLanguage();
-            console.log('Idioma padrão definido:', this.currentLanguage);
+            this.initialized = true;
         }
-
-        console.log('Idioma atual definido:', this.currentLanguage);
-        console.log('Exemplo de tradução home.welcome:', this.translations[this.currentLanguage]['home']);
     }
 
-    private saveLanguage() {
-        localStorage.setItem(this.LANGUAGE_KEY, this.currentLanguage);
+    private async saveLanguage() {
+        try {
+            await Preferences.set({
+                key: this.LANGUAGE_KEY,
+                value: this.currentLanguage
+            });
+            console.log('Idioma salvo com sucesso no Preferences:', this.currentLanguage);
+        } catch (error) {
+            console.error('Erro ao salvar idioma:', error);
+        }
     }
 
     getCurrentLanguage(): string {
         return this.currentLanguage;
     }
 
-    setLanguage(language: string): void {
+    async setLanguage(language: string): Promise<void> {
         if (this.translations[language]) {
             this.currentLanguage = language;
-            this.saveLanguage();
+            await this.saveLanguage();
             console.log('Idioma alterado para:', language);
 
             // Recarregar a página para aplicar as traduções

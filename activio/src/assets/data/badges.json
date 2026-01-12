@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "Primeira Atividade",
+        "description": "Complete sua primeira atividade",
+        "icon": "fitness-outline",
+        "requirement_type": "activities_completed",
+        "requirement_value": 1,
+        "points": 10,
+        "category": "iniciante"
+    },
+    {
+        "id": 2,
+        "name": "Maratonista Iniciante",
+        "description": "Complete 5 atividades",
+        "icon": "medal-outline",
+        "requirement_type": "activities_completed",
+        "requirement_value": 5,
+        "points": 25,
+        "category": "atividades"
+    },
+    {
+        "id": 3,
+        "name": "Dedicado",
+        "description": "Complete 10 atividades",
+        "icon": "trophy-outline",
+        "requirement_type": "activities_completed",
+        "requirement_value": 10,
+        "points": 50,
+        "category": "atividades"
+    },
+    {
+        "id": 4,
+        "name": "Queimador de Calorias",
+        "description": "Queime 1000 calorias",
+        "icon": "flame-outline",
+        "requirement_type": "calories_burned",
+        "requirement_value": 1000,
+        "points": 30,
+        "category": "calorias"
+    },
+    {
+        "id": 5,
+        "name": "Guerreiro Fitness",
+        "description": "Treine por 10 horas",
+        "icon": "barbell-outline",
+        "requirement_type": "hours_trained",
+        "requirement_value": 10,
+        "points": 40,
+        "category": "tempo"
+    },
+    {
+        "id": 6,
+        "name": "Consistência",
+        "description": "Treine 7 dias seguidos",
+        "icon": "calendar-outline",
+        "requirement_type": "streak_days",
+        "requirement_value": 7,
+        "points": 50,
+        "category": "consistencia"
+    }
+]

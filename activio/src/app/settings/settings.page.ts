@@ -73,9 +73,9 @@ export class SettingsPage implements OnInit {
     console.log('Resumo semanal:', this.settings.weeklySummary);
   }
 
-  selectLanguage(lang: string) {
+  async selectLanguage(lang: string) {
     this.settings.language = lang;
-    this.themeService.selectLanguage(lang);
+    await this.themeService.selectLanguage(lang);
     console.log('Idioma selecionado:', lang);
   }
 
@@ -101,8 +101,8 @@ export class SettingsPage implements OnInit {
   }
 
   goBack() {
-  this.navCtrl.back();
-}
+    this.navCtrl.back();
+  }
 
   openMenu() {
     console.log('Menu aberto');

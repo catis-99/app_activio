@@ -68,3 +68,16 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Local databases (SQLite) - NÃO fazer commit
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+
+# Capacitor local storage
+/capacitor-storage/
+
+# Ionic Storage local files
+/.storage/

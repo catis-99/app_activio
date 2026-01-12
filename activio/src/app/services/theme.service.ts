@@ -55,8 +55,8 @@ export class ThemeService {
     }
 
     // Métodos para mudança de idioma
-    selectLanguage(language: string): void {
-        this.i18nService.setLanguage(language);
+    async selectLanguage(language: string): Promise<void> {
+        await this.i18nService.setLanguage(language);
     }
 
     getCurrentLanguage(): string {
