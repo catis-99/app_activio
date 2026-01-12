@@ -23,7 +23,8 @@ import {
   chevronBackOutline,
   chevronDownOutline,
   chevronForwardOutline,
-  closeOutline
+  closeOutline,
+  flagOutline
 } from 'ionicons/icons';
 import { I18nService } from '../services/i18n.service';
 import { DataService } from '../services/data.service';
@@ -54,12 +55,13 @@ export class CompletarperfilPage implements OnInit {
   birthdate: string = '';
   weight: number | null = null;
   height: number | null = null;
+  goalWeight: number | null = null;
 
   // Controlar a abertura do calendário
   showCalendar = false;
 
   // Variáveis do calendário mensal customizado
-  selectedDate = new Date();
+  selectedDate: Date | null = null;
   currentMonth = new Date();
   calendarDays: number[] = [];
   availableYears: number[] = [];
@@ -89,7 +91,8 @@ export class CompletarperfilPage implements OnInit {
       chevronForwardOutline,
       bodyOutline,
       trendingUpOutline,
-      closeOutline
+      closeOutline,
+      flagOutline
     });
 
     // Configurar datas
@@ -141,6 +144,7 @@ export class CompletarperfilPage implements OnInit {
     this.birthdate = profile.birthdate || '';
     this.weight = profile.weight || null;
     this.height = profile.height || null;
+    this.goalWeight = profile.goalWeight || null;
 
     // Si hay birthdate, actualizar selectedDate
     if (this.birthdate) {
@@ -214,6 +218,11 @@ export class CompletarperfilPage implements OnInit {
 
     if (!this.height || this.height <= 0 || this.height > 300) {
       this.showError('Por favor, insere uma altura válida (1-300 cm)');
+      return false;
+    }
+
+    if (!this.goalWeight || this.goalWeight <= 0 || this.goalWeight > 500) {
+      this.showError('Por favor, insere um objetivo de peso válido (1-500 kg)');
       return false;
     }
 
@@ -292,6 +301,7 @@ export class CompletarperfilPage implements OnInit {
         age: age!,
         height: this.height!,
         weight: this.weight!,
+        goalWeight: this.goalWeight!,
         gender: this.gender,
         activityLevel: 'Moderado',
         birthdate: this.birthdate
@@ -305,7 +315,19 @@ export class CompletarperfilPage implements OnInit {
         notes: 'Perfil inicial completado'
       });
 
+      // Inicializar dados de peso para o gráfico
+      await this.dataService.saveWeightData({
+        start: this.weight!,
+        current: this.weight!,
+        goal: this.goalWeight!
+      });
+
       console.log('✅ Perfil completo:', profileData);
+      console.log('✅ Dados de peso inicializados:', {
+        start: this.weight,
+        current: this.weight,
+        goal: this.goalWeight
+      });
 
       // Mostrar alerta de sucesso e redirecionar para home
       const alert = await this.alertController.create({
@@ -336,6 +358,18 @@ export class CompletarperfilPage implements OnInit {
    * Abrir o calendário
    */
   abrirCalendario() {
+    // Se já existe uma data de nascimento, mostrar esse mês
+    if (this.birthdate) {
+      this.selectedDate = new Date(this.birthdate);
+      this.currentMonth = new Date(this.birthdate);
+    } else {
+      // Se não, mostrar o mês/ano há 25 anos atrás (idade padrão razoável)
+      const defaultDate = new Date();
+      defaultDate.setFullYear(defaultDate.getFullYear() - 25);
+      this.selectedDate = defaultDate;
+      this.currentMonth = new Date(defaultDate);
+    }
+    this.generateCalendarDays();
     this.showCalendar = true;
   }
 
@@ -352,7 +386,8 @@ export class CompletarperfilPage implements OnInit {
   confirmarData() {
     if (this.selectedDate) {
       this.birthdate = this.formatDate(this.selectedDate);
-      console.log('📅 Fecha confirmada:', this.birthdate);
+      console.log('📅 Data confirmada:', this.birthdate);
+      console.log('📅 Data selecionada:', this.selectedDate);
     }
     this.fecharCalendario();
   }
@@ -406,6 +441,7 @@ export class CompletarperfilPage implements OnInit {
   }
 
   isSelected(day: number): boolean {
+    if (!this.selectedDate) return false;
     return day === this.selectedDate.getDate() &&
       this.currentMonth.getMonth() === this.selectedDate.getMonth() &&
       this.currentMonth.getFullYear() === this.selectedDate.getFullYear();
@@ -418,8 +454,8 @@ export class CompletarperfilPage implements OnInit {
 
   selectDay(day: number) {
     this.selectedDate = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), day);
-    console.log('📅 Día seleccionado:', day);
-    // NO actualizar birthdate aquí, solo al confirmar
+    console.log('📅 Dia selecionado:', this.selectedDate);
+    console.log('📅 Data formatada:', this.formatDate(this.selectedDate));
   }
 
   toggleMonthYearPicker() {

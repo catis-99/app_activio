@@ -104,7 +104,7 @@ export class CriarAtividadePage implements OnInit {
           local: atividade.local,
           notas: atividade.notas
         };
-        
+
         // Atualizar dataSelecionada para o calendário
         const parsedDate = this.parseActivityDate(atividade.data);
         this.dataSelecionada = parsedDate.toISOString();
@@ -168,11 +168,12 @@ export class CriarAtividadePage implements OnInit {
         }
       ],
       buttons: [
-        { text: this.t('Cancelar'), role: 'cancel' },
+        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
         {
-          text: 'OK',
+          text: this.t('criarAtividade.save'),
           handler: (value: any) => {
             this.atividade.tipo = value.atividade.value;
+            console.log('✅ Atividade selecionada:', this.atividade.tipo);
           }
         }
       ]
@@ -188,7 +189,7 @@ export class CriarAtividadePage implements OnInit {
   }
 
   async alterarIntensidade() {
-    const intensidades = ['Baixa', 'Média', 'Alta'];
+    const intensidades: Array<'Baixa' | 'Média' | 'Alta'> = ['Baixa', 'Média', 'Alta'];
     const currentIndex = intensidades.indexOf(this.atividade.intensidade);
 
     const picker = await this.pickerController.create({
@@ -206,9 +207,10 @@ export class CriarAtividadePage implements OnInit {
       buttons: [
         { text: this.t('criarAtividade.cancel'), role: 'cancel' },
         {
-          text: 'OK',
+          text: this.t('criarAtividade.save'),
           handler: (value: any) => {
             this.atividade.intensidade = value.intensidade.value as 'Baixa' | 'Média' | 'Alta';
+            console.log('✅ Intensidade atualizada:', this.atividade.intensidade);
           }
         }
       ]
@@ -238,9 +240,10 @@ export class CriarAtividadePage implements OnInit {
       buttons: [
         { text: this.t('criarAtividade.cancel'), role: 'cancel' },
         {
-          text: 'OK',
+          text: this.t('criarAtividade.save'),
           handler: (value: any) => {
             this.atividade.duracao = value.duracao.value;
+            console.log('✅ Duração atualizada:', this.atividade.duracao);
           }
         }
       ]
@@ -249,10 +252,21 @@ export class CriarAtividadePage implements OnInit {
   }
 
   async abrirTimePicker() {
-    // ✅ CORRIGIDO: Converter valores atuais para índices
-    const horaIndex = (this.atividade.hora || 12) - 1;
+    // Converter valores atuais para índices
+    const currentHora = this.atividade.hora || 12;
+    const horaIndex = currentHora - 1;
+
     const minutoOptions = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
-    const minutoIndex = minutoOptions.indexOf(this.atividade.minuto || 0);
+    const currentMinuto = this.atividade.minuto !== undefined ? this.atividade.minuto : 0;
+    const minutoIndex = minutoOptions.indexOf(currentMinuto);
+
+    console.log('🕐 Valores atuais:', {
+      hora: currentHora,
+      horaIndex,
+      minuto: currentMinuto,
+      minutoIndex,
+      periodo: this.atividade.periodo
+    });
 
     const picker = await this.pickerController.create({
       columns: [
@@ -260,15 +274,15 @@ export class CriarAtividadePage implements OnInit {
           name: 'hour',
           options: Array.from({ length: 12 }, (_, i) => ({
             text: (i + 1).toString(),
-            value: (i + 1).toString()
+            value: i + 1
           })),
-          selectedIndex: horaIndex >= 0 ? horaIndex : 11
+          selectedIndex: horaIndex >= 0 && horaIndex < 12 ? horaIndex : 11
         },
         {
           name: 'minute',
           options: minutoOptions.map(m => ({
             text: m.toString().padStart(2, '0'),
-            value: m.toString()
+            value: m
           })),
           selectedIndex: minutoIndex >= 0 ? minutoIndex : 0
         },
@@ -282,13 +296,19 @@ export class CriarAtividadePage implements OnInit {
         }
       ],
       buttons: [
-        { text: 'Cancelar', role: 'cancel' },
+        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
         {
-          text: 'OK',
+          text: this.t('criarAtividade.save'),
           handler: (value: any) => {
-            this.atividade.hora = parseInt(value.hour.value);
-            this.atividade.minuto = parseInt(value.minute.value);
+            console.log('🕐 Valores selecionados:', value);
+            this.atividade.hora = value.hour.value;
+            this.atividade.minuto = value.minute.value;
             this.atividade.periodo = value.period.value;
+            console.log('🕐 Atividade atualizada:', {
+              hora: this.atividade.hora,
+              minuto: this.atividade.minuto,
+              periodo: this.atividade.periodo
+            });
           }
         }
       ]
@@ -299,14 +319,14 @@ export class CriarAtividadePage implements OnInit {
   // ✅ CORRIGIDO: Mapear TODAS as atividades disponíveis
   private mapActivityType(tipo: string): 'football' | 'ciclismo' | 'atletismo' | 'ginasio' | 'natacao' | 'yoga' | null {
     const tipoLower = tipo.toLowerCase();
-    
+
     if (tipoLower.includes('futebol')) return 'football';
     if (tipoLower.includes('ciclismo')) return 'ciclismo';
     if (tipoLower.includes('atletismo')) return 'atletismo';
     if (tipoLower.includes('ginásio') || tipoLower.includes('ginasio')) return 'ginasio';
     if (tipoLower.includes('natação') || tipoLower.includes('natacao')) return 'natacao';
     if (tipoLower.includes('yoga')) return 'yoga';
-    
+
     // Atividades que não são rastreadas nos gráficos
     return null;
   }
@@ -359,13 +379,13 @@ export class CriarAtividadePage implements OnInit {
       } else {
         // Criar nova atividade
         this.atividadesService.createAtividade(this.atividade);
-        
+
         // Registar atividade nos gráficos se for uma atividade rastreada
         if (activityType) {
           await this.dataService.recordActivity(activityType, duracaoHoras, activityDate);
           console.log(`✅ Atividade ${activityType} registada: ${duracaoHoras}h em ${activityDate.toLocaleDateString()}`);
         }
-        
+
         this.atividadesService.showToast('Atividade criada com sucesso!', 'success');
         this.router.navigate(['/lista-atividades']);
       }
@@ -387,7 +407,7 @@ export class CriarAtividadePage implements OnInit {
       // Remover dia da semana se existir (formato: "Qui, 27 Maio 2025")
       const datePart = dataStr.includes(',') ? dataStr.split(',')[1].trim() : dataStr.trim();
       const parts = datePart.split(' ');
-      
+
       if (parts.length !== 3) {
         throw new Error('Formato de data inválido');
       }
@@ -404,7 +424,7 @@ export class CriarAtividadePage implements OnInit {
 
       // Criar data às 12:00 para evitar problemas de timezone
       const date = new Date(ano, mes, dia, 12, 0, 0);
-      
+
       // Validar se a data é válida
       if (isNaN(date.getTime())) {
         throw new Error('Data inválida');
