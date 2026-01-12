@@ -33,13 +33,21 @@ export class AuthService {
             // Check for stored user session
             const storedUser = await this.storage.get(this.STORAGE_KEY);
             if (storedUser) {
-                this.authState.next({
-                    isAuthenticated: true,
-                    user: storedUser
-                });
+                // Verify user still exists in database
+                const dbUser = await this.databaseService.getUserById(storedUser.id);
+                if (dbUser) {
+                    this.authState.next({
+                        isAuthenticated: true,
+                        user: dbUser
+                    });
+                } else {
+                    // User deleted from DB, clear storage
+                    await this.storage.remove(this.STORAGE_KEY);
+                }
             }
         } catch (error) {
             console.error('Error initializing auth state:', error);
+            await this.storage.remove(this.STORAGE_KEY);
         }
     }
 
@@ -64,9 +72,10 @@ export class AuthService {
                 return { success: false, message: 'Utilizador não encontrado' };
             }
 
-            // For demo purposes, we'll use a simple password check
-            // In production, you should hash passwords and compare hashes
-            const isValidPassword = password === 'password123' || user.password_hash === password;
+            // Compare passwords
+            // IMPORTANTE: Em produção deves usar bcrypt para comparar hashes
+            // Por agora compara diretamente (não recomendado para produção real)
+            const isValidPassword = user.password_hash === password;
 
             if (!isValidPassword) {
                 return { success: false, message: 'Password incorreta' };
@@ -84,7 +93,7 @@ export class AuthService {
             return { success: true, message: 'Login realizado com sucesso' };
         } catch (error) {
             console.error('Login error:', error);
-            return { success: false, message: 'Erro durante o login' };
+            return { success: false, message: 'Erro durante o login. Verifica a tua ligação.' };
         }
     }
 
@@ -104,58 +113,42 @@ export class AuthService {
             try {
                 existingUser = await this.databaseService.getUserByEmail(userData.email);
             } catch (error) {
-                console.log('Database not ready, will use fallback');
+                // Se der erro ao procurar, assume que não existe (DB pode não estar pronta)
+                console.log('Could not check existing user, proceeding with registration:', error);
+                existingUser = null;
             }
-
+            
             if (existingUser) {
                 return { success: false, message: 'Email já registado' };
             }
 
-            // Try to create user in database
-            let userId = 0;
-            let newUser = null;
+            // Create user in database
+            // IMPORTANTE: Em produção deves usar bcrypt para hash da password
+            const userId = await this.databaseService.createUser({
+                ...userData,
+                password_hash: userData.password // ATENÇÃO: hash isto em produção!
+            });
 
-            try {
-                userId = await this.databaseService.createUser({
-                    ...userData,
-                    password_hash: userData.password // In production, hash the password
-                });
-                newUser = await this.databaseService.getUserById(userId);
-            } catch (error) {
-                console.log('Database creation failed, using storage fallback');
-                // Fallback: create a simple user object
-                newUser = {
-                    id: Date.now(),
-                    name: userData.name,
-                    email: userData.email,
-                    password_hash: userData.password,
-                    age: userData.age,
-                    height: userData.height,
-                    weight: userData.weight,
-                    goal_weight: userData.goal_weight,
-                    activity_level: userData.activity_level,
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                };
+            // Get the newly created user
+            const newUser = await this.databaseService.getUserById(userId);
+
+            if (!newUser) {
+                return { success: false, message: 'Erro ao criar utilizador' };
             }
 
-            if (newUser) {
-                // Update auth state
-                this.authState.next({
-                    isAuthenticated: true,
-                    user: newUser
-                });
+            // Update auth state
+            this.authState.next({
+                isAuthenticated: true,
+                user: newUser
+            });
 
-                // Store user session
-                await this.storage.set(this.STORAGE_KEY, newUser);
+            // Store user session
+            await this.storage.set(this.STORAGE_KEY, newUser);
 
-                return { success: true, message: 'Registo realizado com sucesso' };
-            }
-
-            return { success: false, message: 'Erro ao criar utilizador' };
+            return { success: true, message: 'Registo realizado com sucesso' };
         } catch (error) {
             console.error('Register error:', error);
-            return { success: false, message: 'Erro durante o registo' };
+            return { success: false, message: 'Erro durante o registo. Tenta novamente.' };
         }
     }
 
@@ -181,10 +174,17 @@ export class AuthService {
                 return { success: false, message: 'Utilizador não autenticado' };
             }
 
+            // Update in database
             await this.databaseService.updateUser(currentUser.id!, updates);
 
+            // Get updated user from database
+            const updatedUser = await this.databaseService.getUserById(currentUser.id!);
+
+            if (!updatedUser) {
+                return { success: false, message: 'Erro ao atualizar perfil' };
+            }
+
             // Update local state
-            const updatedUser = { ...currentUser, ...updates };
             this.authState.next({
                 isAuthenticated: true,
                 user: updatedUser
