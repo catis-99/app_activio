@@ -51,8 +51,22 @@ export class LoginPage {
             console.log('Login result:', success);
 
             if (success) {
+                // Carregar perfil Gumballl APENAS para o utilizador gumball@gmail.com
+                const isGumballl = this.email.toLowerCase() === 'gumball@gmail.com';
+                
+                if (isGumballl) {
+                    console.log('Login successful! Loading Gumballl profile...');
+                    try {
+                        await this.dataService.loadGumballlProfile();
+                        console.log('✅ Perfil Gumballl carregado automaticamente');
+                    } catch (profileError) {
+                        console.warn('⚠️ Erro ao carregar perfil Gumballl:', profileError);
+                    }
+                } else {
+                    console.log('Login successful! User is not Gumballl, loading default profile...');
+                }
+                
                 // Show success message
-                console.log('Login successful! Navigating to home...');
                 const alert = await this.alertController.create({
                     header: 'Sucesso',
                     message: 'Login realizado com sucesso!',

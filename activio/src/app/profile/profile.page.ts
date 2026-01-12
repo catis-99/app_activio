@@ -4,6 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 import { I18nService } from '../services/i18n.service';
 import { DataService } from '../services/data.service';
+import { addIcons } from 'ionicons';
+import { cloudDownloadOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-profile',
@@ -25,7 +27,9 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private i18nService: I18nService,
     private dataService: DataService
-  ) { }
+  ) {
+    addIcons({ cloudDownloadOutline });
+  }
 
   ngOnInit() {
     this.loadUserProfile();
@@ -39,6 +43,18 @@ export class ProfilePage implements OnInit {
     this.userProfile.height = profile.height ? `${profile.height}` : '';
     this.userProfile.weight = latestProgress?.weight ? `${latestProgress.weight}` : profile.weight ? `${profile.weight}` : '';
     this.userProfile.age = profile.age ? `${profile.age}` : '';
+  }
+
+  async loadGumballlProfile() {
+    try {
+      await this.dataService.loadGumballlProfile();
+      await this.loadUserProfile();
+      console.log('✅ Perfil Gumballl carregado com sucesso!');
+      alert('Perfil Gumballl carregado! Verifique o progresso, conquistas e atividades.');
+    } catch (error) {
+      console.error('❌ Erro ao carregar perfil Gumballl:', error);
+      alert('Erro ao carregar perfil Gumballl. Verifique o console.');
+    }
   }
 
   navigateTo(route: string) {

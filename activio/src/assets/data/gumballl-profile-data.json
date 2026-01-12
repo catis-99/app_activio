@@ -1,0 +1,510 @@
+{
+  "user": {
+    "name": "Gumballl",
+    "email": "gumball@gmail.com",
+    "age": 28,
+    "height": 175,
+    "weight": 72,
+    "goal_weight": 68,
+    "activity_level": "Alto",
+    "gender": "Masculino",
+    "birthdate": "1998-03-15"
+  },
+  "activities": [
+    {
+      "id": "act_001",
+      "type": "Corrida",
+      "intensity": "Alta",
+      "duration": 45,
+      "calories": 450,
+      "location": "Parque da Cidade",
+      "notes": "Treino matinal intenso",
+      "favorite": true,
+      "date": "2026-01-10T07:00:00Z",
+      "distance": 8.5
+    },
+    {
+      "id": "act_002",
+      "type": "Ginásio",
+      "intensity": "Média",
+      "duration": 60,
+      "calories": 400,
+      "location": "FitZone Academia",
+      "notes": "Treino de peito e tríceps",
+      "favorite": true,
+      "date": "2026-01-09T18:30:00Z"
+    },
+    {
+      "id": "act_003",
+      "type": "Natação",
+      "intensity": "Média",
+      "duration": 40,
+      "calories": 350,
+      "location": "Piscina Municipal",
+      "notes": "1500m crawl",
+      "favorite": false,
+      "date": "2026-01-08T19:00:00Z",
+      "distance": 1.5
+    },
+    {
+      "id": "act_004",
+      "type": "Ciclismo",
+      "intensity": "Alta",
+      "duration": 90,
+      "calories": 700,
+      "location": "Serra da Estrela",
+      "notes": "Treino de resistência",
+      "favorite": true,
+      "date": "2026-01-07T09:00:00Z",
+      "distance": 35
+    },
+    {
+      "id": "act_005",
+      "type": "Yoga",
+      "intensity": "Baixa",
+      "duration": 50,
+      "calories": 180,
+      "location": "Casa",
+      "notes": "Sessão de recuperação",
+      "favorite": false,
+      "date": "2026-01-06T20:00:00Z"
+    },
+    {
+      "id": "act_006",
+      "type": "Futebol",
+      "intensity": "Alta",
+      "duration": 75,
+      "calories": 650,
+      "location": "Campo Municipal",
+      "notes": "Jogo com amigos",
+      "favorite": true,
+      "date": "2026-01-05T16:00:00Z"
+    },
+    {
+      "id": "act_007",
+      "type": "Caminhada",
+      "intensity": "Baixa",
+      "duration": 30,
+      "calories": 150,
+      "location": "Marginal",
+      "notes": "Caminhada relaxante",
+      "favorite": false,
+      "date": "2026-01-04T10:00:00Z",
+      "distance": 3.2
+    },
+    {
+      "id": "act_008",
+      "type": "Basquetebol",
+      "intensity": "Média",
+      "duration": 60,
+      "calories": 550,
+      "location": "Pavilhão Desportivo",
+      "notes": "Treino de equipa",
+      "favorite": true,
+      "date": "2026-01-03T19:30:00Z"
+    }
+  ],
+  "weightProgress": [
+    {
+      "date": "2025-12-01",
+      "weight": 75.5,
+      "notes": "Início do programa"
+    },
+    {
+      "date": "2025-12-08",
+      "weight": 74.8,
+      "notes": "Primeira semana"
+    },
+    {
+      "date": "2025-12-15",
+      "weight": 74.2,
+      "notes": "Progresso constante"
+    },
+    {
+      "date": "2025-12-22",
+      "weight": 73.5,
+      "notes": "Bom progresso"
+    },
+    {
+      "date": "2025-12-29",
+      "weight": 73.0,
+      "notes": "Fim de ano"
+    },
+    {
+      "date": "2026-01-05",
+      "weight": 72.5,
+      "notes": "Início de 2026"
+    },
+    {
+      "date": "2026-01-12",
+      "weight": 72.0,
+      "notes": "Meta em progresso"
+    }
+  ],
+  "badges": [
+    {
+      "id": "badge_001",
+      "name": "Corredor Iniciante",
+      "description": "Complete 5 corridas",
+      "icon": "trophy-outline",
+      "unlocked": true,
+      "unlockedDate": "2025-12-15"
+    },
+    {
+      "id": "badge_002",
+      "name": "Maratonista",
+      "description": "Corra 100km no total",
+      "icon": "medal-outline",
+      "unlocked": true,
+      "unlockedDate": "2026-01-08"
+    },
+    {
+      "id": "badge_003",
+      "name": "Atleta Dedicado",
+      "description": "Treine 7 dias seguidos",
+      "icon": "flame-outline",
+      "unlocked": true,
+      "unlockedDate": "2026-01-10"
+    },
+    {
+      "id": "badge_004",
+      "name": "Queimador de Calorias",
+      "description": "Queime 5000 calorias numa semana",
+      "icon": "fitness-outline",
+      "unlocked": false,
+      "progress": 3200,
+      "target": 5000
+    },
+    {
+      "id": "badge_005",
+      "name": "Versatilidade",
+      "description": "Pratique 5 tipos de atividades diferentes",
+      "icon": "ribbon-outline",
+      "unlocked": true,
+      "unlockedDate": "2026-01-05"
+    }
+  ],
+  "calorieTracking": [
+    {
+      "date": "2026-01-12",
+      "consumed": 2100,
+      "burned": 450,
+      "goal": 2200,
+      "meals": [
+        {
+          "name": "Aveia com fruta",
+          "calories": 350,
+          "time": "08:00",
+          "type": "breakfast"
+        },
+        {
+          "name": "Frango grelhado com arroz",
+          "calories": 650,
+          "time": "13:00",
+          "type": "lunch"
+        },
+        {
+          "name": "Salmão com legumes",
+          "calories": 600,
+          "time": "19:30",
+          "type": "dinner"
+        },
+        {
+          "name": "Iogurte grego",
+          "calories": 180,
+          "time": "16:00",
+          "type": "snack"
+        },
+        {
+          "name": "Banana",
+          "calories": 105,
+          "time": "10:30",
+          "type": "snack"
+        },
+        {
+          "name": "Frutos secos",
+          "calories": 215,
+          "time": "22:00",
+          "type": "snack"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-11",
+      "consumed": 2250,
+      "burned": 400,
+      "goal": 2200,
+      "meals": [
+        {
+          "name": "Tosta de abacate",
+          "calories": 420,
+          "time": "08:30",
+          "type": "breakfast"
+        },
+        {
+          "name": "Massa com atum",
+          "calories": 680,
+          "time": "13:30",
+          "type": "lunch"
+        },
+        {
+          "name": "Peru com batata doce",
+          "calories": 580,
+          "time": "20:00",
+          "type": "dinner"
+        },
+        {
+          "name": "Smoothie proteico",
+          "calories": 320,
+          "time": "16:30",
+          "type": "snack"
+        },
+        {
+          "name": "Maçã",
+          "calories": 95,
+          "time": "11:00",
+          "type": "snack"
+        },
+        {
+          "name": "Queijo fresco",
+          "calories": 155,
+          "time": "22:30",
+          "type": "snack"
+        }
+      ]
+    }
+  ],
+  "trainingSchedule": [
+    {
+      "day": "Segunda",
+      "activities": ["Corrida", "Ginásio"],
+      "plannedHours": 2,
+      "completed": true
+    },
+    {
+      "day": "Terça",
+      "activities": ["Natação"],
+      "plannedHours": 1,
+      "completed": true
+    },
+    {
+      "day": "Quarta",
+      "activities": ["Ciclismo"],
+      "plannedHours": 1.5,
+      "completed": true
+    },
+    {
+      "day": "Quinta",
+      "activities": ["Ginásio", "Yoga"],
+      "plannedHours": 2,
+      "completed": false
+    },
+    {
+      "day": "Sexta",
+      "activities": ["Corrida"],
+      "plannedHours": 1,
+      "completed": false
+    },
+    {
+      "day": "Sábado",
+      "activities": ["Futebol"],
+      "plannedHours": 1.5,
+      "completed": false
+    },
+    {
+      "day": "Domingo",
+      "activities": ["Caminhada", "Yoga"],
+      "plannedHours": 1.5,
+      "completed": false
+    }
+  ],
+  "trainingDays": [
+    {
+      "label": "Seg",
+      "hours": 2.5
+    },
+    {
+      "label": "Ter",
+      "hours": 1.5
+    },
+    {
+      "label": "Qua",
+      "hours": 3
+    },
+    {
+      "label": "Qui",
+      "hours": 2
+    },
+    {
+      "label": "Sex",
+      "hours": 1.5
+    },
+    {
+      "label": "Sáb",
+      "hours": 2.5
+    },
+    {
+      "label": "Dom",
+      "hours": 1
+    }
+  ],
+  "monthlyActivities": [
+    {
+      "week": 1,
+      "football": 8,
+      "ciclismo": 12,
+      "natacao": 6,
+      "atletismo": 10,
+      "ginasio": 15,
+      "yoga": 4
+    },
+    {
+      "week": 2,
+      "football": 10,
+      "ciclismo": 15,
+      "natacao": 8,
+      "atletismo": 12,
+      "ginasio": 18,
+      "yoga": 5
+    },
+    {
+      "week": 3,
+      "football": 12,
+      "ciclismo": 18,
+      "natacao": 10,
+      "atletismo": 15,
+      "ginasio": 20,
+      "yoga": 6
+    },
+    {
+      "week": 4,
+      "football": 10,
+      "ciclismo": 20,
+      "natacao": 12,
+      "atletismo": 14,
+      "ginasio": 22,
+      "yoga": 8
+    }
+  ],
+  "activityStats": [
+    {
+      "activityType": "Corrida",
+      "percentage": 28,
+      "totalHours": 42
+    },
+    {
+      "activityType": "Ginásio",
+      "percentage": 22,
+      "totalHours": 33
+    },
+    {
+      "activityType": "Ciclismo",
+      "percentage": 15,
+      "totalHours": 22.5
+    },
+    {
+      "activityType": "Natação",
+      "percentage": 12,
+      "totalHours": 18
+    },
+    {
+      "activityType": "Futebol",
+      "percentage": 10,
+      "totalHours": 15
+    },
+    {
+      "activityType": "Yoga",
+      "percentage": 8,
+      "totalHours": 12
+    },
+    {
+      "activityType": "Basquetebol",
+      "percentage": 3,
+      "totalHours": 4.5
+    },
+    {
+      "activityType": "Caminhada",
+      "percentage": 2,
+      "totalHours": 3
+    }
+  ],
+  "achievements": [
+    {
+      "id": "ach_001",
+      "title": "Primeira Atividade",
+      "description": "Completou a sua primeira atividade",
+      "date": "2025-12-01",
+      "type": "milestone"
+    },
+    {
+      "id": "ach_002",
+      "title": "Semana Perfeita",
+      "description": "Treinou todos os dias durante uma semana",
+      "date": "2026-01-10",
+      "type": "streak"
+    },
+    {
+      "id": "ach_003",
+      "title": "100km",
+      "description": "Correu um total de 100 quilómetros",
+      "date": "2026-01-08",
+      "type": "distance"
+    },
+    {
+      "id": "ach_004",
+      "title": "Perda de Peso",
+      "description": "Perdeu 3kg desde o início",
+      "date": "2026-01-05",
+      "type": "weight"
+    }
+  ],
+  "statistics": {
+    "totalActivities": 45,
+    "totalDuration": 2850,
+    "totalCaloriesBurned": 18750,
+    "totalDistance": 285.5,
+    "averageIntensity": "Média-Alta",
+    "favoriteActivity": "Corrida",
+    "currentStreak": 7,
+    "longestStreak": 12,
+    "activeDays": 38,
+    "mostActiveDay": "Segunda-feira",
+    "activityDistribution": {
+      "Corrida": 28,
+      "Ginásio": 22,
+      "Ciclismo": 15,
+      "Natação": 12,
+      "Futebol": 10,
+      "Yoga": 8,
+      "Basquetebol": 3,
+      "Caminhada": 2
+    }
+  },
+  "preferences": {
+    "theme": "dark",
+    "language": "pt",
+    "notifications": {
+      "daily_reminder": true,
+      "achievement_alerts": true,
+      "weekly_summary": true,
+      "goal_progress": true
+    },
+    "units": {
+      "distance": "km",
+      "weight": "kg",
+      "height": "cm"
+    },
+    "privacy": {
+      "profile_visible": true,
+      "activities_visible": false,
+      "share_progress": true
+    }
+  },
+  "goals": {
+    "weekly_activities": 5,
+    "weekly_calories": 3000,
+    "weekly_duration": 360,
+    "target_weight": 68,
+    "target_date": "2026-03-31"
+  }
+}

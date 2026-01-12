@@ -249,6 +249,17 @@ export class ProgressoPage implements OnInit {
     await this.loadData();
   };
 
+  async loadGumballlData() {
+    try {
+      await this.dataService.loadGumballlProfile();
+      await this.loadData();
+      this.cdr.detectChanges();
+      console.log('✅ Dados Gumballl carregados e página atualizada');
+    } catch (error) {
+      console.error('❌ Erro ao carregar dados Gumballl:', error);
+    }
+  }
+
 
   
 

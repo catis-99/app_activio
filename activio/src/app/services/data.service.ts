@@ -12,6 +12,8 @@ import {
 import { AuthService } from './auth.service';
 import { MockAuthService } from './mock-auth.service';
 import { Platform } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 export interface TrainingDay {
     label: string;
@@ -121,7 +123,8 @@ export class DataService {
         private databaseService: DatabaseService,
         private authService: AuthService,
         private mockAuthService: MockAuthService,
-        private platform: Platform
+        private platform: Platform,
+        private http: HttpClient
     ) {
         this.storageReady = this.initStorage();
         // Check if running on native platform
@@ -851,6 +854,83 @@ export class DataService {
         await storage.remove('monthly-activities-chart');
 
         console.log('✅ Dados do utilizador limpos');
+    }
+
+    // ===== LOAD PROFILE DATA FROM JSON =====
+
+    async loadGumballlProfile(): Promise<void> {
+        try {
+            const profileData = await firstValueFrom(
+                this.http.get<any>('assets/data/gumballl-profile-data.json')
+            );
+
+            const storage = await this.getStorage();
+
+            // Load user profile
+            if (profileData.user) {
+                await storage.set('userProfile', {
+                    name: profileData.user.name,
+                    age: profileData.user.age,
+                    height: profileData.user.height,
+                    weight: profileData.user.weight,
+                    goalWeight: profileData.user.goal_weight,
+                    activityLevel: profileData.user.activity_level,
+                    gender: profileData.user.gender,
+                    email: profileData.user.email,
+                    birthdate: profileData.user.birthdate
+                });
+                console.log('✅ Perfil do utilizador carregado');
+            }
+
+            // Load training days for bar chart
+            if (profileData.trainingDays) {
+                await storage.set('trainingDays', profileData.trainingDays);
+                console.log('✅ Dias de treino carregados:', profileData.trainingDays);
+            }
+
+            // Load weight data
+            if (profileData.weightProgress && profileData.weightProgress.length > 0) {
+                const firstEntry = profileData.weightProgress[0];
+                const lastEntry = profileData.weightProgress[profileData.weightProgress.length - 1];
+                
+                const weightData = {
+                    start: firstEntry.weight,
+                    current: lastEntry.weight,
+                    goal: profileData.user.goal_weight
+                };
+                await storage.set('weightData', weightData);
+                console.log('✅ Dados de peso carregados:', weightData);
+            }
+
+            // Load activity stats for pie chart
+            if (profileData.activityStats) {
+                await storage.set('activity-stats-chart', profileData.activityStats);
+                console.log('✅ Estatísticas de atividades carregadas');
+            }
+
+            // Load monthly activities for line chart
+            if (profileData.monthlyActivities) {
+                await storage.set('monthly-activities-chart', profileData.monthlyActivities);
+                console.log('✅ Atividades mensais carregadas');
+            }
+
+            // Load activities list
+            if (profileData.activities) {
+                await storage.set('activities', profileData.activities);
+                console.log('✅ Lista de atividades carregada');
+            }
+
+            // Load badges
+            if (profileData.badges) {
+                await storage.set('badges', profileData.badges);
+                console.log('✅ Badges carregados');
+            }
+
+            console.log('🎉 Perfil Gumballl carregado com sucesso!');
+        } catch (error) {
+            console.error('❌ Erro ao carregar perfil Gumballl:', error);
+            throw error;
+        }
     }
 
 }
