@@ -100,19 +100,44 @@ export class AuthService {
     }): Promise<{ success: boolean; message: string }> {
         try {
             // Check if user already exists
-            const existingUser = await this.databaseService.getUserByEmail(userData.email);
+            let existingUser = null;
+            try {
+                existingUser = await this.databaseService.getUserByEmail(userData.email);
+            } catch (error) {
+                console.log('Database not ready, will use fallback');
+            }
+
             if (existingUser) {
                 return { success: false, message: 'Email já registado' };
             }
 
-            // Create user in database
-            const userId = await this.databaseService.createUser({
-                ...userData,
-                password_hash: userData.password // In production, hash the password
-            });
+            // Try to create user in database
+            let userId = 0;
+            let newUser = null;
 
-            // Get the created user
-            const newUser = await this.databaseService.getUserById(userId);
+            try {
+                userId = await this.databaseService.createUser({
+                    ...userData,
+                    password_hash: userData.password // In production, hash the password
+                });
+                newUser = await this.databaseService.getUserById(userId);
+            } catch (error) {
+                console.log('Database creation failed, using storage fallback');
+                // Fallback: create a simple user object
+                newUser = {
+                    id: Date.now(),
+                    name: userData.name,
+                    email: userData.email,
+                    password_hash: userData.password,
+                    age: userData.age,
+                    height: userData.height,
+                    weight: userData.weight,
+                    goal_weight: userData.goal_weight,
+                    activity_level: userData.activity_level,
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                };
+            }
 
             if (newUser) {
                 // Update auth state

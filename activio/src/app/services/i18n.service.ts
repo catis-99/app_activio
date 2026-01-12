@@ -125,7 +125,8 @@ export class I18nService {
                 location: 'Local',
                 save: 'Guardar',
                 update: 'Atualizar',
-                close: 'Fechar'
+                close: 'Fechar',
+                cancel: 'Cancelar'
             },
 
             // Lista de Atividades
@@ -361,7 +362,8 @@ export class I18nService {
                 location: 'Location',
                 save: 'Save',
                 update: 'Update',
-                close: 'Close'
+                close: 'Close',
+                cancel: 'Cancel'
             },
 
             // Activity List

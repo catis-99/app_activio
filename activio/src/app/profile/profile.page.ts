@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
 import { I18nService } from '../services/i18n.service';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,18 +21,24 @@ export class ProfilePage implements OnInit {
     age: ''
   };
 
-  constructor(private router: Router, private i18nService: I18nService) { }
+  constructor(
+    private router: Router,
+    private i18nService: I18nService,
+    private dataService: DataService
+  ) { }
 
   ngOnInit() {
     this.loadUserProfile();
   }
 
-  loadUserProfile() {
-    // Carregar dados do localStorage se existirem
-    this.userProfile.name = localStorage.getItem('userName') || 'Utilizador';
-    this.userProfile.height = localStorage.getItem('userHeight') || '';
-    this.userProfile.weight = localStorage.getItem('userWeight') || '';
-    this.userProfile.age = localStorage.getItem('userAge') || '';
+  async loadUserProfile() {
+    const profile = await this.dataService.getUserProfile();
+    const latestProgress = await this.dataService.getLatestProgress();
+
+    this.userProfile.name = profile.name || 'Utilizador';
+    this.userProfile.height = profile.height ? `${profile.height}` : '';
+    this.userProfile.weight = latestProgress?.weight ? `${latestProgress.weight}` : profile.weight ? `${profile.weight}` : '';
+    this.userProfile.age = profile.age ? `${profile.age}` : '';
   }
 
   navigateTo(route: string) {

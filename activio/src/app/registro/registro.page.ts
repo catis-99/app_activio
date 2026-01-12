@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonItem, IonIcon, IonInput, IonCheckbox, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonItem, IonIcon, IonInput, IonCheckbox, IonButton, AlertController } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-registro',
@@ -55,7 +56,11 @@ export class RegistroPage implements OnInit {
     }
   };
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private dataService: DataService,
+    private alertController: AlertController
+  ) { }
 
   ngOnInit() {
   }
@@ -67,12 +72,12 @@ export class RegistroPage implements OnInit {
   t(key: string): string {
     const keys = key.split('.');
     let value = this.translations[this.currentLanguage];
-    
+
     for (const k of keys) {
       value = value[k];
       if (!value) return key;
     }
-    
+
     return value;
   }
 
@@ -90,26 +95,41 @@ export class RegistroPage implements OnInit {
     console.log('Open terms');
   }
 
-  onRegister() {
-    if (!this.fullName || !this.phone || !this.email || !this.password) {
-      console.log('Please fill all fields');
+  async onRegister() {
+    if (!this.fullName || !this.email || !this.password) {
+      await this.showAlert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
     if (!this.acceptedTerms) {
-      console.log('Please accept terms and conditions');
+      await this.showAlert('Erro', 'Por favor, aceite os termos e condições.');
       return;
     }
 
-    // Implement registration logic here
-    console.log('Register:', { 
-      fullName: this.fullName, 
-      phone: this.phone, 
-      email: this.email 
+    const success = await this.dataService.register(this.email, this.password, this.fullName);
+
+    if (success) {
+      // Salvar nome e email do utilizador no perfil
+      await this.dataService.saveUserProfile({
+        name: this.fullName,
+        age: 25,
+        height: 170,
+        email: this.email
+      });
+
+      this.router.navigate(['/completarperfil']);
+    } else {
+      await this.showAlert('Erro', 'Este email já está registado.');
+    }
+  }
+
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
     });
-    
-    // Navigate to success page after registration
-    this.router.navigate(['/sucesso-registo']);
+    await alert.present();
   }
 
   goToLogin() {

@@ -15,19 +15,21 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  position: relative;
   padding: 20px 0;
   margin-bottom: 20px;
 
-  .back-button,
-  .menu-button {
-    --background: #F7F8F8;
-    background: #F7F8F8;
-    --color: #2a2a2a;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    border: none;
+  .notification-btn {
+      position: absolute;
+      left: 0; // Fixo à esquerda
+      --background: #F7F8F8;
+      background: #F7F8F8;
+      --color: #2a2a2a;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      border: none;
 
     ion-icon {
       font-size: 24px;
