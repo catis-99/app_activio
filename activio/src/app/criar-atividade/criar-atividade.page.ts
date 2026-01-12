@@ -21,7 +21,16 @@ import {
   chevronBackOutline,
   addOutline,
   chevronForwardOutline,
+<<<<<<< HEAD
   documentTextOutline
+=======
+  walkOutline,
+  bicycleOutline,
+  fitnessOutline,
+  footballOutline,
+  waterOutline,
+  bodyOutline
+>>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
 } from 'ionicons/icons';
 
 @Component({
@@ -74,7 +83,16 @@ export class CriarAtividadePage {
       chevronBackOutline,
       addOutline,
       chevronForwardOutline,
+<<<<<<< HEAD
       documentTextOutline
+=======
+      walkOutline,
+      bicycleOutline,
+      fitnessOutline,
+      footballOutline,
+      waterOutline,
+      bodyOutline
+>>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
     });
     this.checkEditMode();
   }
@@ -155,11 +173,27 @@ export class CriarAtividadePage {
     return `${diaSemana}, ${dia} ${mes} ${ano}`;
   }
 
+<<<<<<< HEAD
   async escolherAtividade() {
+=======
+  escolherAtividade() {
+    this.mostrarPickerAtividades();
+  }
+
+  async mostrarPickerAtividades() {
+    // Criar opções de atividades dinamicamente
+    const atividadeOptions = this.atividades.map((a, index) => ({
+      text: a.nome,
+      value: index,
+      icon: a.icone
+    }));
+
+>>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
     const picker = await this.pickerController.create({
       columns: [
         {
           name: 'atividade',
+<<<<<<< HEAD
           options: [
             { text: this.t('atividades.ciclismo'), value: 'Ciclismo' },
             { text: this.t('atividades.atletismo'), value: 'Atletismo' },
@@ -176,38 +210,68 @@ export class CriarAtividadePage {
           text: 'OK',
           handler: (value: any) => {
             this.atividade.tipo = value.atividade.value;
-          }
-        }
-      ]
-    });
-    await picker.present();
-  }
-
-  async alterarIntensidade() {
-    const picker = await this.pickerController.create({
-      columns: [
-        {
-          name: 'intensidade',
-          options: [
-            { text: this.t('intensidade.baixa'), value: 'Baixa' },
-            { text: this.t('intensidade.media'), value: 'Média' },
-            { text: this.t('intensidade.alta'), value: 'Alta' }
-          ]
+=======
+          options: atividadeOptions
         }
       ],
       buttons: [
-        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
+        { text: 'Cancelar', role: 'cancel' },
         {
-          text: 'OK',
-          handler: (value: any) => {
-            this.atividade.intensidade = value.intensidade.value as 'Baixa' | 'Média' | 'Alta';
+          text: 'OK', handler: (value: any) => {
+            const selectedIndex = value.atividade.value;
+            const atividadeSelecionada = this.atividades[selectedIndex];
+            this.atividade.tipo = atividadeSelecionada.nome;
+
+            // Calcular calorias automáticas se tiver duração
+            if (this.atividade.duracao) {
+              this.calcularCalorias(atividadeSelecionada.caloriaPorMinuto);
+            }
+>>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
           }
         }
       ]
     });
     await picker.present();
+<<<<<<< HEAD
+=======
   }
 
+  private calcularCalorias(caloriaPorMinuto: number) {
+    // Extrair duração em minutos
+    const duracao = this.atividade.duracao || '';
+    let minutos = 0;
+
+    if (duracao.includes('h')) {
+      const partes = duracao.split('h');
+      const horas = parseInt(partes[0]) || 0;
+      const minPart = partes[1] || '';
+      const min = parseInt(minPart.replace('m', '').trim()) || 0;
+      minutos = (horas * 60) + min;
+    } else if (duracao.includes('m')) {
+      minutos = parseInt(duracao.replace('m', '')) || 0;
+    }
+
+    // Calcular calorias baseadas na intensidade
+    const intensidadeMultiplicador: { [key: string]: number } = {
+      'Baixa': 0.8,
+      'Média': 1.0,
+      'Alta': 1.2
+    };
+    const multiplicador = intensidadeMultiplicador[this.atividade.intensidade] || 1.0;
+
+    const calorias = Math.round(caloriaPorMinuto * minutos * multiplicador);
+    this.atividade.calorias = calorias.toString();
+>>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
+  }
+
+  alterarIntensidade() {
+    const intensidades: ('Baixa' | 'Média' | 'Alta')[] = ['Baixa', 'Média', 'Alta'];
+    const currentIndex = intensidades.indexOf(this.atividade.intensidade);
+    const nextIndex = (currentIndex + 1) % intensidades.length;
+    this.atividade.intensidade = intensidades[nextIndex];
+  }
+
+<<<<<<< HEAD
   async abrirDuracao() {
     const picker = await this.pickerController.create({
       columns: [
@@ -229,6 +293,56 @@ export class CriarAtividadePage {
           text: 'OK',
           handler: (value: any) => {
             this.atividade.duracao = value.duracao.value;
+=======
+  abrirDuracao() {
+    this.mostrarPickerDuracao();
+  }
+
+  async mostrarPickerDuracao() {
+    // Criar opções de horas (0-10)
+    const horasOptions = Array.from({ length: 11 }, (_, i) => ({
+      text: i === 0 ? '0h' : `${i}h`,
+      value: i
+    }));
+
+    // Criar opções de minutos (0-59, de 5 em 5)
+    const minutosOptions = Array.from({ length: 12 }, (_, i) => {
+      const min = i * 5;
+      return {
+        text: min === 0 ? '00m' : `${min}m`,
+        value: min
+      };
+    });
+
+    const picker = await this.pickerController.create({
+      columns: [
+        {
+          name: 'hours',
+          options: horasOptions,
+          selectedIndex: 1 // Default: 1h
+        },
+        {
+          name: 'minutes',
+          options: minutosOptions,
+          selectedIndex: 6 // Default: 30m
+        }
+      ],
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'OK', handler: (value: any) => {
+            const horas = value.hours.value;
+            const minutos = value.minutes.value;
+
+            // Formatar duração
+            if (horas === 0) {
+              this.atividade.duracao = `${minutos}m`;
+            } else if (minutos === 0) {
+              this.atividade.duracao = `${horas}h`;
+            } else {
+              this.atividade.duracao = `${horas}h ${minutos}m`;
+            }
+>>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
           }
         }
       ]
