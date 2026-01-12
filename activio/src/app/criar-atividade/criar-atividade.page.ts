@@ -21,16 +21,13 @@ import {
   chevronBackOutline,
   addOutline,
   chevronForwardOutline,
-<<<<<<< HEAD
-  documentTextOutline
-=======
+  documentTextOutline,
   walkOutline,
   bicycleOutline,
   fitnessOutline,
   footballOutline,
   waterOutline,
   bodyOutline
->>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
 } from 'ionicons/icons';
 
 @Component({
@@ -83,16 +80,13 @@ export class CriarAtividadePage {
       chevronBackOutline,
       addOutline,
       chevronForwardOutline,
-<<<<<<< HEAD
-      documentTextOutline
-=======
+      documentTextOutline,
       walkOutline,
       bicycleOutline,
       fitnessOutline,
       footballOutline,
       waterOutline,
       bodyOutline
->>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
     });
     this.checkEditMode();
   }
@@ -173,27 +167,11 @@ export class CriarAtividadePage {
     return `${diaSemana}, ${dia} ${mes} ${ano}`;
   }
 
-<<<<<<< HEAD
   async escolherAtividade() {
-=======
-  escolherAtividade() {
-    this.mostrarPickerAtividades();
-  }
-
-  async mostrarPickerAtividades() {
-    // Criar opções de atividades dinamicamente
-    const atividadeOptions = this.atividades.map((a, index) => ({
-      text: a.nome,
-      value: index,
-      icon: a.icone
-    }));
-
->>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
     const picker = await this.pickerController.create({
       columns: [
         {
           name: 'atividade',
-<<<<<<< HEAD
           options: [
             { text: this.t('atividades.ciclismo'), value: 'Ciclismo' },
             { text: this.t('atividades.atletismo'), value: 'Atletismo' },
@@ -210,58 +188,11 @@ export class CriarAtividadePage {
           text: 'OK',
           handler: (value: any) => {
             this.atividade.tipo = value.atividade.value;
-=======
-          options: atividadeOptions
-        }
-      ],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'OK', handler: (value: any) => {
-            const selectedIndex = value.atividade.value;
-            const atividadeSelecionada = this.atividades[selectedIndex];
-            this.atividade.tipo = atividadeSelecionada.nome;
-
-            // Calcular calorias automáticas se tiver duração
-            if (this.atividade.duracao) {
-              this.calcularCalorias(atividadeSelecionada.caloriaPorMinuto);
-            }
->>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
           }
         }
       ]
     });
     await picker.present();
-<<<<<<< HEAD
-=======
-  }
-
-  private calcularCalorias(caloriaPorMinuto: number) {
-    // Extrair duração em minutos
-    const duracao = this.atividade.duracao || '';
-    let minutos = 0;
-
-    if (duracao.includes('h')) {
-      const partes = duracao.split('h');
-      const horas = parseInt(partes[0]) || 0;
-      const minPart = partes[1] || '';
-      const min = parseInt(minPart.replace('m', '').trim()) || 0;
-      minutos = (horas * 60) + min;
-    } else if (duracao.includes('m')) {
-      minutos = parseInt(duracao.replace('m', '')) || 0;
-    }
-
-    // Calcular calorias baseadas na intensidade
-    const intensidadeMultiplicador: { [key: string]: number } = {
-      'Baixa': 0.8,
-      'Média': 1.0,
-      'Alta': 1.2
-    };
-    const multiplicador = intensidadeMultiplicador[this.atividade.intensidade] || 1.0;
-
-    const calorias = Math.round(caloriaPorMinuto * minutos * multiplicador);
-    this.atividade.calorias = calorias.toString();
->>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
   }
 
   alterarIntensidade() {
@@ -271,34 +202,7 @@ export class CriarAtividadePage {
     this.atividade.intensidade = intensidades[nextIndex];
   }
 
-<<<<<<< HEAD
   async abrirDuracao() {
-    const picker = await this.pickerController.create({
-      columns: [
-        {
-          name: 'duracao',
-          options: [
-            { text: '15 min', value: '15' },
-            { text: '30 min', value: '30' },
-            { text: '45 min', value: '45' },
-            { text: '60 min', value: '60' },
-            { text: '90 min', value: '90' },
-            { text: '120 min', value: '120' }
-          ]
-        }
-      ],
-      buttons: [
-        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
-        {
-          text: 'OK',
-          handler: (value: any) => {
-            this.atividade.duracao = value.duracao.value;
-=======
-  abrirDuracao() {
-    this.mostrarPickerDuracao();
-  }
-
-  async mostrarPickerDuracao() {
     // Criar opções de horas (0-10)
     const horasOptions = Array.from({ length: 11 }, (_, i) => ({
       text: i === 0 ? '0h' : `${i}h`,
@@ -319,22 +223,21 @@ export class CriarAtividadePage {
         {
           name: 'hours',
           options: horasOptions,
-          selectedIndex: 1 // Default: 1h
+          selectedIndex: 1
         },
         {
           name: 'minutes',
           options: minutosOptions,
-          selectedIndex: 6 // Default: 30m
+          selectedIndex: 6
         }
       ],
       buttons: [
-        { text: 'Cancelar', role: 'cancel' },
+        { text: this.t('criarAtividade.cancel'), role: 'cancel' },
         {
           text: 'OK', handler: (value: any) => {
             const horas = value.hours.value;
             const minutos = value.minutes.value;
 
-            // Formatar duração
             if (horas === 0) {
               this.atividade.duracao = `${minutos}m`;
             } else if (minutos === 0) {
@@ -342,7 +245,6 @@ export class CriarAtividadePage {
             } else {
               this.atividade.duracao = `${horas}h ${minutos}m`;
             }
->>>>>>> 9f2e95548b69cfadf15f185ab9458dd2be16ad97
           }
         }
       ]
