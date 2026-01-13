@@ -515,14 +515,5 @@ export class CompletarperfilPage implements OnInit {
   /**
    * Confirmar data selecionada e fechar modal
    */
-  confirmarData() {
-    if (this.selectedDate) {
-      this.birthdate = this.formatDate(this.selectedDate);
-      console.log('📅 Data confirmada:', this.birthdate);
-      console.log('📅 Idade calculada:', this.calculateAge());
-    } else {
-      console.warn('⚠️ Nenhuma data selecionada');
-    }
-    this.fecharCalendario();
-  }
+  
 }
