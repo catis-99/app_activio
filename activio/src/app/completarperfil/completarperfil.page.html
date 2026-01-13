@@ -27,7 +27,7 @@
     </ion-item>
 
     <!-- Modal con Calendário Personalizado -->
-    <ion-modal [isOpen]="showCalendar" (didDismiss)="fecharCalendario()">
+    <ion-modal [isOpen]="showCalendar" (didDismiss)="fecharCalendario()" cssClass="calendar-modal">
       <ng-template>
         <div class="modal-wrapper-custom">
           <!-- Botón cerrar -->
@@ -42,14 +42,14 @@
           <div class="calendar-section">
             <!-- Cabeçalho do Calendário -->
             <div class="calendar-header-custom">
-              <button class="nav-month-btn" (click)="previousMonth()" type="button">
+              <button class="nav-month-btn" (click)="previousMonth()" type="button" [attr.aria-label]="'Mês anterior'">
                 <ion-icon name="chevron-back-outline"></ion-icon>
               </button>
-              <h3 class="month-title" (click)="toggleMonthYearPicker()">
+              <h3 class="month-title" (click)="toggleMonthYearPicker()" [attr.aria-label]="'Selecionar mês e ano'">
                 {{ getMonthYear() }}
                 <ion-icon name="chevron-down-outline" class="dropdown-icon"></ion-icon>
               </h3>
-              <button class="nav-month-btn" (click)="nextMonth()" type="button">
+              <button class="nav-month-btn" (click)="nextMonth()" type="button" [attr.aria-label]="'Próximo mês'">
                 <ion-icon name="chevron-forward-outline"></ion-icon>
               </button>
             </div>
@@ -68,8 +68,14 @@
             <!-- Grid de Dias -->
             <div class="calendar-grid">
               <div class="calendar-day-cell" *ngFor="let empty of getEmptyDays()" [class.empty]="true"></div>
-              <div class="calendar-day-cell" *ngFor="let day of calendarDays" [class.today]="isToday(day)"
-                [class.selected]="isSelected(day)" [class.has-activity]="hasActivity(day)" (click)="selectDay(day)">
+              <div class="calendar-day-cell" 
+                   *ngFor="let day of calendarDays" 
+                   [class.today]="isToday(day)"
+                   [class.selected]="isSelected(day)" 
+                   [class.has-activity]="hasActivity(day)" 
+                   [attr.aria-label]="'Dia ' + day"
+                   (click)="selectDay(day)"
+                   [attr.tabindex]="0">
                 {{ day }}
                 <span class="activity-dot" *ngIf="hasActivity(day)"></span>
               </div>
@@ -78,7 +84,7 @@
 
           <!-- Botón confirmar -->
           <div class="modal-footer">
-            <ion-button expand="block" (click)="confirmarData()">
+            <ion-button expand="block" (click)="confirmarData()" [disabled]="!selectedDate">
               Confirmar
             </ion-button>
           </div>

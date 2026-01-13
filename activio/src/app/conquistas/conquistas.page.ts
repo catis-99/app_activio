@@ -155,14 +155,6 @@ export class ConquistasPage implements OnInit {
   }
 
   /**
-   * Abrir menu de opções
-   */
-  openMenu() {
-    console.log('Abrir menu de opções');
-    // Implementar action sheet ou popover
-  }
-
-  /**
    * Ver detalhes de um badge
    */
   viewBadgeDetails(badge: Badge) {

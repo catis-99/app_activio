@@ -43,7 +43,7 @@ export class I18nService {
 
             // Calendário e Dias
             calendario: {
-                days: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                days: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
                 thisWeek: 'Esta Semana'
             },
 
@@ -67,7 +67,21 @@ export class I18nService {
                 title: 'Conquistas',
                 totalEarned: 'Total conquistadas',
                 recentActivity: 'Atividade recente',
-                viewAll: 'Ver todas'
+                viewAll: 'Ver todas',
+                achieved: 'Conquistadas',
+                locked: 'Por Conquistar',
+                'Primeira Vitória': 'Primeira Vitória',
+                'Sequência de 7 dias': 'Sequência de 7 dias',
+                'Maratonista': 'Maratonista',
+                'Estrela em Ascensão': 'Estrela em Ascensão',
+                'Campeão do Mês': 'Campeão do Mês',
+                'Super Rápido': 'Super Rápido',
+                'Raio de Energia': 'Raio de Energia',
+                'Coração de Ferro': 'Coração de Ferro',
+                'Fitness Master': 'Fitness Master',
+                'Força Total': 'Força Total',
+                'Velocista': 'Velocista',
+                'Pódio de Ouro': 'Pódio de Ouro'
             },
 
             // Perfil
@@ -280,7 +294,7 @@ export class I18nService {
 
             // Calendário e Dias
             calendario: {
-                days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
                 thisWeek: 'This Week'
             },
 

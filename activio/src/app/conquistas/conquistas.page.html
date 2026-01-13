@@ -8,9 +8,7 @@
 
       <h1>{{ t('conquistas.title') }}</h1>
 
-      <ion-button fill="clear" class="icon-btn" (click)="openMenu()">
-        <ion-icon name="ellipsis-horizontal"></ion-icon>
-      </ion-button>
+      <div class="placeholder-btn"></div>
     </div>
 
     <!-- Conquistados -->
@@ -23,7 +21,7 @@
       <div class="grid">
         <div class="badge achieved" *ngFor="let badge of achievedBadges" (click)="viewBadgeDetails(badge)">
           <img [src]="badge.icon" />
-          <p>{{ badge.label }}</p>
+          <p>{{ t(badge.label) }}</p>
         </div>
       </div>
     </div>
@@ -31,14 +29,14 @@
     <!-- Por conquistar -->
     <div class="section">
       <div class="section-title">
-        <h2>{{ t('conquistas.toUnlock') }}</h2>
+        <h2>{{ t('conquistas.locked') }}</h2>
         <div class="line"></div>
       </div>
 
       <div class="grid">
         <div class="badge locked" *ngFor="let badge of lockedBadges" (click)="viewBadgeDetails(badge)">
           <img [src]="badge.icon" />
-          <p>{{ badge.label }}</p>
+          <p>{{ t(badge.label) }}</p>
         </div>
       </div>
     </div>

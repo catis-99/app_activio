@@ -288,6 +288,8 @@ body.light {
 ion-modal {
   --height: 70%;
   --border-radius: 20px 20px 0 0;
+  --backdrop-opacity: 0.4;
+  z-index: 20000 !important;
   
   .calendar-section {
     flex: 1;
@@ -300,6 +302,36 @@ ion-modal {
   
   .calendar-grid {
     min-height: 280px;
+  }
+}
+
+// Estilo específico para modal do calendário
+.calendar-modal {
+  --height: auto;
+  --max-height: 80vh;
+  --min-height: 600px;
+}
+
+// Garantir que o modal seja visível
+.modal-wrapper-custom {
+  position: relative !important;
+  z-index: 20001 !important;
+  background: var(--ion-background-color, #000);
+  color: var(--ion-text-color, #fff);
+  
+  .calendar-day-cell {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover:not(.empty):not(.selected) {
+      background: rgba(183, 255, 0, 0.2) !important;
+      border: 1px solid rgba(183, 255, 0, 0.5) !important;
+    }
+    
+    &:focus {
+      outline: 2px solid #b7ff00;
+      outline-offset: -1px;
+    }
   }
 }
 
