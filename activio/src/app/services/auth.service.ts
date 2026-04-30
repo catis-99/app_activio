@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DatabaseService, User } from './database.service';
 import { Storage } from '@ionic/storage-angular';
@@ -12,16 +12,16 @@ export interface AuthState {
     providedIn: 'root'
 })
 export class AuthService {
+    private databaseService = inject(DatabaseService);
+    private storage = inject(Storage);
+
     private readonly STORAGE_KEY = 'current_user';
     private authState = new BehaviorSubject<AuthState>({
         isAuthenticated: false,
         user: null
     });
 
-    constructor(
-        private databaseService: DatabaseService,
-        private storage: Storage
-    ) {
+    constructor() {
         this.initializeAuthState();
     }
 

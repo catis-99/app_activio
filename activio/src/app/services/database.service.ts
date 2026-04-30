@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
 import { LocalStorageService } from './local-storage.service';
 
@@ -93,6 +93,8 @@ export interface ActivityStats {
     providedIn: 'root'
 })
 export class DatabaseService {
+    private localStorageService = inject(LocalStorageService);
+
     private sqlite: SQLiteConnection;
     private db!: SQLiteDBConnection;
     private dbName = 'activio.db';
@@ -108,7 +110,7 @@ export class DatabaseService {
         return 'web';
     }
 
-    constructor(private localStorageService: LocalStorageService) {
+    constructor() {
         this.sqlite = new SQLiteConnection(CapacitorSQLite);
         this.dbReady = this.initializeDatabase();
     }

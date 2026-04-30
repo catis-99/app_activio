@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -11,19 +11,14 @@ import { I18nService } from '../services/i18n.service';
     standalone: true,
     imports: [IonicModule, CommonModule]
 })
-export class IntroSlider3Page implements OnInit {
+export class IntroSlider3Page {
+    private router = inject(Router);
+    private i18nService = inject(I18nService);
 
-    constructor(
-        private router: Router,
-        private i18nService: I18nService
-    ) { }
 
     // Função para traduzir
     t(key: string): string {
         return this.i18nService.t(key);
-    }
-
-    ngOnInit() {
     }
 
     next() {

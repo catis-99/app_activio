@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router, RouterLink } from '@angular/router';
@@ -15,6 +15,10 @@ import { cloudDownloadOutline } from 'ionicons/icons';
   imports: [CommonModule, IonicModule, RouterLink]
 })
 export class ProfilePage implements OnInit {
+  private router = inject(Router);
+  private i18nService = inject(I18nService);
+  private dataService = inject(DataService);
+
   userProfile = {
     name: '',
     photo: 'assets/perfil.svg',
@@ -23,11 +27,7 @@ export class ProfilePage implements OnInit {
     age: ''
   };
 
-  constructor(
-    private router: Router,
-    private i18nService: I18nService,
-    private dataService: DataService
-  ) {
+  constructor() {
     addIcons({ cloudDownloadOutline });
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, AlertController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
@@ -14,15 +14,13 @@ import { DataService } from '../services/data.service';
     imports: [CommonModule, IonicModule, FormsModule]
 })
 export class LoginPage {
+    private router = inject(Router);
+    private i18nService = inject(I18nService);
+    private dataService = inject(DataService);
+    private alertController = inject(AlertController);
+
     email = '';
     password = '';
-
-    constructor(
-        private router: Router,
-        private i18nService: I18nService,
-        private dataService: DataService,
-        private alertController: AlertController
-    ) { }
 
     t(key: string): string {
         return this.i18nService.t(key);

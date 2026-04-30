@@ -1,16 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { I18nService } from './i18n.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ThemeService {
-    private readonly THEME_KEY = 'darkMode';
+    private i18nService = inject(I18nService);
 
-    constructor(private i18nService: I18nService) {
-        // Não carrega automaticamente o tema
-        // O tema só é aplicado quando o utilizador faz o toggle
-    }
+    private readonly THEME_KEY = 'darkMode';
 
     loadTheme() {
         const savedTheme = localStorage.getItem(this.THEME_KEY);
