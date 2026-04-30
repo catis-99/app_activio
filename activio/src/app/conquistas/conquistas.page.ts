@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import {
   IonContent,
@@ -44,6 +44,9 @@ interface Badge {
   ]
 })
 export class ConquistasPage implements OnInit {
+  private location = inject(Location);
+  private i18nService = inject(I18nService);
+
   // Badges conquistados
   achievedBadges: Badge[] = [
     {
@@ -124,7 +127,7 @@ export class ConquistasPage implements OnInit {
     }
   ];
 
-  constructor(private location: Location, private i18nService: I18nService) {
+  constructor() {
     // Registrar os ícones necessários
     addIcons({ chevronBackOutline, ellipsisHorizontal, trophyOutline, flameOutline, ribbonOutline, starOutline, medalOutline, rocketOutline, flashOutline, heartOutline, fitnessOutline, barbellOutline, stopwatchOutline, podiumOutline });
   }

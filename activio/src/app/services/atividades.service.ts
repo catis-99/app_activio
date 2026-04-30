@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 
@@ -21,12 +21,10 @@ export interface Atividade {
     providedIn: 'root'
 })
 export class AtividadesService {
-    private storageKey = 'atividades_activio';
+    private toastController = inject(ToastController);
+    private alertController = inject(AlertController);
 
-    constructor(
-        private toastController: ToastController,
-        private alertController: AlertController
-    ) { }
+    private storageKey = 'atividades_activio';
 
     // ToastController - Funcionalidade obrigatória
     async showToast(message: string, color: string = 'primary') {

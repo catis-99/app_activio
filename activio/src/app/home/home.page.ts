@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, PickerController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -32,6 +32,12 @@ import {
   imports: [IonicModule, CommonModule],
 })
 export class HomePage implements OnInit {
+  private router = inject(Router);
+  private i18nService = inject(I18nService);
+  private atividadesService = inject(AtividadesService);
+  private pickerController = inject(PickerController);
+  private dataService = inject(DataService);
+
   selectedPeriod: 'week' | 'month' = 'month';
   isPeriodDropdownOpen = false;
   isMonthYearPickerOpen = false;
@@ -63,13 +69,7 @@ export class HomePage implements OnInit {
   // Array para gerar dias do calendário
   calendarDays: number[] = [];
 
-  constructor(
-    private router: Router,
-    private i18nService: I18nService,
-    private atividadesService: AtividadesService,
-    private pickerController: PickerController,
-    private dataService: DataService
-  ) {
+  constructor() {
     addIcons({
       notificationsOutline,
       barbellOutline,

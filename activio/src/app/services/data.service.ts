@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import {
     DatabaseService,
@@ -114,18 +114,18 @@ export interface ProgressEntry {
     providedIn: 'root'
 })
 export class DataService {
+    private storage = inject(Storage);
+    private databaseService = inject(DatabaseService);
+    private authService = inject(AuthService);
+    private mockAuthService = inject(MockAuthService);
+    private platform = inject(Platform);
+    private http = inject(HttpClient);
+
     private storageReady: Promise<Storage>;
     private dbInitialized = false;
     private useMockAuth = true; // Use mock for web development
 
-    constructor(
-        private storage: Storage,
-        private databaseService: DatabaseService,
-        private authService: AuthService,
-        private mockAuthService: MockAuthService,
-        private platform: Platform,
-        private http: HttpClient
-    ) {
+    constructor() {
         this.storageReady = this.initStorage();
         // Check if running on native platform
         this.useMockAuth = !this.platform.is('capacitor');

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -14,13 +14,11 @@ import { I18nService } from '../services/i18n.service';
   imports: [IonContent, IonButton, CommonModule, FormsModule]
 })
 export class SucessoRegistoPage implements OnInit {
-  userName: string = '';
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private i18nService = inject(I18nService);
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    public i18n: I18nService
-  ) { }
+  userName: string = '';
 
   ngOnInit() {
     // Obter o nome do utilizador dos parâmetros da rota ou localStorage
@@ -34,9 +32,8 @@ export class SucessoRegistoPage implements OnInit {
     });
   }
 
-  // Função para tradução (compatível com template)
-  t(key: string): any {
-    return this.i18n.t(key);
+  t(key: string): string {
+    return this.i18nService.t(key);
   }
 
   goToHome() {

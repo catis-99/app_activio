@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonButton, IonIcon, NavController } from '@ionic/angular/standalone';
@@ -16,6 +16,11 @@ import { AtividadesService } from '../services/atividades.service';
   imports: [IonContent, IonButton, IonIcon, CommonModule, FormsModule]
 })
 export class ListaAtividadesPage implements OnInit {
+  private navCtrl = inject(NavController);
+  private router = inject(Router);
+  private atividadesService = inject(AtividadesService);
+  private i18nService = inject(I18nService);
+
   activities: any[] = [];
   filteredActivities: any[] = [];
   filtroAtividade = 'todas';
@@ -23,12 +28,7 @@ export class ListaAtividadesPage implements OnInit {
   showAtividadeFilter = false;
   showIntensidadeFilter = false;
 
-  constructor(
-    private navCtrl: NavController,
-    private router: Router,
-    private atividadesService: AtividadesService,
-    private i18nService: I18nService
-  ) {
+  constructor() {
     addIcons({ chevronBackOutline, addOutline, chevronDownOutline, createOutline, trashOutline, heart, heartOutline });
   }
 

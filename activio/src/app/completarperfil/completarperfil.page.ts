@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -50,6 +50,12 @@ import { AlertController } from '@ionic/angular';
   ]
 })
 export class CompletarperfilPage implements OnInit {
+  private router = inject(Router);
+  private i18nService = inject(I18nService);
+  private pickerController = inject(PickerController);
+  private dataService = inject(DataService);
+  private alertController = inject(AlertController);
+
   // Dados do perfil
   gender: string = '';
   birthdate: string = '';
@@ -75,13 +81,7 @@ export class CompletarperfilPage implements OnInit {
   // Data mínima (100 anos atrás)
   minDate: string;
 
-  constructor(
-    private router: Router,
-    private i18nService: I18nService,
-    private pickerController: PickerController,
-    private dataService: DataService,
-    private alertController: AlertController
-  ) {
+  constructor() {
     // Registrar os ícones necessários
     addIcons({
       personOutline,

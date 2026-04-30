@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonItem, IonIcon, IonInput, IonCheckbox, IonButton } from '@ionic/angular/standalone';
@@ -13,7 +13,11 @@ import { DataService } from '../services/data.service';
   standalone: true,
   imports: [IonContent, IonItem, IonIcon, IonInput, IonCheckbox, IonButton, CommonModule, FormsModule]
 })
-export class RegistroPage implements OnInit {
+export class RegistroPage {
+  private router = inject(Router);
+  private alertController = inject(AlertController);
+  private dataService = inject(DataService);
+
   currentLanguage: string = 'pt';
   fullName: string = '';
   phone: string = '';
@@ -56,15 +60,6 @@ export class RegistroPage implements OnInit {
       }
     }
   };
-
-  constructor(
-    private router: Router,
-    private alertController: AlertController,
-    private dataService: DataService
-  ) { }
-
-  ngOnInit() {
-  }
 
   changeLanguage(lang: string) {
     this.currentLanguage = lang;

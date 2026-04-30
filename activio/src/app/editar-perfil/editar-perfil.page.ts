@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -24,6 +24,11 @@ import {
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class EditarPerfilPage implements OnInit {
+  private location = inject(Location);
+  private router = inject(Router);
+  private dataService = inject(DataService);
+  private alertController = inject(AlertController);
+
   userProfile = {
     name: '',
     email: '',
@@ -31,12 +36,7 @@ export class EditarPerfilPage implements OnInit {
     height: ''
   };
 
-  constructor(
-    private location: Location,
-    private router: Router,
-    private dataService: DataService,
-    private alertController: AlertController
-  ) {
+  constructor() {
     addIcons({
       chevronBackOutline,
       ellipsisHorizontal,

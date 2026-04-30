@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -39,6 +39,13 @@ import {
   imports: [CommonModule, IonicModule, FormsModule]
 })
 export class CriarAtividadePage {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private atividadesService = inject(AtividadesService);
+  private i18nService = inject(I18nService);
+  private pickerController = inject(PickerController);
+  private dataService = inject(DataService);
+
   editMode = false;
   atividadeId: string | null = null;
   showCalendar = false;
@@ -61,14 +68,7 @@ export class CriarAtividadePage {
   horas = Array.from({ length: 12 }, (_, i) => i + 1);
   minutos = Array.from({ length: 60 }, (_, i) => i);
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private atividadesService: AtividadesService,
-    private i18nService: I18nService,
-    private pickerController: PickerController,
-    private dataService: DataService
-  ) {
+  constructor() {
     addIcons({
       calendarOutline,
       chevronDownOutline,

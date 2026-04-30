@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonIcon, IonButton, AlertController } from '@ionic/angular/standalone';
@@ -37,6 +37,12 @@ interface MonthlyActivity {
   ]
 })
 export class ProgressoPage implements OnInit {
+  private location = inject(Location);
+  private i18nService = inject(I18nService);
+  private dataService = inject(DataService);
+  private cdr = inject(ChangeDetectorRef);
+  private alertController = inject(AlertController);
+
   trainingDays: TrainingDay[] = [];
   weightData: WeightData = { start: 0, current: 0, goal: 0 };
   activityStats: ActivityStats[] = [];
@@ -53,13 +59,7 @@ export class ProgressoPage implements OnInit {
     'saltarCord': '#F44336'
   };
 
-  constructor(
-    private location: Location,
-    private i18nService: I18nService,
-    private dataService: DataService,
-    private cdr: ChangeDetectorRef,
-    private alertController: AlertController
-  ) {
+  constructor() {
     addIcons({ chevronBackOutline, ellipsisHorizontal, chevronBack });
   }
 

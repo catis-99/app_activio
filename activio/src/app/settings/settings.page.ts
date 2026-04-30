@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -14,7 +14,12 @@ import { NavController } from '@ionic/angular';
   standalone: true,
   imports: [CommonModule, IonicModule, FormsModule]
 })
-export class SettingsPage implements OnInit {
+export class SettingsPage implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private navCtrl = inject(NavController);
+  private themeService = inject(ThemeService);
+  private i18nService = inject(I18nService);
+
   settings = {
     darkMode: true,
     popups: true,
@@ -24,13 +29,7 @@ export class SettingsPage implements OnInit {
   };
 
   availableLanguages: string[] = [];
-
-  constructor(
-    private router: Router,
-    private navCtrl: NavController,
-    private themeService: ThemeService,
-    private i18nService: I18nService
-  ) { }
+  private languageChangeHandler = (event: Event) => this.onLanguageChanged(event as CustomEvent);
 
   ngOnInit() {
     this.loadThemePreference();
@@ -38,15 +37,11 @@ export class SettingsPage implements OnInit {
     this.loadAvailableLanguages();
 
     // Escuta mudanças de idioma
-    window.addEventListener('languageChanged', (event: Event) => {
-      this.onLanguageChanged(event as CustomEvent);
-    });
+    window.addEventListener('languageChanged', this.languageChangeHandler);
   }
 
   ngOnDestroy() {
-    window.removeEventListener('languageChanged', (event: Event) => {
-      this.onLanguageChanged(event as CustomEvent);
-    });
+    window.removeEventListener('languageChanged', this.languageChangeHandler);
   }
 
   toggleDarkMode() {

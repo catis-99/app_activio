@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.page.html',
   styleUrls: ['./edit-profile.page.scss'],
 })
-export class EditProfilePage implements OnInit {
+export class EditProfilePage {
 
   user = {
     nome: '',
@@ -13,10 +13,6 @@ export class EditProfilePage implements OnInit {
     peso: 65,
     altura: 180
   };
-
-  constructor() {}
-
-  ngOnInit() {}
 
   saveProfile() {
     console.log('Perfil guardado:', this.user);

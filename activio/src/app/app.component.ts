@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { ThemeService } from './services/theme.service';
 import { Storage } from '@ionic/storage-angular';
@@ -9,10 +9,9 @@ import { Storage } from '@ionic/storage-angular';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private themeService: ThemeService,
-    private storage: Storage
-  ) { }
+  private themeService = inject(ThemeService);
+  private storage = inject(Storage);
+
 
   async ngOnInit() {
     // Initialize theme on app start
